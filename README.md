@@ -1,17 +1,42 @@
-###Jekyll 博客主题实践/About
+# Isaac Yong — Personal Website
 
-随着 GitHub 的发展和 Jekyll 建站的方便，越来越多人使用 Jekyll 构件博客。blogTheme 是 <a href="http://www.pizn.me" target="_blank">PIZn</a> 的一个设计和开发的实践，在于提供更多的 Jekyll 主题，方便大家快速建立自己的博客。
+Static personal portfolio for **용이삭 / Isaac Yong / SJB7777**.
 
-###主题列表/Theme
+## Preview locally
 
-* Violet Theme 1.0
-* Black Cube Theme 1.0
-* <a href="http://www.pizn.net/14-11-2012/theone-blog-theme/">theOne Theme 1.0</a>
+Open `index.html` in a browser, or run:
 
-###LICENSE
+```powershell
+python -m http.server 8000
+```
 
-由 <a href="http://www.pizn.me" target="_blank">PIZn</a> 设计的这些主题列表，均是开源。只要您在使用的时候，注明由 <a href="http://www.pizn.me" target="_blank">PIZn</a> 设计和编写既可。代码均采用 <a href="http://zh.wikipedia.org/wiki/MIT_License" target="_blank">MIT LICENSE</a> 许可.
+Then open http://localhost:8000.
 
-###联系作者/Contact
+## Publish on GitHub Pages
 
-Email: pizner#gmail.com
+1. Create a **public** repository named `SJB7777.github.io` in your GitHub account (case-insensitive; GitHub may display it in lowercase).
+2. Put these files at the repository root and push to `main`.
+3. Open **Settings → Pages → Build and deployment → Deploy from a branch → main / (root)**.
+4. Open https://sjb7777.github.io/ after deployment finishes.
+
+PowerShell with GitHub CLI (from this folder):
+
+```powershell
+git init
+git add .
+git commit -m "feat: launch personal portfolio"
+git branch -M main
+gh repo create SJB7777.github.io --public --source . --remote origin --push
+```
+
+If the repository already exists, instead add its remote and push. Enable Pages in Settings if not already enabled.
+
+## Before publishing
+
+- Verify all project links and public descriptions.
+- Add an email/contact link only if you want to publish that address.
+- Replace abstract graphics with actual scientific figures when ready.
+- Set a preview image and `og:image` once an asset is available.
+- Submit the sitemap through Google Search Console after the site is live; indexing is not guaranteed.
+
+No build step or npm dependencies. The site includes responsive styles, theme persistence, keyboard-accessible dialog, SEO metadata, and JSON-LD Person structured data.
