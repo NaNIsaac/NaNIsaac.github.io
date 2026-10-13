@@ -71,13 +71,14 @@ bar with days since the last note, waiting ideas and todos, and a *new note* but
 
 ## Preview locally
 
-Opening `index.html` or `lab/index.html` directly works. For the notes you need Jekyll, which is not
-installed here — push and check the live site, or run Jekyll in Docker:
+Opening `index.html` or `lab/index.html` directly works, or:
 
 ```powershell
 python -m http.server 8000            # home + lab at http://localhost:8000
-docker run --rm -p 4000:4000 -v ${PWD}:/srv/jekyll jekyll/jekyll jekyll serve   # with notes
 ```
+
+Notes, the notes feed and the "Lately" note list need Jekyll, which is not installed on this machine:
+push and check the live site (build status: `gh api repos/SJB7777/SJB7777.github.io/pages/builds/latest`).
 
 ## Tests
 
