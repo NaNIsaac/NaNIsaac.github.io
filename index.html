@@ -23,6 +23,7 @@
     <nav aria-label="Main">
       <a href="#research" data-ko="연구">Research</a>
       <a href="#software" data-ko="소프트웨어">Software</a>
+      <a href="notes/" data-ko="노트">Notes</a>
       <a href="#contact" data-ko="연락">Contact</a>
       <button id="lang" aria-label="Switch language">한</button>
       <button id="theme" aria-label="Toggle theme">☾</button>
@@ -110,8 +111,23 @@
       </div>
     </section>
 
+    <section class="section wrap" id="log">
+      <div class="section-heading"><p class="section-index mono">03 / LOG</p><h2 data-ko="최근 기록">Lately<span class="accent">.</span></h2></div>
+      <div class="grid2 log">
+        <div>
+          <h3 class="sub-heading mono" data-ko="노트">NOTES</h3>
+          <div class="list" id="notes-list"><a href="notes/"><strong data-ko="모든 노트 →">All notes →</strong></a></div>
+          <p class="fineprint mono" id="notes-age"></p>
+        </div>
+        <div>
+          <h3 class="sub-heading mono" data-ko="GitHub 활동">ON GITHUB</h3>
+          <div class="list" id="gh-list"><a href="https://github.com/SJB7777" target="_blank" rel="noopener noreferrer"><strong>@SJB7777 ↗</strong></a></div>
+        </div>
+      </div>
+    </section>
+
     <section class="section wrap" id="open-source">
-      <div class="section-heading"><p class="section-index mono">03 / OPEN SOURCE</p><h2 data-ko="업스트림 기여">Upstream contributions<span class="accent">.</span></h2></div>
+      <div class="section-heading"><p class="section-index mono">04 / OPEN SOURCE</p><h2 data-ko="업스트림 기여">Upstream contributions<span class="accent">.</span></h2></div>
       <div class="list">
         <a href="https://github.com/pydata/xarray/pull/11720" target="_blank" rel="noopener noreferrer"><strong>xarray</strong><span>DOC: Link windowed operations tutorial from computation guide</span><em class="mono">PR #11720</em></a>
         <a href="https://github.com/python/cpython/pull/159189" target="_blank" rel="noopener noreferrer"><strong>CPython</strong><span>IDLE: Show full syntax error diagnostics in Shell</span><em class="mono">PR #159189</em></a>
@@ -120,21 +136,21 @@
     </section>
 
     <section class="section wrap contact" id="contact">
-      <p class="section-index mono">04 / CONTACT</p>
+      <p class="section-index mono">05 / CONTACT</p>
       <h2 data-ko="연구, 소프트웨어, 오픈소스 이야기를 환영합니다.">Let's talk research, software, or open source<span class="accent">.</span></h2>
       <div class="contact-links">
         <a href="https://github.com/SJB7777" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         <a href="https://blog.naver.com/sjbpepper" target="_blank" rel="noopener noreferrer" data-ko="블로그 ↗">Blog ↗</a>
         <a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">X-ray Toolkit ↗</a>
-        <button id="terminal-open">⌘ Terminal mode</button>
+        <button data-terminal>⌘ Terminal <kbd>`</kbd></button>
       </div>
     </section>
   </main>
 
-  <footer><div class="wrap footer-inner mono"><span>© <span id="year">2026</span> ISAAC YONG · 용이삭</span><a href="#top">BACK TO TOP ↑</a></div></footer>
+  <footer><div class="wrap footer-inner mono"><span>© <span id="year">2026</span> ISAAC YONG · 용이삭</span><span><a href="notes/feed.xml">RSS</a> · <a href="#top">BACK TO TOP ↑</a></span></div></footer>
 
-  <dialog id="terminal-dialog" aria-label="Terminal mode"><div class="terminal-header"><span>● ● ●</span><strong>isaac@portfolio ~ %</strong><button id="terminal-close" aria-label="Close">×</button></div><div id="terminal-output" class="terminal-output" aria-live="polite"><p>IsaacOS / portfolio shell v0.2</p><p>Type <b>help</b> for available commands.</p></div><form id="terminal-form"><label for="terminal-input">❯</label><input id="terminal-input" autocomplete="off" spellcheck="false" aria-label="Terminal command"><button type="submit">↵</button></form></dialog>
   <script src="wave.js" defer></script>
   <script src="script.js" defer></script>
+  <script src="terminal.js" defer></script>
 </body>
 </html>

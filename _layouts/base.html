@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="{{ page.lang | default: site.lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070d18">
+  {% assign desc = page.description | default: page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 160 %}
+  <meta name="description" content="{{ desc | escape }}">
+  <meta property="og:type" content="{% if page.date %}article{% else %}website{% endif %}">
+  <meta property="og:title" content="{{ page.title | default: site.title | escape }}">
+  <meta property="og:description" content="{{ desc | escape }}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  {% feed_meta %}
+  <title>{% if page.title %}{{ page.title | escape }} — {% endif %}{{ site.title }}</title>
+</head>
+<body class="sub">
+  <script>let t; try { t = localStorage.getItem('isaac-theme'); } catch {} if ((t ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')) === 'light') document.body.classList.add('light');</script>
+  <header class="site-header">
+    <a class="brand" href="/">ISAAC<span class="accent">.YONG</span></a>
+    <nav aria-label="Main">
+      <a href="/#research">Research</a>
+      <a href="/#software">Software</a>
+      <a href="/notes/">Notes</a>
+      <button id="theme" aria-label="Toggle theme">☾</button>
+    </nav>
+  </header>
+  <main class="wrap page">
+    {{ content }}
+  </main>
+  <footer><div class="wrap footer-inner mono"><span>© {{ site.time | date: "%Y" }} ISAAC YONG · 용이삭</span><span><a href="/notes/feed.xml">RSS</a> · press <kbd>`</kbd> for terminal</span></div></footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.querySelector('main'), { delimiters: [{ left: '\[', right: '\]', display: true }, { left: '\(', right: '\)', display: false }, { left: '$$', right: '$$', display: true }] })"></script>
+  <script src="/script.js" defer></script>
+  <script src="/terminal.js" defer></script>
+</body>
+</html>

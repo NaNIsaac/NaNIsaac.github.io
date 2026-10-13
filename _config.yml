@@ -1,0 +1,18 @@
+title: Isaac Yong
+description: Notes on X-ray physics, scientific software, and the tools in between.
+url: https://sjb7777.github.io
+author: Isaac Yong
+lang: en
+permalink: /notes/:year/:month/:title/
+markdown: kramdown
+kramdown:
+  math_engine: mathjax
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+feed:
+  path: notes/feed.xml
+defaults:
+  - scope: { path: "", type: posts }
+    values: { layout: note }
+exclude: [README.md, tests, docs, "*.cjs"]

@@ -122,7 +122,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .list a:hover { background: var(--panel); }
 .list strong { min-width: 130px; font-size: 15px; }
 .list span { flex: 1; font-size: 13px; color: var(--muted); }
-.list em { font-style: normal; font-size: 11px; color: var(--accent); }
+.list em { font-style: normal; font-size: 11px; color: var(--accent); margin-left: auto; white-space: nowrap; }
 .fineprint { font-size: 10px; color: var(--muted); margin-top: 12px; }
 
 .contact { padding-bottom: 110px; }
@@ -170,3 +170,30 @@ dialog::backdrop { background: #050a11bc; backdrop-filter: blur(5px); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; transition: none !important; }
 }
+
+/* Log + sub pages (notes) */
+.log .sub-heading { margin-top: 0; }
+.log .list strong { min-width: 0; font-size: 14px; font-weight: 600; }
+kbd { font: 11px ui-monospace, monospace; border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
+.page { padding-top: 64px; padding-bottom: 96px; min-height: 70vh; }
+.page-title { font-size: clamp(36px, 5vw, 56px); letter-spacing: -.05em; line-height: 1.15; margin: 0 0 14px; }
+.page-lead { color: var(--muted); font-size: 15px; max-width: 640px; margin: 0 0 40px; }
+.year { font-size: 12px; color: var(--muted); font-weight: 400; margin: 36px 0 8px; }
+.note { max-width: 720px; }
+.note h1 { font-size: clamp(32px, 4.5vw, 48px); letter-spacing: -.045em; line-height: 1.2; margin: 10px 0 30px; }
+.note-meta, .note-edit { font-size: 11px; color: var(--muted); }
+.note-meta a, .note-edit a { color: var(--accent); }
+.note-edit { margin-top: 56px; border-top: 1px solid var(--line); padding-top: 18px; }
+.prose { font-size: 16px; line-height: 1.8; }
+.prose h2 { font-size: 24px; letter-spacing: -.03em; margin: 44px 0 12px; }
+.prose h3 { font-size: 19px; margin: 32px 0 10px; }
+.prose a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.prose code { font: .88em ui-monospace, SFMono-Regular, Consolas, monospace; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
+.prose pre { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; overflow-x: auto; }
+.prose pre code { border: 0; padding: 0; background: none; }
+.prose img { max-width: 100%; border-radius: 8px; }
+.prose blockquote { margin: 0; padding-left: 18px; border-left: 2px solid var(--accent); color: var(--muted); }
+.prose .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+.terminal-output .dim { color: #7f97ab; }
+.terminal-output .cmd { color: #9fb6c8; }
+.terminal-output .err { color: #f5a5a5; }

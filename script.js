@@ -14,7 +14,7 @@ themeButton.addEventListener('click', () => {
   window.dispatchEvent(new Event('themechange'));
 });
 
-// Language: English in the markup, Korean in data-ko
+// Language: English in the markup, Korean in data-ko (home page only)
 const langButton = document.querySelector('#lang');
 const translatable = [...document.querySelectorAll('[data-ko]')];
 translatable.forEach((el) => { el.dataset.en = el.innerHTML; });
@@ -26,36 +26,41 @@ function setLang(lang) {
   langButton.setAttribute('aria-label', lang === 'ko' ? 'Switch to English' : '한국어로 보기');
   window.dispatchEvent(new Event('langchange'));
 }
-langButton.addEventListener('click', () => { const next = isKo() ? 'en' : 'ko'; store.set('isaac-lang', next); setLang(next); });
-if (store.get('isaac-lang') === 'ko') setLang('ko');
+if (langButton) {
+  langButton.addEventListener('click', () => { const next = isKo() ? 'en' : 'ko'; store.set('isaac-lang', next); setLang(next); });
+  if (store.get('isaac-lang') === 'ko') setLang('ko');
+}
 
-document.querySelector('#year').textContent = new Date().getFullYear();
+const yearEl = document.querySelector('#year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-// Terminal mode
-const dialog = document.querySelector('#terminal-dialog');
-const input = document.querySelector('#terminal-input');
-const output = document.querySelector('#terminal-output');
-document.querySelector('#terminal-open').addEventListener('click', () => { dialog.showModal(); input.focus(); });
-document.querySelector('#terminal-close').addEventListener('click', () => dialog.close());
-const commands = {
-  help: 'Commands: help, about, research, projects, github, blog, clear, exit',
-  about: 'Isaac Yong (용이삭) — MS student in Physics at Sogang University (CUPT Lab).\nBuilding the software layer of X-ray experiments.',
-  research: '01 X-ray Reflectometry & Inverse Problems\n02 Coherent & Time-resolved Imaging\n03 Experimental Imaging & Data Systems',
-  projects: 'ReflectoLearn · QoraFlow · QoraPhase · X-ray Toolkit\nQoraDFXM · TraTT · codigest · roi_rectangle',
-  github: 'https://github.com/SJB7777',
-  blog: 'https://blog.naver.com/sjbpepper',
-};
-document.querySelector('#terminal-form').addEventListener('submit', (event) => {
-  event.preventDefault();
-  const command = input.value.trim().toLowerCase();
-  input.value = '';
-  if (!command) return;
-  if (command === 'clear') { output.replaceChildren(); return; }
-  if (command === 'exit') { dialog.close(); return; }
-  const prompt = document.createElement('p'); prompt.textContent = '❯ ' + command; output.append(prompt);
-  const response = document.createElement('p'); response.textContent = Object.hasOwn(commands, command) ? commands[command] : `Unknown command: ${command}. Try 'help'.`; output.append(response);
-  output.scrollTop = output.scrollHeight;
-});
+// Lately: newest notes (Jekyll JSON feed) and public GitHub activity. Both optional; failures leave the fallback link.
+function logRow(href, title, meta, external) {
+  const a = document.createElement('a');
+  a.href = href;
+  if (external) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+  const strong = document.createElement('strong'); strong.textContent = title;
+  const em = document.createElement('em'); em.className = 'mono'; em.textContent = meta;
+  a.append(strong, em);
+  return a;
+}
+const notesList = document.querySelector('#notes-list');
+if (notesList) {
+  fetch('notes/feed.json').then((r) => (r.ok ? r.json() : [])).then((posts) => {
+    notesList.prepend(...posts.slice(0, 4).map((p) => logRow(p.url, p.title, p.date.slice(5))));
+    if (!posts[0]) return;
+    const days = Math.floor((Date.now() - new Date(posts[0].date)) / 864e5);
+    document.querySelector('#notes-age').textContent = days < 1 ? 'Last note: today' : `Last note: ${days} day${days > 1 ? 's' : ''} ago`;
+  }).catch(() => {});
+}
+const ghList = document.querySelector('#gh-list');
+if (ghList) {
+  fetch('https://api.github.com/users/SJB7777/events/public?per_page=50').then((r) => (r.ok ? r.json() : [])).then((events) => {
+    const latest = new Map();
+    for (const e of events) if (!latest.has(e.repo.name) && latest.size < 5) latest.set(e.repo.name, e.created_at);
+    ghList.prepend(...[...latest].map(([name, at]) => logRow(`https://github.com/${name}`, name.replace(/^SJB7777\//, ''), at.slice(5, 10), true)));
+  }).catch(() => {});
+}
 
 // Liquid Light hero: solver in wave.js, this part only draws and handles pointer input.
 (() => {
