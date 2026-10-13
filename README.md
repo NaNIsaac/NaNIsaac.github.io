@@ -1,42 +1,94 @@
-# Isaac Yong — Personal Website
+# sjb7777.github.io
 
-Static personal portfolio for **용이삭 / Isaac Yong / SJB7777**.
+Personal site of **Isaac Yong (용이삭) / SJB7777** — https://sjb7777.github.io/
+
+| Path | What it is |
+|---|---|
+| `/` | Portfolio with the *Liquid Light* hero: a live 2D wave simulation (`wave.js`) you can click and drag |
+| `/lab/` | Fourier & Filtering sandbox (`fourier.js`, `lab/lab.js`) |
+| `/notes/` | Notes written as Markdown in `_posts/`, built by GitHub Pages' Jekyll |
+| `` ` `` key | Terminal: X-ray calculators, quick capture, shortcuts (`terminal.js`) |
+
+No npm, no build step on your machine. GitHub Pages builds the site from `master`
+(Settings → Pages → *Deploy from a branch*, `master` / root) and runs Jekyll for the notes.
+
+## Write a note
+
+Any of these will do. The note goes live about a minute after the commit.
+
+1. **From the site:** press `` ` `` and type `new Fringe visibility vs slit width`.
+   GitHub's editor opens with the file name and front matter filled in. Write, commit.
+2. **Locally:** add `_posts/YYYY-MM-DD-some-title.md`:
+
+   ```markdown
+   ---
+   title: Fringe visibility vs slit width
+   description: One sentence that shows up in lists and link previews.
+   tags: [xrr, notes]
+   ---
+
+   Text. Math works: inline $$q = 4\pi \sin\theta / \lambda$$, or a block
+
+   $$
+   R(q) \approx \left| \frac{4\pi r_e}{q^2} \int \frac{d\rho}{dz} e^{iqz}\, dz \right|^2
+   $$
+   ```
+
+3. **Capture now, write later:** `idea <text>` stores an idea in this browser;
+   `ideas` lists them; `idea write 2` opens idea #2 as a new note.
+
+A note does not need to be long. The template's *Context / What I found / Next* headings are there to
+make a five-minute note easy; delete what you don't use.
+
+### Owner bar
+
+Run `owner on` in the terminal once, in your own browser. The home page and `/notes/` then show a small
+bar with days since the last note, waiting ideas and todos, and a *new note* button. It is stored in
+`localStorage`, so visitors never see it. `owner off` hides it.
+
+## Terminal commands
+
+| Command | Does |
+|---|---|
+| `xray 12` · `xray 1.5406A` | energy ↔ wavelength, k |
+| `bragg <d Å> <E keV>` | θ, 2θ, q |
+| `q <2θ °> <E keV>` · `d <q>` | momentum transfer, d-spacing |
+| `calc <expr>` | math with `sin cos sqrt log PI deg …` |
+| `new <title>` · `notes` | start a note · list recent notes |
+| `idea …` · `todo …` | local inboxes (`ideas`, `idea write n`, `todo done n`) |
+| `open <name>` · `gh` | jump to a project · recent GitHub activity |
+| `owner on/off` · `theme` · `clear` · `exit` | |
+
+↑/↓ recall history. Everything the terminal stores stays in your browser.
+
+## Edit the portfolio
+
+- Text lives in `index.html`. English is the markup; the Korean version sits in each element's `data-ko`
+  attribute, shown by the 한/EN button.
+- Projects and research axes are plain HTML cards in `index.html`. Verify a repository's README before
+  describing it.
+- Colors are CSS variables at the top of `style.css` (`body.light` for the light theme).
 
 ## Preview locally
 
-Open `index.html` in a browser, or run:
+Opening `index.html` or `lab/index.html` directly works. For the notes you need Jekyll, which is not
+installed here — push and check the live site, or run Jekyll in Docker:
 
 ```powershell
-python -m http.server 8000
+python -m http.server 8000            # home + lab at http://localhost:8000
+docker run --rm -p 4000:4000 -v ${PWD}:/srv/jekyll jekyll/jekyll jekyll serve   # with notes
 ```
 
-Then open http://localhost:8000.
-
-## Publish on GitHub Pages
-
-1. Create a **public** repository named `SJB7777.github.io` in your GitHub account (case-insensitive; GitHub may display it in lowercase).
-2. Put these files at the repository root and push to `main`.
-3. Open **Settings → Pages → Build and deployment → Deploy from a branch → main / (root)**.
-4. Open https://sjb7777.github.io/ after deployment finishes.
-
-PowerShell with GitHub CLI (from this folder):
+## Tests
 
 ```powershell
-git init
-git add .
-git commit -m "feat: launch personal portfolio"
-git branch -M main
-gh repo create SJB7777.github.io --public --source . --remote origin --push
+node tests/wave.test.cjs      # wave solver: stability, edge absorption, barrier blocks transmission
+node tests/fourier.test.cjs   # FFT round trip, Parseval, sign, symmetry, fringe scaling, masks
 ```
 
-If the repository already exists, instead add its remote and push. Enable Pages in Settings if not already enabled.
+## Physics honesty
 
-## Before publishing
-
-- Verify all project links and public descriptions.
-- Add an email/contact link only if you want to publish that address.
-- Replace abstract graphics with actual scientific figures when ready.
-- Set a preview image and `og:image` once an asset is available.
-- Submit the sitemap through Google Search Console after the site is live; indexing is not guaranteed.
-
-No build step or npm dependencies. The site includes responsive styles, theme persistence, keyboard-accessible dialog, SEO metadata, and JSON-LD Person structured data.
+The hero is a 2D scalar wave equation (leapfrog, r = 0.5, Dirichlet barrier, sponge edges) and the
+lab is a separate Fourier-optics model. Both are explained in the first note,
+[How the homepage wave works](https://sjb7777.github.io/notes/2026/10/how-the-hero-wave-works/), and in
+the lab's *How it works* panel. Glow and bloom are display-only and never feed the detector curve.

@@ -217,3 +217,7 @@ kbd { font: 11px ui-monospace, monospace; border: 1px solid var(--line); border-
 @media (max-width: 760px) {
   .lab-panels { grid-template-columns: 1fr; }
 }
+.owner-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; font-size: 11px; color: var(--accent); border: 1px dashed var(--accent); border-radius: 8px; padding: 10px 14px; margin-bottom: 28px; }
+.owner-bar span { flex: 1; min-width: 220px; }
+.owner-bar button { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; font: inherit; color: var(--text); }
+.owner-bar button:hover { border-color: var(--accent); }

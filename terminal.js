@@ -53,7 +53,7 @@
 
   function newNoteUrl(title) {
     const slug = title.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '') || 'note';
-    const body = `---\ntitle: ${JSON.stringify(title)}\ndescription: \ntags: []\n---\n\n`;
+    const body = `---\ntitle: ${JSON.stringify(title)}\ndescription: \ntags: []\n---\n\n<!-- A few lines is enough. Delete the headings you don't need. -->\n\n## Context\n\n\n## What I found\n\n\n## Next\n`;
     return `https://github.com/${REPO}/new/master/_posts?filename=${encodeURIComponent(`${today()}-${slug}.md`)}&value=${encodeURIComponent(body)}`;
   }
 
@@ -104,6 +104,7 @@
       'Do         todo <text> | todos | todo done <n>',
       'Go         open <github|blog|notes|lab|toolkit|site|reflectolearn|qoraflow|qoraphase|qoradfxm|tratt>',
       '           gh                   recent public GitHub activity',
+      'Owner      owner on | off       writing bar (last note, ideas) on this browser only',
       'Site       about  research  theme  clear  exit   (↑/↓ history)',
     ].forEach((l) => print(l)),
     about: () => print('Isaac Yong (용이삭) — MS student in Physics, Sogang University (CUPT Lab).\nBuilding the software layer of X-ray experiments.'),
@@ -158,6 +159,11 @@
         print(`${ev.created_at.slice(0, 10)}  ${ev.type.replace('Event', '').padEnd(12)} ${ev.repo.name}`);
       }
     },
+    owner: ([v]) => {
+      store.set('isaac-owner', v !== 'off');
+      print(v === 'off' ? 'Owner bar hidden.' : 'Owner bar on for this browser. Visitors never see it.');
+      ownerBar();
+    },
     theme: () => document.querySelector('#theme')?.click(),
     clear: () => output.replaceChildren(),
     exit: () => dialog.close(),
@@ -172,11 +178,7 @@
     input.value = history[cursor] ?? '';
   });
 
-  dialog.querySelector('form').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const line = input.value.trim();
-    input.value = '';
-    if (!line) return;
+  async function run(line) {
     history.push(line);
     store.set('isaac-history', history.slice(-50));
     cursor = history.length;
@@ -185,5 +187,39 @@
     if (cmd !== 'clear') print('❯ ' + line, 'cmd');
     if (!Object.hasOwn(commands, cmd)) return print(`Unknown command: ${cmd}. Try 'help'.`);
     try { await commands[cmd](args); } catch (err) { print(`error: ${err.message}`, 'err'); }
+  }
+  dialog.querySelector('form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const line = input.value.trim();
+    input.value = '';
+    if (line) run(line);
   });
+
+  // Owner bar: a nudge to write, shown only in browsers where `owner on` was run. Rendered into [data-owner-bar].
+  async function ownerBar() {
+    const slots = document.querySelectorAll('[data-owner-bar]');
+    slots.forEach((el) => el.replaceChildren());
+    if (!store.get('isaac-owner', false) || !slots.length) return;
+    let age = 'no notes yet';
+    try {
+      const posts = await (await fetch('/notes/feed.json')).json();
+      if (posts[0]) { const d = Math.floor((Date.now() - new Date(posts[0].date)) / 864e5); age = d < 1 ? 'last note today' : `last note ${d} day${d > 1 ? 's' : ''} ago`; }
+    } catch { age = 'notes feed unavailable'; }
+    const ideas = store.get('isaac-idea', []).length, todos = store.get('isaac-todo', []).length;
+    slots.forEach((el) => {
+      const bar = document.createElement('div');
+      bar.className = 'owner-bar mono';
+      const text = document.createElement('span');
+      text.textContent = `OWNER · ${age} · ${ideas} idea${ideas === 1 ? '' : 's'} waiting · ${todos} todo${todos === 1 ? '' : 's'}`;
+      const write = document.createElement('button');
+      write.textContent = '+ new note';
+      write.addEventListener('click', () => { open(); input.value = 'new '; });
+      const ideaList = document.createElement('button');
+      ideaList.textContent = 'ideas';
+      ideaList.addEventListener('click', () => { open(); run('ideas'); });
+      bar.append(text, write, ideaList);
+      el.append(bar);
+    });
+  }
+  ownerBar();
 })();
