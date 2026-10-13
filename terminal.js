@@ -6,6 +6,7 @@
     github: 'https://github.com/SJB7777',
     blog: 'https://blog.naver.com/sjbpepper',
     notes: '/notes/',
+    lab: '/lab/',
     toolkit: 'https://xray.ooguy.com/',
     reflectolearn: 'https://github.com/SJB7777/ReflectoLearn',
     qoraflow: 'https://github.com/SJB7777/QoraFlow',
@@ -101,7 +102,7 @@
       '           notes                latest published notes',
       '           idea <text> | ideas | idea write <n> | idea rm <n>',
       'Do         todo <text> | todos | todo done <n>',
-      'Go         open <github|blog|notes|toolkit|site|reflectolearn|qoraflow|qoraphase|qoradfxm|tratt>',
+      'Go         open <github|blog|notes|lab|toolkit|site|reflectolearn|qoraflow|qoraphase|qoradfxm|tratt>',
       '           gh                   recent public GitHub activity',
       'Site       about  research  theme  clear  exit   (↑/↓ history)',
     ].forEach((l) => print(l)),
@@ -152,7 +153,7 @@
       if (!r.ok) throw new Error(`GitHub API ${r.status}`);
       const seen = new Set();
       for (const ev of await r.json()) {
-        if (seen.has(ev.repo.name) || seen.size >= 8) continue;
+        if (!/^(Push|PullRequest|Create|Release|Issues|PullRequestReview)Event$/.test(ev.type) || seen.has(ev.repo.name) || seen.size >= 8) continue;
         seen.add(ev.repo.name);
         print(`${ev.created_at.slice(0, 10)}  ${ev.type.replace('Event', '').padEnd(12)} ${ev.repo.name}`);
       }

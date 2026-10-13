@@ -53,11 +53,12 @@ if (notesList) {
     document.querySelector('#notes-age').textContent = days < 1 ? 'Last note: today' : `Last note: ${days} day${days > 1 ? 's' : ''} ago`;
   }).catch(() => {});
 }
+const OWN_WORK = /^(Push|PullRequest|Create|Release|Issues|PullRequestReview)Event$/; // not stars/forks of other people's repos
 const ghList = document.querySelector('#gh-list');
 if (ghList) {
   fetch('https://api.github.com/users/SJB7777/events/public?per_page=50').then((r) => (r.ok ? r.json() : [])).then((events) => {
     const latest = new Map();
-    for (const e of events) if (!latest.has(e.repo.name) && latest.size < 5) latest.set(e.repo.name, e.created_at);
+    for (const e of events) if (OWN_WORK.test(e.type) && !latest.has(e.repo.name) && latest.size < 5) latest.set(e.repo.name, e.created_at);
     ghList.prepend(...[...latest].map(([name, at]) => logRow(`https://github.com/${name}`, name.replace(/^SJB7777\//, ''), at.slice(5, 10), true)));
   }).catch(() => {});
 }

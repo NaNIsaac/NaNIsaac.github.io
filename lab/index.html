@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070d18">
+  <meta name="description" content="Fourier optics sandbox: draw an aperture, see its far-field intensity, filter the spectrum, and inverse-transform the complex field.">
+  <meta property="og:title" content="Lab — Fourier & Filtering · Isaac Yong">
+  <meta property="og:url" content="https://sjb7777.github.io/lab/">
+  <link rel="canonical" href="https://sjb7777.github.io/lab/">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../style.css">
+  <title>Lab — Fourier &amp; Filtering · Isaac Yong</title>
+</head>
+<body class="sub">
+  <script>let t; try { t = localStorage.getItem('isaac-theme'); } catch {} if ((t ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')) === 'light') document.body.classList.add('light');</script>
+  <header class="site-header">
+    <a class="brand" href="../">ISAAC<span class="accent">.YONG</span></a>
+    <nav aria-label="Main">
+      <a href="../#research">Research</a>
+      <a href="../#software">Software</a>
+      <a href="../notes/">Notes</a>
+      <button id="theme" aria-label="Toggle theme">☾</button>
+    </nav>
+  </header>
+
+  <main class="wrap page">
+    <p class="section-index mono">LAB / FOURIER &amp; FILTERING</p>
+    <h1 class="page-title">See the transform<span class="accent">.</span></h1>
+    <p class="page-lead">Pick an aperture, drag on the panels, and watch the far-field intensity and the filtered field respond. This is a separate model from the ripple simulation on the <a class="accent" href="../">home page</a> — a monochromatic complex field and its 2D Fourier transform, not a time-domain wave.</p>
+
+    <div class="lab-controls" role="group" aria-label="Controls">
+      <div class="seg" role="group" aria-label="Aperture" id="aperture">
+        <button data-v="circle" aria-pressed="true">Circle</button>
+        <button data-v="ring">Ring</button>
+        <button data-v="slit">Slit</button>
+        <button data-v="double">Double slit</button>
+        <button data-v="square">Square</button>
+        <button data-v="letter">Letter λ</button>
+      </div>
+      <label class="range">Size <input type="range" id="size" min="2" max="60" value="12"><output id="size-out"></output></label>
+      <label class="range" id="sep-wrap">Separation <input type="range" id="sep" min="8" max="120" value="40"><output id="sep-out"></output></label>
+      <div class="seg" role="group" aria-label="Frequency filter" id="filter">
+        <button data-v="none" aria-pressed="true">No filter</button>
+        <button data-v="low">Low-pass</button>
+        <button data-v="high">High-pass</button>
+      </div>
+      <label class="range">Cutoff <input type="range" id="cutoff" min="0.005" max="0.5" step="0.005" value="0.08"><output id="cutoff-out"></output></label>
+    </div>
+
+    <div class="lab-panels">
+      <figure>
+        <canvas id="c-aperture" width="256" height="256" aria-label="Aperture transmission. Drag to resize."></canvas>
+        <figcaption class="mono">APERTURE t(x,y) · drag to resize</figcaption>
+      </figure>
+      <figure>
+        <canvas id="c-spectrum" width="256" height="256" aria-label="Fourier intensity on a log scale. Drag to set the filter cutoff."></canvas>
+        <figcaption class="mono">|F|² · log display · drag = cutoff</figcaption>
+      </figure>
+      <figure>
+        <canvas id="c-output" width="256" height="256" aria-label="Intensity of the inverse transform of the filtered spectrum."></canvas>
+        <figcaption class="mono">|IFFT(H·F)|² · γ 0.5 display</figcaption>
+      </figure>
+    </div>
+    <p class="mono lab-readout" id="readout" aria-live="polite"></p>
+
+    <details class="lab-notes">
+      <summary>How it works</summary>
+      <div class="prose">
+        <p>The aperture is a transmission function <code>t(x,y)</code> on a 256 × 256 grid, lit by a uniform coherent plane wave, so the exit wave is <code>U = t</code>. Under the scalar, paraxial, coherent Fraunhofer approximation the far-field amplitude is proportional to the 2D Fourier transform of <code>U</code>; the middle panel shows <code>log(1 + α|F|²)</code> purely for visibility.</p>
+        <p>The filter multiplies the <em>complex</em> spectrum by a mask <code>H</code> — like a stop in the Fourier plane of a 4f lens system — and the right panel is the intensity of the inverse transform. Because the phase of <code>F</code> is kept, an unfiltered round trip returns the aperture exactly. Inverting the intensity <code>|F|²</code> alone would not: recovering the lost phase is the phase-retrieval problem, which this page does not solve.</p>
+        <p>Frequencies are in cycles per sample; the edge of the panel is 0.5. Propagation distance is not modeled here (that needs a Fresnel transfer function, not a bigger FFT).</p>
+      </div>
+    </details>
+  </main>
+
+  <footer><div class="wrap footer-inner mono"><span>© 2026 ISAAC YONG · 용이삭</span><span>press <kbd>`</kbd> for terminal</span></div></footer>
+  <script src="../fourier.js" defer></script>
+  <script src="../script.js" defer></script>
+  <script src="../terminal.js" defer></script>
+  <script src="lab.js" defer></script>
+</body>
+</html>
