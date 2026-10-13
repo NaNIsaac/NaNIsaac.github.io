@@ -225,3 +225,4 @@ kbd { font: 11px ui-monospace, monospace; border: 1px solid var(--line); border-
 .lab-wave { width: 100%; height: min(62vh, 520px); display: block; border: 1px solid var(--line); border-radius: 12px; touch-action: pan-y; cursor: crosshair; }
 .lab-wave.grab { cursor: grab; }
 .lab-wave.grabbing { cursor: grabbing; }
+[hidden] { display: none !important; }
