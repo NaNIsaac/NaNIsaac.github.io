@@ -1,44 +1,140 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b1322">
-  <meta name="description" content="용이삭(Isaac Yong)의 개인 홈페이지. 서강대학교 물리학과에서 X선 회절과 이미징을 연구하며 과학 소프트웨어를 개발합니다.">
+  <meta name="theme-color" content="#070d18">
+  <meta name="description" content="Isaac Yong (용이삭) — physicist building the software layer of X-ray experiments: XRR inverse problems, coherent and time-resolved diffraction, and experimental data systems.">
   <meta name="author" content="Isaac Yong (용이삭)">
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="ko_KR">
-  <meta property="og:title" content="용이삭 | Isaac Yong — X-ray Science & Software">
-  <meta property="og:description" content="Research, scientific tools, and open-source contributions by Isaac Yong.">
+  <meta property="og:title" content="Isaac Yong — X-ray Physics & Scientific Software">
+  <meta property="og:description" content="Simulation, inverse problems, data pipelines, and beamline tools — built by someone who runs the experiments.">
   <meta property="og:url" content="https://sjb7777.github.io/">
   <link rel="canonical" href="https://sjb7777.github.io/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"용이삭","alternateName":["Isaac Yong","SJB7777"],"url":"https://sjb7777.github.io/","sameAs":["https://github.com/SJB7777"],"affiliation":{"@type":"CollegeOrUniversity","name":"Sogang University"},"knowsAbout":["X-ray diffraction","Coherent X-ray imaging","Scientific Python","Open source software"]}</script>
-  <title>용이삭 | Isaac Yong — X-ray Science & Software</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Isaac Yong","alternateName":["용이삭","SJB7777"],"url":"https://sjb7777.github.io/","sameAs":["https://github.com/SJB7777","https://blog.naver.com/sjbpepper"],"affiliation":{"@type":"CollegeOrUniversity","name":"Sogang University"},"knowsAbout":["X-ray reflectivity","X-ray diffraction","Coherent diffraction imaging","Phase retrieval","XFEL data analysis","Scientific Python"]}</script>
+  <title>Isaac Yong — X-ray Physics & Scientific Software</title>
 </head>
 <body>
-  <div class="ambient" aria-hidden="true"></div>
-  <header class="site-header"><a class="brand" href="#top"><span class="brand-symbol">✳</span><span>ISAAC<span class="accent">.YONG</span></span></a><nav aria-label="주 메뉴"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a><button id="theme" aria-label="테마 변경" title="테마 변경">☾</button></nav></header>
+  <script>let t; try { t = localStorage.getItem('isaac-theme'); } catch {} if ((t ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')) === 'light') document.body.classList.add('light');</script>
+  <header class="site-header">
+    <a class="brand" href="#top">ISAAC<span class="accent">.YONG</span></a>
+    <nav aria-label="Main">
+      <a href="#research" data-ko="연구">Research</a>
+      <a href="#software" data-ko="소프트웨어">Software</a>
+      <a href="#contact" data-ko="연락">Contact</a>
+      <button id="lang" aria-label="Switch language">한</button>
+      <button id="theme" aria-label="Toggle theme">☾</button>
+    </nav>
+  </header>
+
   <main id="top">
-    <section class="hero wrap" aria-labelledby="hero-title">
-      <div class="eyebrow"><span class="live-dot"></span> PHYSICS / SCIENTIFIC SOFTWARE <span class="version">PORTFOLIO · 2026</span></div>
-      <div class="hero-layout"><div class="hero-copy"><p class="micro">안녕하세요, 저는</p><h1 id="hero-title">용이삭<span class="punct">.</span><br><span class="latin">Isaac Yong</span></h1><p class="hero-description">X선을 통해 물질을 탐구하고,<br>연구를 위한 도구를 만듭니다.</p><p class="hero-en">Exploring matter through X-rays.<br>Building tools for better science.</p><div class="hero-actions"><a class="primary-btn" href="#work">Explore my work <span>↗</span></a><a class="quiet-link" href="https://github.com/SJB7777" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div></div><div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div><div class="core"><svg viewBox="0 0 240 240"><defs><radialGradient id="g"><stop stop-color="#4de6ec" stop-opacity=".85"/><stop offset="1" stop-color="#4de6ec" stop-opacity="0"/></radialGradient></defs><circle cx="120" cy="120" r="85" fill="url(#g)" opacity=".2"/><g fill="none" stroke="#61d8e4" stroke-width="1.3"><ellipse cx="120" cy="120" rx="92" ry="35" transform="rotate(-32 120 120)"/><ellipse cx="120" cy="120" rx="92" ry="35" transform="rotate(32 120 120)"/><circle cx="120" cy="120" r="8" fill="#64e6ec"/></g><g fill="#73ecf1"><circle cx="44" cy="164" r="5"/><circle cx="196" cy="164" r="5"/><circle cx="120" cy="29" r="4"/></g></svg></div><div class="art-label top-label">λ / q / I</div><div class="art-label bottom-label">[ diffraction space ]</div></div></div>
-      <div class="hero-footer"><span>SEOUL, SOUTH KOREA</span><span>SCROLL TO EXPLORE <span class="arrow">↓</span></span></div>
+    <section class="hero" aria-labelledby="hero-title">
+      <canvas id="wave" role="img" aria-label="Interactive simulation of a 2D scalar wave: two coherent sources and a double slit. Click to make ripples; drag a source or a slit."></canvas>
+      <div class="hero-inner wrap">
+        <p class="eyebrow" data-ko="인터랙티브 파동 실험">AN INTERACTIVE WAVE EXPERIMENT</p>
+        <h1 id="hero-title" data-ko="파동을 만져보세요.">Touch the wave.</h1>
+        <p class="lead" data-ko="X선 실험의 소프트웨어 레이어를 만드는 물리학자, 용이삭입니다.">I'm Isaac Yong, a physicist building the software layer of X-ray experiments.</p>
+        <p class="hint" id="hint" data-ko="클릭하면 물결 · 광원이나 슬릿을 드래그">Click to ripple · Drag a source or a slit</p>
+        <div class="hero-actions">
+          <a class="primary-btn" href="#research" data-ko="연구 보기 ↓">See the work ↓</a>
+          <a class="quiet-link" href="https://github.com/SJB7777" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <button class="quiet-link" id="pause">Pause</button>
+        </div>
+      </div>
+      <p class="hero-note mono wrap" data-ko="2D 스칼라 파동 방정식 · 이상적 반사 이중 슬릿 · 색은 시각화용 · 오른쪽 선 = 상대 세기">2D scalar wave equation · idealized reflecting double slit · illustrative palette · right line = relative intensity</p>
     </section>
-    <section class="signal" aria-hidden="true"><svg viewBox="0 0 1200 72" preserveAspectRatio="none"><path d="M0 36 H350 L367 36 L379 24 L388 52 L399 7 L412 66 L424 22 L436 36 H540 C580 36 593 14 627 14 S686 57 735 36 H1200" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></section>
-    <section class="section wrap" id="work"><div class="section-heading"><div><p class="section-index">01 / SELECTED WORK</p><h2>연구와 도구<span class="punct">.</span></h2></div><p>Ideas made tangible.<br>From equations to working software.</p></div><div class="project-grid">
-      <a class="project-card featured" href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer"><div class="project-top"><span class="project-no">01 / WEB TOOLS</span><span class="external">↗</span></div><div class="visual diffraction"><div class="rings"></div><div class="beam"></div><span class="visual-code">I(q) · X-RAY</span></div><div class="project-bottom"><div><h3>X-ray Toolkit</h3><p>실험과 분석을 위한 X선 계산 도구 모음.</p></div><span class="tag">WEB</span></div></a>
-      <a class="project-card" href="https://github.com/SJB7777?tab=repositories&q=QoraPhase" target="_blank" rel="noopener noreferrer"><div class="project-top"><span class="project-no">02 / IMAGING</span><span class="external">↗</span></div><div class="visual phase"><div class="phase-pattern"></div><span class="visual-code">φ(x,y) · CDI</span></div><div class="project-bottom"><div><h3>QoraPhase</h3><p>Coherent diffraction imaging과 위상 복원.</p></div><span class="tag">PYTHON</span></div></a>
-      <a class="project-card" href="https://github.com/SJB7777?tab=repositories&q=QoraGeom" target="_blank" rel="noopener noreferrer"><div class="project-top"><span class="project-no">03 / GEOMETRY</span><span class="external">↗</span></div><div class="visual geometry"><div class="geom-lines"></div><span class="visual-code">qₗₐᵦ ↔ qₛₐₘₚₗₑ</span></div><div class="project-bottom"><div><h3>QoraGeom</h3><p>회절 실험의 좌표계와 기하 변환.</p></div><span class="tag">PYTHON</span></div></a>
-      <a class="project-card" href="https://github.com/SJB7777" target="_blank" rel="noopener noreferrer"><div class="project-top"><span class="project-no">04 / RESEARCH</span><span class="external">↗</span></div><div class="visual floquet"><div class="sidebands"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="visual-code">FLOQUET · TT</span></div><div class="project-bottom"><div><h3>Transient X-ray Diffraction</h3><p>시간 의존적 회절과 음향 구동 위성 피크 연구.</p></div><span class="tag">PHYSICS</span></div></a>
-    </div></section>
-    <section class="section wrap about-section" id="about"><div class="section-heading"><div><p class="section-index">02 / ABOUT</p><h2>연구자이자 제작자<span class="punct">.</span></h2></div></div><div class="about-grid"><div><p class="about-lead">물리 현상을 이해하는 것만큼,<br><em>그 이해를 도구로 만드는 일</em>을 좋아합니다.</p><p class="about-body">서강대학교 물리학과에서 X선 회절과 이미징을 연구하고 있습니다. Python 기반의 과학 소프트웨어, 실험 데이터 처리, 오픈소스 개발에도 관심이 있습니다.</p><div class="pills"><span>X-ray diffraction</span><span>Scientific Python</span><span>Computational imaging</span><span>Open source</span></div></div><div class="about-aside"><div class="detail-row"><span>현재</span><strong>서강대학교 물리학과 · 석사과정</strong></div><div class="detail-row"><span>연구</span><strong>Dynamic diffraction / CDI</strong></div><div class="detail-row"><span>개발</span><strong>Python · Scientific software</strong></div><div class="detail-row"><span>위치</span><strong>Republic of Korea</strong></div></div></div></section>
-    <section class="section wrap contributions"><div class="section-heading"><div><p class="section-index">03 / OPEN SOURCE</p><h2>열린 작업 기록<span class="punct">.</span></h2></div><p>Small changes, real contributions.</p></div><div class="contribution-list"><a href="https://github.com/pydata/xarray/pull/11720" target="_blank" rel="noopener noreferrer"><span class="contrib-icon">↗</span><div><strong>xarray</strong><span>Documentation · Windowed operations tutorial links</span></div><span class="contrib-meta">PR #11720</span></a><a href="https://github.com/python/cpython/pulls?q=is%3Apr+author%3ASJB7777" target="_blank" rel="noopener noreferrer"><span class="contrib-icon">↗</span><div><strong>CPython</strong><span>IDLE · Syntax error diagnostics proposal</span></div><span class="contrib-meta">PR activity</span></a><a href="https://github.com/SJB7777" target="_blank" rel="noopener noreferrer"><span class="contrib-icon">↗</span><div><strong>More on GitHub</strong><span>Projects, experiments, and contributions</span></div><span class="contrib-meta">@SJB7777</span></a></div><p class="fineprint">※ 기여 항목은 제출 기록이며 병합 여부를 뜻하지 않습니다.</p></section>
-    <section class="section wrap contact-section" id="contact"><p class="section-index">04 / CONNECT</p><h2>무언가를 함께<br>만들어 볼까요<span class="punct">?</span></h2><p>연구, 소프트웨어, 오픈소스에 관한 대화를 환영합니다.</p><div class="contact-links"><a href="https://github.com/SJB7777" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">X-ray Tools ↗</a><button id="terminal-open">⌘ Terminal mode</button></div></section>
+
+    <section class="section wrap" id="about">
+      <p class="section-index mono">00 / ABOUT</p>
+      <p class="about-lead" data-ko="서강대학교 물리학과 석사과정(CUPT Lab). 방사광가속기와 XFEL에서 X선 반사율(XRR), 회절(XRD), coherent/Bragg X선 회절 실험을 하고, 빔타임의 원시 데이터를 결과로 바꾸는 도구를 직접 만듭니다.">MS student in Physics at Sogang University (CUPT Lab). I run X-ray reflectivity, diffraction, and coherent / Bragg diffraction experiments at synchrotron and XFEL facilities — and write the tooling that turns raw beamtime data into results.</p>
+      <p class="about-body" data-ko="미분 가능한 물리 시뮬레이터, 역문제를 위한 머신러닝, 재현 가능한 분석 파이프라인, 그리고 실험 hutch의 컴퓨터에서 실제로 돌아가는 계산기까지.">Differentiable physics simulators, machine learning for inverse problems, reproducible analysis pipelines, and calculators that run on the machines actually sitting in the hutch.</p>
+    </section>
+
+    <section class="section wrap" id="research">
+      <div class="section-heading"><p class="section-index mono">01 / RESEARCH</p><h2 data-ko="연구의 세 축">Three research axes<span class="accent">.</span></h2></div>
+      <div class="grid3">
+        <article class="card">
+          <p class="mono card-no">AXIS 01</p>
+          <h3>X-ray Reflectometry &amp; Inverse Problems</h3>
+          <p data-ko="반사율 곡선 R(q)에서 박막의 두께·거칠기·SLD를 구하는 역문제. 물리 모델링과 ML을 함께 씁니다.">Recovering thin-film thickness, roughness, and SLD from a reflectivity curve R(q) — physical modeling and machine learning together.</p>
+          <p class="mono links"><a href="https://github.com/SJB7777/ReflectoLearn" target="_blank" rel="noopener noreferrer">ReflectoLearn ↗</a></p>
+        </article>
+        <article class="card">
+          <p class="mono card-no">AXIS 02</p>
+          <h3>Coherent &amp; Time-resolved Imaging</h3>
+          <p data-ko="Coherent diffraction imaging의 위상 복원, 그리고 동역학적 X선 회절에서 음향 Bragg 위성 피크의 과도 형성.">Phase retrieval for coherent diffraction imaging, and the transient formation of acoustic Bragg satellites in dynamical X-ray diffraction.</p>
+          <p class="mono links"><a href="https://github.com/SJB7777/QoraPhase" target="_blank" rel="noopener noreferrer">QoraPhase ↗</a> <a href="https://github.com/SJB7777/TraTT" target="_blank" rel="noopener noreferrer">TraTT ↗</a></p>
+        </article>
+        <article class="card">
+          <p class="mono card-no">AXIS 03</p>
+          <h3>Experimental Imaging &amp; Data Systems</h3>
+          <p data-ko="XFEL 시간분해 실험 데이터 파이프라인, Dark-Field X-ray Microscopy 영상 분석, 실험 자동화.">Pipelines for time-resolved XFEL data, Dark-Field X-ray Microscopy image analysis, and experiment automation.</p>
+          <p class="mono links"><a href="https://github.com/SJB7777/QoraFlow" target="_blank" rel="noopener noreferrer">QoraFlow ↗</a> <a href="https://github.com/SJB7777/QoraDFXM" target="_blank" rel="noopener noreferrer">QoraDFXM ↗</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section wrap" id="software">
+      <div class="section-heading"><p class="section-index mono">02 / SOFTWARE</p><h2 data-ko="직접 만든 도구">Tools I build<span class="accent">.</span></h2></div>
+      <div class="grid2">
+        <a class="card project" href="https://github.com/SJB7777/ReflectoLearn" target="_blank" rel="noopener noreferrer">
+          <div class="card-top"><h3>ReflectoLearn</h3><span class="accent">↗</span></div>
+          <p data-ko="미분 가능한 Abeles 전달행렬 시뮬레이터가 노이즈·분해능·빔 footprint까지 반영한 학습 곡선을 즉석 생성하고, 1D CNN이 R(q)에서 박막 파라미터를 예측합니다. 데이터셋 파일이 필요 없습니다.">A differentiable Abeles transfer-matrix simulator generates training curves on the fly — with Poisson noise, resolution smearing, and beam footprint — and a 1D CNN predicts film parameters from R(q). No dataset files needed.</p>
+          <p class="tags mono">PYTHON · PYTORCH · XRR</p>
+        </a>
+        <a class="card project" href="https://github.com/SJB7777/QoraFlow" target="_blank" rel="noopener noreferrer">
+          <div class="card-top"><h3>QoraFlow</h3><span class="accent">↗</span></div>
+          <p data-ko="XFEL 시간분해 초고속 실험을 위한 데이터 처리 툴킷. 연구실의 레거시 시스템 XFEL_data(@paulpeterkim)를 바탕으로 재구성했습니다.">Data toolkit for time-resolved ultrafast experiments at X-ray free-electron lasers. Refactored from the lab's legacy XFEL_data system by @paulpeterkim.</p>
+          <p class="tags mono">PYTHON · HDF5 · XFEL</p>
+        </a>
+        <a class="card project" href="https://github.com/SJB7777/QoraPhase" target="_blank" rel="noopener noreferrer">
+          <div class="card-top"><h3>QoraPhase</h3><span class="accent">↗</span></div>
+          <p data-ko="JAX 기반의 조합형 위상 복원 프레임워크. 배열을 넣으면 재구성 결과가 나옵니다. 원점·마스크·support 규약을 API 계약으로 명시했습니다.">A JAX-native, composable phase-retrieval framework for CDI. Array in, reconstruction out — with origin, mask, and support conventions written into the API contract.</p>
+          <p class="tags mono">PYTHON · JAX · CDI</p>
+        </a>
+        <a class="card project" href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">
+          <div class="card-top"><h3>X-ray Toolkit</h3><span class="accent">↗</span></div>
+          <p data-ko="빔라인 제어실용 오프라인 X선 계산기와 빔타임 기록 도구. 서버도 외부 요청도 없고, hutch의 CentOS 7 기본 브라우저(Firefox 60 ESR)에서도 돌도록 ES5로 작성했습니다.">Offline X-ray calculators and a beamtime logbook for the beamline control room. No server, zero runtime fetches, written in ES5 so it runs on the CentOS 7 default browser (Firefox 60 ESR) in the hutch.</p>
+          <p class="tags mono">WEB · ES5 · OFFLINE · EN/KO</p>
+        </a>
+      </div>
+      <h3 class="sub-heading mono" data-ko="그 밖의 프로젝트">MORE PROJECTS</h3>
+      <div class="list">
+        <a href="https://github.com/SJB7777/QoraDFXM" target="_blank" rel="noopener noreferrer"><strong>QoraDFXM</strong><span data-ko="DFXM 디텍터 영상 분석 — 순수 Python 엔진 + CLI + PySide6 데스크톱 앱">DFXM detector-image analysis — pure Python engine, headless CLI, PySide6 desktop app</span></a>
+        <a href="https://github.com/SJB7777/TraTT" target="_blank" rel="noopener noreferrer"><strong>TraTT</strong><span data-ko="음향 Bragg 위성 피크의 과도 동역학 솔버, 해석해를 테스트로 검증">Transient acoustic Bragg-satellite solver, checked against analytic ground truth in tests</span></a>
+        <a href="https://pypi.org/project/codigest/" target="_blank" rel="noopener noreferrer"><strong>codigest</strong><span data-ko="LLM을 위한 코드베이스 컨텍스트 CLI (PyPI)">Codebase-context CLI for LLMs (PyPI)</span></a>
+        <a href="https://pypi.org/project/roi_rectangle/" target="_blank" rel="noopener noreferrer"><strong>roi_rectangle</strong><span data-ko="영상의 사각형 ROI 처리 모듈 (PyPI)">Rectangular region-of-interest helper for images (PyPI)</span></a>
+        <a href="https://github.com/SJB7777/QoraGeom" target="_blank" rel="noopener noreferrer"><strong>QoraGeom</strong><span data-ko="회절 기하 — 초기 단계, 공개 코드 아직 없음">Diffraction geometry — early stage, no public code yet</span></a>
+      </div>
+    </section>
+
+    <section class="section wrap" id="open-source">
+      <div class="section-heading"><p class="section-index mono">03 / OPEN SOURCE</p><h2 data-ko="업스트림 기여">Upstream contributions<span class="accent">.</span></h2></div>
+      <div class="list">
+        <a href="https://github.com/pydata/xarray/pull/11720" target="_blank" rel="noopener noreferrer"><strong>xarray</strong><span>DOC: Link windowed operations tutorial from computation guide</span><em class="mono">PR #11720</em></a>
+        <a href="https://github.com/python/cpython/pull/159189" target="_blank" rel="noopener noreferrer"><strong>CPython</strong><span>IDLE: Show full syntax error diagnostics in Shell</span><em class="mono">PR #159189</em></a>
+      </div>
+      <p class="fineprint mono" data-ko="※ 제출한 PR이며 병합 여부를 뜻하지 않습니다.">Submitted pull requests; listing does not imply they were merged.</p>
+    </section>
+
+    <section class="section wrap contact" id="contact">
+      <p class="section-index mono">04 / CONTACT</p>
+      <h2 data-ko="연구, 소프트웨어, 오픈소스 이야기를 환영합니다.">Let's talk research, software, or open source<span class="accent">.</span></h2>
+      <div class="contact-links">
+        <a href="https://github.com/SJB7777" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="https://blog.naver.com/sjbpepper" target="_blank" rel="noopener noreferrer" data-ko="블로그 ↗">Blog ↗</a>
+        <a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">X-ray Toolkit ↗</a>
+        <button id="terminal-open">⌘ Terminal mode</button>
+      </div>
+    </section>
   </main>
-  <footer><div class="wrap footer-inner"><span>© <span id="year">2026</span> ISAAC YONG · 용이삭</span><span>BUILT WITH CURIOSITY <span class="accent">✳</span></span><a href="#top">BACK TO TOP ↑</a></div></footer>
-  <dialog id="terminal-dialog" aria-label="Terminal mode"><div class="terminal-header"><span>● ● ●</span><strong>isaac@portfolio ~ %</strong><button id="terminal-close" aria-label="닫기">×</button></div><div id="terminal-output" class="terminal-output" aria-live="polite"><p>IsaacOS / portfolio shell v0.1</p><p>Type <b>help</b> for available commands.</p></div><form id="terminal-form"><label for="terminal-input">❯</label><input id="terminal-input" autocomplete="off" spellcheck="false" aria-label="터미널 명령어"><button type="submit">↵</button></form></dialog>
+
+  <footer><div class="wrap footer-inner mono"><span>© <span id="year">2026</span> ISAAC YONG · 용이삭</span><a href="#top">BACK TO TOP ↑</a></div></footer>
+
+  <dialog id="terminal-dialog" aria-label="Terminal mode"><div class="terminal-header"><span>● ● ●</span><strong>isaac@portfolio ~ %</strong><button id="terminal-close" aria-label="Close">×</button></div><div id="terminal-output" class="terminal-output" aria-live="polite"><p>IsaacOS / portfolio shell v0.2</p><p>Type <b>help</b> for available commands.</p></div><form id="terminal-form"><label for="terminal-input">❯</label><input id="terminal-input" autocomplete="off" spellcheck="false" aria-label="Terminal command"><button type="submit">↵</button></form></dialog>
+  <script src="wave.js" defer></script>
   <script src="script.js" defer></script>
 </body>
 </html>
