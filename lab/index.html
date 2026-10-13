@@ -27,9 +27,30 @@
   </header>
 
   <main class="wrap page">
-    <p class="section-index mono">LAB / FOURIER &amp; FILTERING</p>
-    <h1 class="page-title">See the transform<span class="accent">.</span></h1>
-    <p class="page-lead">Pick an aperture, drag on the panels, and watch the far-field intensity and the filtered field respond. This is a separate model from the ripple simulation on the <a class="accent" href="../">home page</a> — a monochromatic complex field and its 2D Fourier transform, not a time-domain wave.</p>
+    <p class="section-index mono">LAB</p>
+    <h1 class="page-title">Touch the wave. See the transform<span class="accent">.</span></h1>
+    <p class="page-lead">Two small experiments built on two different models: a time-domain wave you can poke, and a Fourier-optics bench for apertures and filters. Nothing here is precomputed.</p>
+
+    <h2 class="lab-h2" id="waves">01 · Ripple &amp; Diffraction</h2>
+    <p class="page-lead">2D scalar wave equation. Click to ripple, drag the sources or the slits. The curve at the right edge is the time-averaged intensity on the detector line.</p>
+    <div class="lab-controls" role="group" aria-label="Wave controls">
+      <div class="seg" role="group" aria-label="Sources" id="w-sources">
+        <button data-v="1">1 source</button>
+        <button data-v="2" aria-pressed="true">2 sources</button>
+      </div>
+      <div class="seg" role="group" aria-label="Barrier" id="w-barrier">
+        <button data-v="double" aria-pressed="true">Double slit</button>
+        <button data-v="single">Single slit</button>
+        <button data-v="none">Open</button>
+      </div>
+      <label class="range">Wavelength <input type="range" id="w-period" min="10" max="32" step="2" value="16"><output id="w-period-out"></output></label>
+      <label class="range">Slit width <input type="range" id="w-slit" min="1" max="10" value="3"><output id="w-slit-out"></output></label>
+      <button class="quiet-link" id="w-pause">Pause</button>
+    </div>
+    <canvas id="lab-wave" class="lab-wave" role="img" aria-label="Wave simulation with adjustable sources and slits. Click to make ripples; drag sources or slits."></canvas>
+
+    <h2 class="lab-h2" id="fourier">02 · Fourier &amp; Filtering</h2>
+    <p class="page-lead">A separate model: a monochromatic complex field and its 2D Fourier transform, not a time-domain wave. Pick an aperture, drag on the panels, and watch the far-field intensity and the filtered field respond.</p>
 
     <div class="lab-controls" role="group" aria-label="Controls">
       <div class="seg" role="group" aria-label="Aperture" id="aperture">
@@ -77,6 +98,8 @@
   </main>
 
   <footer><div class="wrap footer-inner mono"><span>© 2026 ISAAC YONG · 용이삭</span><span>press <kbd>`</kbd> for terminal</span></div></footer>
+  <script src="../wave.js" defer></script>
+  <script src="../wave-view.js" defer></script>
   <script src="../fourier.js" defer></script>
   <script src="../script.js" defer></script>
   <script src="../terminal.js" defer></script>

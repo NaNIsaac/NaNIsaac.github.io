@@ -66,7 +66,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* Hero: canvas fills the section, copy floats over a left-side fade */
 .hero { position: relative; height: min(80vh, 760px); min-height: 540px; border-bottom: 1px solid var(--line); overflow: hidden; }
 #wave { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; cursor: crosshair; }
-#wave.grab { cursor: grab; }
+#wave.grab, .lab-wave.grab { cursor: grab; }
 #wave.grabbing { cursor: grabbing; }
 .hero::after {
   content: "";
@@ -221,3 +221,7 @@ kbd { font: 11px ui-monospace, monospace; border: 1px solid var(--line); border-
 .owner-bar span { flex: 1; min-width: 220px; }
 .owner-bar button { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; font: inherit; color: var(--text); }
 .owner-bar button:hover { border-color: var(--accent); }
+.lab-h2 { font-size: clamp(22px, 2.6vw, 30px); letter-spacing: -.03em; margin: 56px 0 8px; }
+.lab-wave { width: 100%; height: min(62vh, 520px); display: block; border: 1px solid var(--line); border-radius: 12px; touch-action: pan-y; cursor: crosshair; }
+.lab-wave.grab { cursor: grab; }
+.lab-wave.grabbing { cursor: grabbing; }

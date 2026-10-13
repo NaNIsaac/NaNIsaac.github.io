@@ -1,4 +1,39 @@
-// Fourier & Filtering lab. Math lives in fourier.js; this file wires controls and draws.
+// Lab page. Scene 1 reuses the hero renderer (wave-view.js); scene 2 is the Fourier bench (fourier.js).
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const view = mountWave($('#lab-wave'), {
+    pauseButton: $('#w-pause'),
+    scene: { sources: [{ fx: 0.25, fy: 0.4 }, { fx: 0.25, fy: 0.6 }], barrier: 0.55, slits: [0.42, 0.58], detector: 0.92 },
+  });
+  const sc = view.scene;
+  const opts = { sources: '2', barrier: 'double' };
+  function seg(id, key, onChange) {
+    const root = $(id);
+    root.addEventListener('click', (e) => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      root.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      opts[key] = b.dataset.v;
+      onChange();
+    });
+  }
+  function applyWave() {
+    sc.sources = opts.sources === '1' ? [{ fx: 0.25, fy: 0.5 }] : [{ fx: 0.25, fy: 0.4 }, { fx: 0.25, fy: 0.6 }];
+    sc.barrier = opts.barrier === 'none' ? null : 0.55;
+    sc.slits = opts.barrier === 'single' ? [0.5] : opts.barrier === 'double' ? [0.42, 0.58] : [];
+    sc.period = +$('#w-period').value;
+    sc.slitHalf = +$('#w-slit').value;
+    $('#w-period-out').textContent = `λ = ${sc.period / 2} cells`;
+    $('#w-slit-out').textContent = `${2 * sc.slitHalf + 1} cells`;
+    view.apply();
+  }
+  seg('#w-sources', 'sources', applyWave);
+  seg('#w-barrier', 'barrier', applyWave);
+  $('#w-period').addEventListener('input', applyWave);
+  $('#w-slit').addEventListener('input', applyWave);
+  applyWave();
+})();
+
 (() => {
   const N = 256, F = createFourier(N);
   const $ = (s) => document.querySelector(s);
