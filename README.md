@@ -1,6 +1,6 @@
-# sjb7777.github.io
+# nanisaac.github.io
 
-Personal site of **Isaac Yong (용이삭) / SJB7777** — https://sjb7777.github.io/
+Personal site of **Isaac Yong (용이삭) / NaNIsaac** — https://nanisaac.github.io/
 
 | Path | What it is |
 |---|---|
