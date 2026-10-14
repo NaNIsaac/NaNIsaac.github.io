@@ -70,9 +70,12 @@ img { display: block; max-width: 100%; height: auto; }
 #wave { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; cursor: crosshair; }
 #wave.grab, .lab-wave.grab { cursor: grab; }
 #wave.grabbing, .lab-wave.grabbing { cursor: grabbing; }
-.film-bar { position: absolute; left: 20px; right: calc(7% + 28px); bottom: 34px; display: flex; justify-content: flex-start; align-items: baseline; gap: 24px; font-size: var(--step-small); color: var(--muted); pointer-events: none; }
+.film-bar { position: absolute; left: 32px; right: calc(7% + 28px); top: 80px; display: flex; justify-content: flex-start; align-items: center; gap: 24px; font-size: var(--step-small); color: var(--muted); pointer-events: none; }
 .film-bar button { pointer-events: auto; color: var(--ink); min-height: 32px; }
 .hint { margin: 0; transition: opacity .8s; }
+.film-button { pointer-events: auto; background: var(--ink); color: var(--bg); font-weight: 600; padding: 11px 18px; transition: transform .15s var(--ease), background-color .2s; }
+.film-button:hover { background: color-mix(in srgb, var(--ink) 80%, var(--bg)); }
+.film-button:active { transform: translateY(1px); }
 .hint.gone { opacity: 0; }
 .quiet { font-size: var(--step-small); font-weight: 600; color: var(--muted); min-height: 44px; transition: color .2s; }
 .quiet:hover { color: var(--ink); }
@@ -281,7 +284,7 @@ dialog::backdrop { background: #0f0f0dcc; }
   .site-header nav .wide { display: none; }
   .hero { padding: 0 8px; }
   .film { height: 46svh; min-height: 300px; }
-  .film-bar { left: 12px; right: calc(7% + 28px); top: 60px; bottom: auto; justify-content: space-between; }
+  .film-bar { left: 12px; right: calc(7% + 28px); top: 64px; flex-wrap: wrap; gap: 8px 16px; }
   .hero-copy { padding: 0 12px; display: block; }
   .hero h1 { margin: 28px 0 24px; }
   .hero-actions { margin-bottom: 20px; }

@@ -12,6 +12,8 @@ function mountWave(canvas, opts = {}) {
   const fctx = film.getContext('2d');
   const octx = off.getContext('2d');
   const { pauseButton, hint, wake, tools, onChange, pauseLabel: label = (r) => (r ? 'Pause' : 'Play') } = opts;
+  // Affordance: brass arrows on what can be dragged until the first drag, and one slow nudge of the slits after load.
+  let cued = true, nudge = null;
 
   // speed scales solver steps per second, gain the display contrast; a calm preview uses less of both.
   const STEP_MS = 1000 / (120 * (opts.speed ?? 1));
@@ -87,6 +89,8 @@ function mountWave(canvas, opts = {}) {
     applyScene();
     if (scene.sources.length) for (let i = 0; i < 600; i++) tick(); // composed frame before the first paint
     if (!scene.sources.length && !dropped) { dropped = true; sim.burst(0.55 * sim.w, 0.5 * sim.h); } // one drop so a still screen reads as live
+    if (cued && !nudge && scene.barrier != null && scene.slits.length && running && !build.done) nudge = { t0: performance.now() + 1400, base: [...scene.slits] };
+    build.done = true;
     draw();
   }
 
@@ -175,6 +179,23 @@ function mountWave(canvas, opts = {}) {
       ctx.font = '13px Archivo, sans-serif';
       ctx.fillText(`g = ${2 * scene.slitHalf + 1}`, bx + W + 10, scene.slits[gapHit.k] * cssH + 4);
     }
+    if (cued) { // ↕ beside each opening, ‹ › around the mount
+      ctx.strokeStyle = brass; ctx.lineWidth = 2; ctx.lineCap = 'round';
+      for (const fy of scene.slits) {
+        const x = bx - 14, y = fy * cssH;
+        ctx.beginPath();
+        ctx.moveTo(x, y - 9); ctx.lineTo(x, y + 9);
+        ctx.moveTo(x - 4, y - 5); ctx.lineTo(x, y - 9); ctx.lineTo(x + 4, y - 5);
+        ctx.moveTo(x - 4, y + 5); ctx.lineTo(x, y + 9); ctx.lineTo(x + 4, y + 5);
+        ctx.stroke();
+      }
+      const my = plateEnd + MOUNT / 2;
+      ctx.beginPath();
+      ctx.moveTo(mid - 28, my - 5); ctx.lineTo(mid - 33, my); ctx.lineTo(mid - 28, my + 5);
+      ctx.moveTo(mid + 40, my - 5); ctx.lineTo(mid + 45, my); ctx.lineTo(mid + 40, my + 5);
+      ctx.stroke();
+      ctx.lineCap = 'butt'; ctx.strokeStyle = ink; ctx.lineWidth = 1.5;
+    }
   }
 
   // Detector: a film strip that integrates what arrives (exposure = Σ u² per row), grain fixed per build.
@@ -255,6 +276,11 @@ function mountWave(canvas, opts = {}) {
     acc += Math.min(now - (last || now), 100); // clamp after tab switches
     last = now;
     while (acc >= STEP_MS) { tick(); acc -= STEP_MS; }
+    if (nudge) { // slits glide up and back once, damped: shows they move before anyone has to guess
+      const p = (now - nudge.t0) / 1600;
+      if (p >= 1 || press) { scene.slits = nudge.base; nudge = null; applyScene(); }
+      else if (p > 0) { const off = 0.05 * Math.sin(2 * Math.PI * p) * (1 - p); scene.slits = nudge.base.map((f) => f - off); applyScene(); }
+    }
     draw();
     raf = requestAnimationFrame(frame);
   }
@@ -296,6 +322,7 @@ function mountWave(canvas, opts = {}) {
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
   function moveHandle(hit, p) {
     if (hit.kind === 'film') return;
+    cued = false;
     expo.fill(0); // a changed bench needs fresh film
     if (hit.kind === 'source') {
       const s = scene.sources[hit.k];
