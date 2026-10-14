@@ -3,10 +3,13 @@
   const $ = (s) => document.querySelector(s);
   const view = mountWave($('#lab-wave'), {
     pauseButton: $('#w-pause'),
+    tools: true,
+    onChange: showValues, // drags on the canvas (gap grips, double-click sources) keep the controls honest
     scene: { sources: [{ fx: 0.25, fy: 0.4 }, { fx: 0.25, fy: 0.6 }], barrier: 0.55, slits: [0.42, 0.58], detector: 0.92 },
   });
   const sc = view.scene;
-  const opts = { sources: '2', barrier: 'double' };
+  const opts = { sources: '2', barrier: 'double', sample: 'none', jaws: 'absorb' };
+  const LATTICE = { fx: 0.4, fy: 0.5, theta: 0, d: 6, n: 4 }; // d = 6 cells against λ = 8 cells: Bragg peaks exist
   function seg(id, key, onChange) {
     const root = $(id);
     root.addEventListener('click', (e) => {
@@ -17,18 +20,38 @@
       onChange();
     });
   }
-  function applyWave() {
+  function pressed(id, v) { document.querySelectorAll(`${id} button`).forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.v === v))); }
+  function showValues() {
+    $('#w-slit').value = sc.slitHalf;
+    $('#w-period-out').textContent = `λ = ${sc.period / 2} cells`;
+    $('#w-slit-out').textContent = `${2 * sc.slitHalf + 1} cells`;
+    const n = String(sc.sources.length);
+    opts.sources = n;
+    pressed('#w-sources', n);
+  }
+  function setSources() {
     sc.sources = opts.sources === '1' ? [{ fx: 0.25, fy: 0.5 }] : [{ fx: 0.25, fy: 0.4 }, { fx: 0.25, fy: 0.6 }];
-    sc.barrier = opts.barrier === 'none' ? null : 0.55;
+    applyWave();
+  }
+  function setSample() {
+    sc.lattice = opts.sample === 'lattice' ? { ...LATTICE } : null;
+    if (sc.lattice && opts.barrier !== 'none') { opts.barrier = 'none'; pressed('#w-barrier', 'none'); } // the lattice is the sample: clear the bench
+    if (sc.lattice && opts.sources === '2') { opts.sources = '1'; sc.sources = [{ fx: 0.12, fy: 0.5 }]; }
+    applyWave();
+  }
+  function applyWave() {
+    sc.barrier = opts.barrier === 'none' ? null : (sc.barrier ?? 0.55);
+    sc.absorb = opts.jaws === 'absorb';
     sc.slits = opts.barrier === 'single' ? [0.5] : opts.barrier === 'double' ? [0.42, 0.58] : [];
     sc.period = +$('#w-period').value;
     sc.slitHalf = +$('#w-slit').value;
-    $('#w-period-out').textContent = `λ = ${sc.period / 2} cells`;
-    $('#w-slit-out').textContent = `${2 * sc.slitHalf + 1} cells`;
     view.apply();
+    showValues();
   }
-  seg('#w-sources', 'sources', applyWave);
+  seg('#w-sources', 'sources', setSources);
   seg('#w-barrier', 'barrier', applyWave);
+  seg('#w-sample', 'sample', setSample);
+  seg('#w-jaws', 'jaws', applyWave);
   $('#w-period').addEventListener('input', applyWave);
   $('#w-slit').addEventListener('input', applyWave);
   applyWave();
@@ -63,13 +86,13 @@
   // Draw an unshifted N×N array of values in [0,1], centered on the canvas.
   function paint(canvas, val) {
     const g = canvas.getContext('2d'), img = g.createImageData(N, N), d = img.data;
-    const bg = rgb('--bg'), a = rgb('--accent'), light = document.body.classList.contains('light');
+    const bg = rgb('--surface'), a = rgb('--ink');
     for (let y = 0; y < N; y++) {
       for (let x = 0; x < N; x++) {
         const v = val[((y + N / 2) % N) * N + ((x + N / 2) % N)];
         const j = (y * N + x) * 4;
         for (let ch = 0; ch < 3; ch++) {
-          d[j + ch] = light || v < 0.6 ? bg[ch] + (a[ch] - bg[ch]) * Math.min(1, light ? v : v / 0.6) : a[ch] + (255 - a[ch]) * ((v - 0.6) / 0.4);
+          d[j + ch] = bg[ch] + (a[ch] - bg[ch]) * Math.min(1, v);
         }
         d[j + 3] = 255;
       }

@@ -35,4 +35,34 @@ const open = transmitted([{ y: 38, half: 3 }, { y: 52, half: 3 }]);
 const closed = transmitted([]);
 assert.ok(closed < open * 1e-3, `closed=${closed} open=${open}`);
 
+// Point scatterers are hard cells and survive a barrier change.
+const pts = createWave(60, 40);
+pts.setPoints([{ x: 20, y: 20 }, { x: 26.4, y: 20 }]);
+pts.setBarrier(40, [{ y: 20, half: 3 }]);
+assert.ok(pts.wall[20 * 60 + 20] && pts.wall[20 * 60 + 26], 'points lost after setBarrier');
+pts.setBarrier(null);
+assert.ok(pts.wall[20 * 60 + 20] && !pts.wall[10 * 60 + 40], 'barrier removal broke points');
+
+// A burst is finite: it drives for its length, then the packet leaves and the sponge takes it.
+const b = createWave(120, 80);
+b.burst(60, 40);
+for (let i = 0; i < 4 * b.period + 1; i++) b.step();
+assert.ok(b.bursts.length === 0, 'burst did not end');
+let bmax = 0;
+for (const v of b.field) bmax = Math.max(bmax, Math.abs(v));
+assert.ok(bmax > 0.05 && bmax < 5, `burst amplitude ${bmax}`);
+
+// Absorbing jaws send back much less than reflecting ones.
+function reflected(absorb) {
+  const s = createWave(200, 80);
+  s.setBarrier(120, [], absorb);
+  s.burst(70, 40);
+  for (let i = 0; i < 230; i++) s.step(); // packet has hit the wall and come back past x = 90
+  let e = 0;
+  for (let y = 0; y < s.h; y++) for (let x = 20; x < 100; x++) e += s.field[y * s.w + x] ** 2;
+  return e;
+}
+const refl = reflected(false), abs = reflected(true);
+assert.ok(abs < refl * 0.25, `absorbing jaws reflect too much: ${abs} vs ${refl}`);
+
 console.log('wave: ok');

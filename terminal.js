@@ -208,7 +208,7 @@
     const ideas = store.get('isaac-idea', []).length, todos = store.get('isaac-todo', []).length;
     slots.forEach((el) => {
       const bar = document.createElement('div');
-      bar.className = 'owner-bar mono';
+      bar.className = 'owner-bar';
       const text = document.createElement('span');
       text.textContent = `OWNER · ${age} · ${ideas} idea${ideas === 1 ? '' : 's'} waiting · ${todos} todo${todos === 1 ? '' : 's'}`;
       const write = document.createElement('button');

@@ -15,6 +15,8 @@ function createWave(w, h) {
       damp[y * w + x] = 0.15 * s * s; // sigma
     }
   }
+  const damp0 = damp.slice();
+  const ABSORB = 6; // cells of graded damping on the upstream face of absorbing jaws
   const r2 = 0.25;
 
   function splat(buf, cx, cy, a, sigma) {
@@ -33,6 +35,7 @@ function createWave(w, h) {
     w, h, wall, t: 0,
     period: 16, // steps per oscillation; wavelength = 0.5 * period = 8 cells
     sources: [], // { x, y, phase } in cells, coherent at the same frequency
+    bursts: [], // short wave packets at the same frequency: { x, y, a, n, len }
     get field() { return curr; },
     step() {
       for (let y = 1; y < h - 1; y++) {
@@ -44,22 +47,52 @@ function createWave(w, h) {
       sim.t++;
       const phase = (2 * Math.PI * sim.t) / sim.period;
       for (const s of sim.sources) splat(next, s.x, s.y, 0.3 * Math.sin(phase + (s.phase || 0)), 1.5);
+      // Bursts: the same drive as a source under a sin² envelope, so taps make rings of the lab's wavelength.
+      for (const b of sim.bursts) {
+        const env = Math.sin((Math.PI * b.n) / b.len) ** 2;
+        splat(next, b.x, b.y, b.a * env * Math.sin((2 * Math.PI * b.n) / sim.period), 1.5);
+        b.n++;
+      }
+      if (sim.bursts.length) sim.bursts = sim.bursts.filter((b) => b.n < b.len);
       [prev, curr, next] = [curr, next, prev];
     },
-    pulse(x, y, a = 2.5) { splat(curr, x, y, a, 2.2); },
+    // a = peak drive relative to a continuous source (0.3); cycles = packet length in periods.
+    burst(x, y, a = 0.9, cycles = 4) { if (sim.bursts.length < 96) sim.bursts.push({ x, y, a, n: 0, len: Math.round(cycles * sim.period) }); },
     // Vertical barrier at column x (2 cells thick) with openings given as [{ y, half }] in cells.
-    setBarrier(x, gaps) {
-      wall.fill(0);
-      if (x == null) return;
-      for (let y = 0; y < h; y++) {
-        if (gaps.some((g) => Math.abs(y - g.y) <= g.half)) continue;
-        for (let dx = 0; dx < 2; dx++) {
-          const i = y * w + x + dx;
-          wall[i] = 1; curr[i] = 0; prev[i] = 0;
-        }
-      }
+    // absorb: the jaws soak up what hits them (like tungsten X-ray slit blades) instead of reflecting it.
+    // Point scatterers set by setPoints are kept.
+    setBarrier(x, gaps, absorb = false) {
+      barrier = x == null ? null : { x, gaps, absorb };
+      rebuildWalls();
+    },
+    // Single-cell hard scatterers (u = 0), e.g. the atoms of a finite lattice. [{ x, y }] in cells.
+    setPoints(pts) {
+      points = pts;
+      rebuildWalls();
     },
   };
+  let barrier = null, points = [];
+  function block(i) { wall[i] = 1; curr[i] = 0; prev[i] = 0; }
+  function rebuildWalls() {
+    wall.fill(0);
+    damp.set(damp0);
+    if (barrier) {
+      for (let y = 0; y < h; y++) {
+        if (barrier.gaps.some((g) => Math.abs(y - g.y) <= g.half)) continue;
+        for (let dx = 0; dx < 2; dx++) block(y * w + barrier.x + dx);
+        if (barrier.absorb) {
+          for (let d = 1; d <= ABSORB && barrier.x - d > 0; d++) {
+            const i = y * w + barrier.x - d, s = (ABSORB - d + 1) / ABSORB;
+            damp[i] = Math.max(damp[i], 0.3 * s * s);
+          }
+        }
+      }
+    }
+    for (const p of points) {
+      const x = Math.round(p.x), y = Math.round(p.y);
+      if (x > 0 && x < w - 1 && y > 0 && y < h - 1) block(y * w + x);
+    }
+  }
   return sim;
 }
 

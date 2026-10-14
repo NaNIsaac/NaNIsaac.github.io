@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#070d18">
+  <meta name="theme-color" content="#e8e8e3">
   <meta name="description" content="Fourier optics sandbox: draw an aperture, see its far-field intensity, filter the spectrum, and inverse-transform the complex field.">
   <meta property="og:title" content="Lab — Fourier & Filtering · Isaac Yong">
   <meta property="og:url" content="https://nanisaac.github.io/lab/">
@@ -11,45 +11,54 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://nanisaac.github.io/lab/">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap">
   <link rel="stylesheet" href="../style.css">
   <title>Lab — Fourier &amp; Filtering · Isaac Yong</title>
 </head>
 <body class="sub">
-  <script>let t; try { t = localStorage.getItem('isaac-theme'); } catch {} if ((t ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')) === 'light') document.body.classList.add('light');</script>
+  <script>let t; try { t = localStorage.getItem('isaac-theme'); } catch {} if ((t ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark') document.body.classList.add('dark');</script>
   <header class="site-header">
-    <a class="brand" href="../">ISAAC<span class="accent">.YONG</span></a>
+    <a class="brand" href="../">Isaac Yong</a>
     <nav aria-label="Main">
-      <a href="../#research">Research</a>
-      <a href="../#software">Software</a>
+      <a class="wide" href="../#work">Work</a>
       <a href="../notes/">Notes</a>
-      <button id="theme" aria-label="Toggle theme">☾</button>
+      <button class="toggle" id="theme" aria-label="Toggle theme">Dark</button>
     </nav>
   </header>
 
   <main class="wrap page">
-    <p class="section-index mono">LAB</p>
-    <h1 class="page-title">Touch the wave. See the transform<span class="accent">.</span></h1>
+    <h1 class="page-title">Touch the wave.<br>See the transform.</h1>
     <p class="page-lead">Two small experiments built on two different models: a time-domain wave you can poke, and a Fourier-optics bench for apertures and filters. Nothing here is precomputed.</p>
 
-    <h2 class="lab-h2" id="waves">01 · Ripple &amp; Diffraction</h2>
-    <p class="page-lead">2D scalar wave equation. Click to ripple, drag the sources or the slits. The curve at the right edge is the time-averaged intensity on the detector line.</p>
+    <h2 class="lab-h2" id="waves">Ripple and diffraction</h2>
+    <p class="page-lead">A ripple tank for light: a 2D scalar wave equation on an optical table. The slit jaws absorb by default, like the tungsten blades of an X-ray slit; switch them to reflecting to see the standing waves an ideal mirror sends back. Click to ripple. Double-click to pin a source, double-click it again to remove it. Drag the barrier by its mount on the rail, a slit up or down by its opening, or a jaw's knife edge to change the gap. With the lattice in place, drag its middle to move it and its rim to rotate it, and watch for the angle where the detector lights up: that is the Bragg condition. At the right edge a film strip darkens where intensity arrives; click it for fresh film. Beside it, the thin line is the intensity arriving now and the heavy one its running average.</p>
     <div class="lab-controls" role="group" aria-label="Wave controls">
       <div class="seg" role="group" aria-label="Sources" id="w-sources">
         <button data-v="1">1 source</button>
         <button data-v="2" aria-pressed="true">2 sources</button>
+      </div>
+      <div class="seg" role="group" aria-label="Sample" id="w-sample">
+        <button data-v="none" aria-pressed="true">No sample</button>
+        <button data-v="lattice">Lattice</button>
       </div>
       <div class="seg" role="group" aria-label="Barrier" id="w-barrier">
         <button data-v="double" aria-pressed="true">Double slit</button>
         <button data-v="single">Single slit</button>
         <button data-v="none">Open</button>
       </div>
+      <div class="seg" role="group" aria-label="Slit jaws" id="w-jaws">
+        <button data-v="absorb" aria-pressed="true">Absorbing jaws</button>
+        <button data-v="reflect">Reflecting jaws</button>
+      </div>
       <label class="range">Wavelength <input type="range" id="w-period" min="10" max="32" step="2" value="16"><output id="w-period-out"></output></label>
       <label class="range">Slit width <input type="range" id="w-slit" min="1" max="10" value="3"><output id="w-slit-out"></output></label>
-      <button class="quiet-link" id="w-pause">Pause</button>
+      <button class="lab-wave-pause" id="w-pause">Pause</button>
     </div>
-    <canvas id="lab-wave" class="lab-wave" role="img" aria-label="Wave simulation with adjustable sources and slits. Click to make ripples; drag sources or slits."></canvas>
+    <canvas id="lab-wave" class="lab-wave" role="img" aria-label="Wave simulation on an optical table. Click to ripple, double-click to pin or remove a source, drag the barrier, slits, gap grips or the lattice."></canvas>
 
-    <h2 class="lab-h2" id="fourier">02 · Fourier &amp; Filtering</h2>
+    <h2 class="lab-h2" id="fourier">Fourier filtering</h2>
     <p class="page-lead">A separate model: a monochromatic complex field and its 2D Fourier transform, not a time-domain wave. Pick an aperture, drag on the panels, and watch the far-field intensity and the filtered field respond.</p>
 
     <div class="lab-controls" role="group" aria-label="Controls">
@@ -74,18 +83,18 @@
     <div class="lab-panels">
       <figure>
         <canvas id="c-aperture" width="256" height="256" aria-label="Aperture transmission. Drag to resize."></canvas>
-        <figcaption class="mono">APERTURE t(x,y) · drag to resize</figcaption>
+        <figcaption>APERTURE t(x,y) · drag to resize</figcaption>
       </figure>
       <figure>
         <canvas id="c-spectrum" width="256" height="256" aria-label="Fourier intensity on a log scale. Drag to set the filter cutoff."></canvas>
-        <figcaption class="mono">|F|² · log display · drag = cutoff</figcaption>
+        <figcaption>|F|² · log display · drag = cutoff</figcaption>
       </figure>
       <figure>
         <canvas id="c-output" width="256" height="256" aria-label="Intensity of the inverse transform of the filtered spectrum."></canvas>
-        <figcaption class="mono">|IFFT(H·F)|² · γ 0.5 display</figcaption>
+        <figcaption>|IFFT(H·F)|² · γ 0.5 display</figcaption>
       </figure>
     </div>
-    <p class="mono lab-readout" id="readout" aria-live="polite"></p>
+    <p class="lab-readout" id="readout" aria-live="polite"></p>
 
     <details class="lab-notes">
       <summary>How it works</summary>
@@ -97,7 +106,7 @@
     </details>
   </main>
 
-  <footer><div class="wrap footer-inner mono"><span>© 2026 ISAAC YONG · 용이삭</span><span>press <kbd>`</kbd> for terminal</span></div></footer>
+  <footer><div class="footer-line"><span>Isaac Yong, the lab</span><nav aria-label="Footer"><a href="../">Home</a><a href="../notes/">Notes</a></nav><span>Press <kbd>`</kbd> for the terminal</span></div></footer>
   <script src="../wave.js" defer></script>
   <script src="../wave-view.js" defer></script>
   <script src="../fourier.js" defer></script>

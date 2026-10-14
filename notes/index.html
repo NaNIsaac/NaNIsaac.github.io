@@ -4,15 +4,14 @@ title: Notes
 description: Working notes on X-ray physics, scientific software, and the tools in between.
 ---
 <div data-owner-bar></div>
-<p class="section-index mono">NOTES</p>
-<h1 class="page-title">Working notes<span class="accent">.</span></h1>
-<p class="page-lead">Short write-ups from experiments, code, and reading. Unpolished on purpose — <a class="accent" href="/notes/feed.xml">RSS</a>.</p>
+<h1 class="page-title">Working notes</h1>
+<p class="page-lead">Short write-ups from experiments, code and reading. Unpolished on purpose. There is an <a href="/notes/feed.xml">RSS feed</a>.</p>
 {% assign years = site.posts | group_by_exp: "p", "p.date | date: '%Y'" %}
 {% for y in years %}
-<h2 class="mono year">{{ y.name }}</h2>
-<div class="list">
+<h2 class="year">{{ y.name }}</h2>
+<div class="rows">
   {% for post in y.items %}
-  <a href="{{ post.url }}"><strong>{{ post.title | escape }}</strong><span>{{ post.description | default: post.excerpt | strip_html | truncate: 110 }}</span><em class="mono">{{ post.date | date: "%m-%d" }}</em></a>
+  <a href="{{ post.url }}"><strong>{{ post.title | escape }}<span>{{ post.description | default: post.excerpt | strip_html | truncate: 110 }}</span></strong><em>{{ post.date | date: "%-d %b" }}</em></a>
   {% endfor %}
 </div>
 {% endfor %}

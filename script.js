@@ -5,11 +5,11 @@ const store = {
 
 // Theme (initial class is set by the inline script in <body> to avoid a flash)
 const themeButton = document.querySelector('#theme');
-function updateThemeIcon() { themeButton.textContent = document.body.classList.contains('light') ? '☀' : '☾'; }
+function updateThemeIcon() { themeButton.textContent = document.body.classList.contains('dark') ? 'Light' : 'Dark'; }
 updateThemeIcon();
 themeButton.addEventListener('click', () => {
-  document.body.classList.toggle('light');
-  store.set('isaac-theme', document.body.classList.contains('light') ? 'light' : 'dark');
+  document.body.classList.toggle('dark');
+  store.set('isaac-theme', document.body.classList.contains('dark') ? 'dark' : 'light');
   updateThemeIcon();
   window.dispatchEvent(new Event('themechange'));
 });
@@ -31,6 +31,16 @@ if (langButton) {
   if (store.get('isaac-lang') === 'ko') setLang('ko');
 }
 
+// Entrances: sections rise in once as they enter. Without script (or with reduced motion) everything is simply shown.
+const revealed = document.querySelectorAll('.reveal, .shutter');
+if (revealed.length && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.documentElement.classList.add('js');
+  const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { rootMargin: '0px 0px -12% 0px' });
+  revealed.forEach((el) => io.observe(el));
+}
+
 const yearEl = document.querySelector('#year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
@@ -40,7 +50,7 @@ function logRow(href, title, meta, external) {
   a.href = href;
   if (external) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
   const strong = document.createElement('strong'); strong.textContent = title;
-  const em = document.createElement('em'); em.className = 'mono'; em.textContent = meta;
+  const em = document.createElement('em'); em.textContent = meta;
   a.append(strong, em);
   return a;
 }
@@ -50,7 +60,7 @@ if (notesList) {
     notesList.prepend(...posts.slice(0, 4).map((p) => logRow(p.url, p.title, p.date.slice(5))));
     if (!posts[0]) return;
     const days = Math.floor((Date.now() - new Date(posts[0].date)) / 864e5);
-    document.querySelector('#notes-age').textContent = days < 1 ? 'Last note: today' : `Last note: ${days} day${days > 1 ? 's' : ''} ago`;
+    document.querySelector('#notes-age').textContent = days < 1 ? 'last note today' : `last note ${days} day${days > 1 ? 's' : ''} ago`;
   }).catch(() => {});
 }
 const OWN_WORK = /^(Push|PullRequest|Create|Release|Issues|PullRequestReview)Event$/; // not stars/forks of other people's repos

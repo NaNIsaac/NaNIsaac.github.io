@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#070d18">
+  <meta name="theme-color" content="#e8e8e3">
   <meta name="description" content="Isaac Yong (용이삭) — physicist building the software layer of X-ray experiments: XRR inverse problems, coherent and time-resolved diffraction, and experimental data systems.">
   <meta name="author" content="Isaac Yong (용이삭)">
   <meta property="og:type" content="website">
@@ -14,143 +14,136 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://nanisaac.github.io/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap">
   <link rel="stylesheet" href="style.css">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Isaac Yong","alternateName":["용이삭","NaNIsaac"],"url":"https://nanisaac.github.io/","sameAs":["https://github.com/NaNIsaac","https://blog.naver.com/sjbpepper"],"affiliation":{"@type":"CollegeOrUniversity","name":"Sogang University"},"knowsAbout":["X-ray reflectivity","X-ray diffraction","Coherent diffraction imaging","Phase retrieval","XFEL data analysis","Scientific Python"]}</script>
   <title>Isaac Yong — X-ray Physics & Scientific Software</title>
 </head>
 <body>
-  <script>let t; try { t = localStorage.getItem('isaac-theme'); } catch {} if ((t ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')) === 'light') document.body.classList.add('light');</script>
-  <header class="site-header">
-    <a class="brand" href="#top">ISAAC<span class="accent">.YONG</span></a>
-    <nav aria-label="Main">
-      <a href="#research" data-ko="연구">Research</a>
-      <a href="#software" data-ko="소프트웨어">Software</a>
-      <a href="notes/" data-ko="노트">Notes</a>
-      <a href="#contact" data-ko="연락">Contact</a>
-      <button id="lang" aria-label="Switch language">한</button>
-      <button id="theme" aria-label="Toggle theme">☾</button>
-    </nav>
-  </header>
-
+  <script>let t; try { t = localStorage.getItem('isaac-theme'); } catch {} if ((t ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark') document.body.classList.add('dark');</script>
   <main id="top">
     <section class="hero" aria-labelledby="hero-title">
-      <canvas id="wave" role="img" aria-label="Interactive 2D wave simulation with a double slit. Move or click to create waves; drag the slit to adjust."></canvas>
-      <div class="hero-inner wrap">
-        <p class="eyebrow" data-ko="인터랙티브 파동 실험">AN INTERACTIVE WAVE EXPERIMENT</p>
-        <h1 id="hero-title" data-ko="파동을 만져보세요.">Touch the wave.</h1>
-        <p class="lead" data-ko="X선 실험의 소프트웨어 레이어를 만드는 물리학자, 용이삭입니다.">I'm Isaac Yong, a physicist building the software layer of X-ray experiments.</p>
-        <p class="hint" id="hint"><span class="on-hover" data-ko="움직이거나 클릭하면 물결 · 슬릿을 드래그">Move or click to ripple · Drag the slit</span><span class="on-touch" data-ko="탭하면 물결 · 슬릿을 드래그">Tap to ripple · Drag the slit</span></p>
+      <div class="film">
+        <header class="site-header">
+          <a class="brand" href="#top" data-ko="용이삭">Isaac Yong</a>
+          <nav aria-label="Main">
+            <a class="wide" href="#work" data-ko="작업">Work</a>
+            <a href="notes/" data-ko="노트">Notes</a>
+            <a class="wide" href="lab/" data-ko="랩">Lab</a>
+            <a class="wide" href="#contact" data-ko="연락">Contact</a>
+            <button class="toggle" id="lang" aria-label="Switch language">한</button>
+            <button class="toggle" id="theme" aria-label="Toggle theme">Dark</button>
+          </nav>
+        </header>
+        <canvas id="wave" role="img" aria-label="Interactive 2D wave simulation with a double slit. Move or click to create waves; drag the slit to adjust."></canvas>
+        <div class="film-bar">
+          <p class="hint" id="hint"><span class="on-hover" data-ko="파동을 만져보세요. 움직이거나 클릭하면 물결, 슬릿은 드래그.">Touch the wave. Move or click to ripple, drag a slit.</span><span class="on-touch" data-ko="파동을 만져보세요. 탭하면 물결, 슬릿은 드래그.">Touch the wave. Tap to ripple, drag a slit.</span></p>
+          <button id="pause">Pause</button>
+        </div>
+      </div>
+      <div class="hero-copy">
+        <h1 id="hero-title"><span data-ko="X선 실험,">X-ray experiments,</span><span class="soft" data-ko="그리고 그 코드.">and their code.</span></h1>
+        <div class="hero-lead">
+        <p class="hero-text" data-ko="서강대학교의 물리학자 용이삭입니다. 방사광가속기와 XFEL에서 반사율과 회절 실험을 하고, 빔타임을 결과로 바꾸는 도구를 만듭니다.">I'm Isaac Yong, a physicist at Sogang University. I run reflectivity and diffraction experiments at synchrotrons and XFELs, then build the tools that turn beamtime into results.</p>
         <div class="hero-actions">
-          <a class="primary-btn" href="#research" data-ko="연구 보기 ↓">See the work ↓</a>
-          <a class="quiet-link" href="lab/" data-ko="랩 열기 →">Open the lab →</a>
-          <button class="quiet-link" id="pause">Pause</button>
+          <a class="button" href="#work" data-ko="작업 보기">See the work</a>
+          <a class="text-link" href="lab/" data-ko="랩 열기">Open the lab</a>
         </div>
-      </div>
-      <p class="hero-note mono wrap" data-ko="2D 스칼라 파동 방정식 · 이상적 반사 이중 슬릿 · 색은 시각화용 · 오른쪽 선 = 상대 세기">2D scalar wave equation · idealized reflecting double slit · illustrative palette · right line = relative intensity</p>
-    </section>
-
-    <section class="section wrap" id="about">
-      <p class="section-index mono">00 / ABOUT</p>
-      <p class="about-lead" data-ko="서강대학교 물리학과 석사과정(CUPT Lab). 방사광가속기와 XFEL에서 X선 반사율(XRR), 회절(XRD), coherent/Bragg X선 회절 실험을 하고, 빔타임의 원시 데이터를 결과로 바꾸는 도구를 직접 만듭니다.">MS student in Physics at Sogang University (CUPT Lab). I run X-ray reflectivity, diffraction, and coherent / Bragg diffraction experiments at synchrotron and XFEL facilities — and write the tooling that turns raw beamtime data into results.</p>
-      <p class="about-body" data-ko="미분 가능한 물리 시뮬레이터, 역문제를 위한 머신러닝, 재현 가능한 분석 파이프라인, 그리고 실험 hutch의 컴퓨터에서 실제로 돌아가는 계산기까지.">Differentiable physics simulators, machine learning for inverse problems, reproducible analysis pipelines, and calculators that run on the machines actually sitting in the hutch.</p>
-    </section>
-
-    <section class="section wrap" id="research">
-      <div class="section-heading"><p class="section-index mono">01 / RESEARCH</p><h2 data-ko="연구의 세 축">Three research axes<span class="accent">.</span></h2></div>
-      <div class="grid3">
-        <article class="card">
-          <p class="mono card-no">AXIS 01</p>
-          <h3>X-ray Reflectometry &amp; Inverse Problems</h3>
-          <p data-ko="반사율 곡선 R(q)에서 박막의 두께·거칠기·SLD를 구하는 역문제. 물리 모델링과 ML을 함께 씁니다.">Recovering thin-film thickness, roughness, and SLD from a reflectivity curve R(q) — physical modeling and machine learning together.</p>
-          <p class="mono links"><a href="https://github.com/NaNIsaac/ReflectoLearn" target="_blank" rel="noopener noreferrer">ReflectoLearn ↗</a></p>
-        </article>
-        <article class="card">
-          <p class="mono card-no">AXIS 02</p>
-          <h3>Coherent &amp; Time-resolved Imaging</h3>
-          <p data-ko="Coherent diffraction imaging의 위상 복원, 그리고 동역학적 X선 회절에서 음향 Bragg 위성 피크의 과도 형성.">Phase retrieval for coherent diffraction imaging, and the transient formation of acoustic Bragg satellites in dynamical X-ray diffraction.</p>
-          <p class="mono links"><a href="https://github.com/NaNIsaac/QoraPhase" target="_blank" rel="noopener noreferrer">QoraPhase ↗</a> <a href="https://github.com/NaNIsaac/TraTT" target="_blank" rel="noopener noreferrer">TraTT ↗</a></p>
-        </article>
-        <article class="card">
-          <p class="mono card-no">AXIS 03</p>
-          <h3>Experimental Imaging &amp; Data Systems</h3>
-          <p data-ko="XFEL 시간분해 실험 데이터 파이프라인, Dark-Field X-ray Microscopy 영상 분석, 실험 자동화.">Pipelines for time-resolved XFEL data, Dark-Field X-ray Microscopy image analysis, and experiment automation.</p>
-          <p class="mono links"><a href="https://github.com/NaNIsaac/QoraFlow" target="_blank" rel="noopener noreferrer">QoraFlow ↗</a> <a href="https://github.com/NaNIsaac/QoraDFXM" target="_blank" rel="noopener noreferrer">QoraDFXM ↗</a></p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section wrap" id="software">
-      <div class="section-heading"><p class="section-index mono">02 / SOFTWARE</p><h2 data-ko="직접 만든 도구">Tools I build<span class="accent">.</span></h2></div>
-      <div class="grid2">
-        <a class="card project" href="https://github.com/NaNIsaac/ReflectoLearn" target="_blank" rel="noopener noreferrer">
-          <div class="card-top"><h3>ReflectoLearn</h3><span class="accent">↗</span></div>
-          <p data-ko="미분 가능한 Abeles 전달행렬 시뮬레이터가 노이즈·분해능·빔 footprint까지 반영한 학습 곡선을 즉석 생성하고, 1D CNN이 R(q)에서 박막 파라미터를 예측합니다. 데이터셋 파일이 필요 없습니다.">A differentiable Abeles transfer-matrix simulator generates training curves on the fly — with Poisson noise, resolution smearing, and beam footprint — and a 1D CNN predicts film parameters from R(q). No dataset files needed.</p>
-          <p class="tags mono">PYTHON · PYTORCH · XRR</p>
-        </a>
-        <a class="card project" href="https://github.com/NaNIsaac/QoraFlow" target="_blank" rel="noopener noreferrer">
-          <div class="card-top"><h3>QoraFlow</h3><span class="accent">↗</span></div>
-          <p data-ko="XFEL 시간분해 초고속 실험을 위한 데이터 처리 툴킷. 연구실의 레거시 시스템 XFEL_data(@paulpeterkim)를 바탕으로 재구성했습니다.">Data toolkit for time-resolved ultrafast experiments at X-ray free-electron lasers. Refactored from the lab's legacy XFEL_data system by @paulpeterkim.</p>
-          <p class="tags mono">PYTHON · HDF5 · XFEL</p>
-        </a>
-        <a class="card project" href="https://github.com/NaNIsaac/QoraPhase" target="_blank" rel="noopener noreferrer">
-          <div class="card-top"><h3>QoraPhase</h3><span class="accent">↗</span></div>
-          <p data-ko="JAX 기반의 조합형 위상 복원 프레임워크. 배열을 넣으면 재구성 결과가 나옵니다. 원점·마스크·support 규약을 API 계약으로 명시했습니다.">A JAX-native, composable phase-retrieval framework for CDI. Array in, reconstruction out — with origin, mask, and support conventions written into the API contract.</p>
-          <p class="tags mono">PYTHON · JAX · CDI</p>
-        </a>
-        <a class="card project" href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">
-          <div class="card-top"><h3>X-ray Toolkit</h3><span class="accent">↗</span></div>
-          <p data-ko="빔라인 제어실용 오프라인 X선 계산기와 빔타임 기록 도구. 서버도 외부 요청도 없고, hutch의 CentOS 7 기본 브라우저(Firefox 60 ESR)에서도 돌도록 ES5로 작성했습니다.">Offline X-ray calculators and a beamtime logbook for the beamline control room. No server, zero runtime fetches, written in ES5 so it runs on the CentOS 7 default browser (Firefox 60 ESR) in the hutch.</p>
-          <p class="tags mono">WEB · ES5 · OFFLINE · EN/KO</p>
-        </a>
-      </div>
-      <h3 class="sub-heading mono" data-ko="그 밖의 프로젝트">MORE PROJECTS</h3>
-      <div class="list">
-        <a href="https://github.com/NaNIsaac/QoraDFXM" target="_blank" rel="noopener noreferrer"><strong>QoraDFXM</strong><span data-ko="DFXM 디텍터 영상 분석 — 순수 Python 엔진 + CLI + PySide6 데스크톱 앱">DFXM detector-image analysis — pure Python engine, headless CLI, PySide6 desktop app</span></a>
-        <a href="https://github.com/NaNIsaac/TraTT" target="_blank" rel="noopener noreferrer"><strong>TraTT</strong><span data-ko="음향 Bragg 위성 피크의 과도 동역학 솔버, 해석해를 테스트로 검증">Transient acoustic Bragg-satellite solver, checked against analytic ground truth in tests</span></a>
-        <a href="https://pypi.org/project/codigest/" target="_blank" rel="noopener noreferrer"><strong>codigest</strong><span data-ko="LLM을 위한 코드베이스 컨텍스트 CLI (PyPI)">Codebase-context CLI for LLMs (PyPI)</span></a>
-        <a href="https://pypi.org/project/roi_rectangle/" target="_blank" rel="noopener noreferrer"><strong>roi_rectangle</strong><span data-ko="영상의 사각형 ROI 처리 모듈 (PyPI)">Rectangular region-of-interest helper for images (PyPI)</span></a>
-        <a href="https://github.com/NaNIsaac/QoraGeom" target="_blank" rel="noopener noreferrer"><strong>QoraGeom</strong><span data-ko="회절 기하 — 초기 단계, 공개 코드 아직 없음">Diffraction geometry — early stage, no public code yet</span></a>
-      </div>
-    </section>
-
-    <section class="section wrap" id="log">
-      <div data-owner-bar></div>
-      <div class="section-heading"><p class="section-index mono">03 / LOG</p><h2 data-ko="최근 기록">Lately<span class="accent">.</span></h2></div>
-      <div class="grid2 log">
-        <div>
-          <h3 class="sub-heading mono" data-ko="노트">NOTES</h3>
-          <div class="list" id="notes-list"><a href="notes/"><strong data-ko="모든 노트 →">All notes →</strong></a></div>
-          <p class="fineprint mono" id="notes-age"></p>
         </div>
-        <div>
-          <h3 class="sub-heading mono" data-ko="GitHub 활동">ON GITHUB</h3>
-          <div class="list" id="gh-list"><a href="https://github.com/NaNIsaac" target="_blank" rel="noopener noreferrer"><strong>@NaNIsaac ↗</strong></a></div>
+        <figure class="film-note">
+          <img src="assets/img/young-1807-interference.jpg" width="1100" height="488" loading="lazy" decoding="async" alt="Thomas Young's 1807 drawing of interference: two sets of circular waves from points A and B crossing, with bands marked C to F at the right.">
+          <figcaption data-ko="빛을 위한 물결통. 위 화면은 실시간 2D 파동 방정식으로, 토머스 영이 1807년에 간섭을 그린 방식(위 그림) 그대로입니다. 슬릿 날은 X선 슬릿의 텅스텐 날처럼 파동을 흡수하고, 오른쪽 띠는 파동이 닿는 만큼 검게 노출되는 필름입니다. 누르면 새 필름.">A ripple tank for light. The panel above is a live 2D wave equation, drawn the way Thomas Young drew interference in 1807. Its slit jaws absorb, like the tungsten blades of an X-ray slit, and the strip at the right is film that darkens where the waves arrive; tap it for a fresh one.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section wrap" id="research" aria-label="Research">
+      <div class="intro reveal">
+        <p class="intro-lead" data-ko="서강대학교 물리학과 석사과정, CUPT Lab. X선 반사율, 회절, coherent·Bragg 회절 실험을 하고, 빔타임의 원시 데이터를 결과로 바꾸는 코드를 직접 씁니다.">MS student in Physics at Sogang University, CUPT Lab. I run X-ray reflectivity, diffraction, and coherent and Bragg diffraction experiments, and write the code that turns raw beamtime data into results.</p>
+        <div class="intro-cols">
+          <p data-ko="<b>반사율과 역문제.</b> 반사율 곡선 R(q)에서 박막의 두께, 거칠기, SLD를 구합니다. 물리 모델과 머신러닝을 함께 씁니다. <a href=&quot;https://github.com/NaNIsaac/ReflectoLearn&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>ReflectoLearn</a>"><b>Reflectometry and inverse problems.</b> Recovering thin-film thickness, roughness and SLD from a reflectivity curve R(q), with physical models and machine learning together. <a href="https://github.com/NaNIsaac/ReflectoLearn" target="_blank" rel="noopener noreferrer">ReflectoLearn</a></p>
+          <p data-ko="<b>Coherent·시간분해 영상.</b> Coherent diffraction imaging의 위상 복원, 그리고 동역학적 X선 회절에서 음향 Bragg 위성 피크가 생기는 과정. <a href=&quot;https://github.com/NaNIsaac/QoraPhase&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>QoraPhase</a>, <a href=&quot;https://github.com/NaNIsaac/TraTT&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>TraTT</a>"><b>Coherent and time-resolved imaging.</b> Phase retrieval for coherent diffraction imaging, and the transient formation of acoustic Bragg satellites in dynamical X-ray diffraction. <a href="https://github.com/NaNIsaac/QoraPhase" target="_blank" rel="noopener noreferrer">QoraPhase</a>, <a href="https://github.com/NaNIsaac/TraTT" target="_blank" rel="noopener noreferrer">TraTT</a></p>
+          <p data-ko="<b>실험 데이터 시스템.</b> XFEL 시간분해 데이터 파이프라인, Dark-Field X-ray Microscopy 영상 분석, 실험 자동화. <a href=&quot;https://github.com/NaNIsaac/QoraFlow&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>QoraFlow</a>, <a href=&quot;https://github.com/NaNIsaac/QoraDFXM&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>QoraDFXM</a>"><b>Experimental data systems.</b> Pipelines for time-resolved XFEL data, Dark-Field X-ray Microscopy image analysis, and experiment automation. <a href="https://github.com/NaNIsaac/QoraFlow" target="_blank" rel="noopener noreferrer">QoraFlow</a>, <a href="https://github.com/NaNIsaac/QoraDFXM" target="_blank" rel="noopener noreferrer">QoraDFXM</a></p>
+          <p data-ko="<b>Hutch 안에서.</b> 미분 가능한 물리 시뮬레이터, 재현 가능한 분석 파이프라인, 그리고 실험 hutch의 오래된 컴퓨터에서도 실제로 돌아가는 계산기."><b>In the hutch.</b> Differentiable physics simulators, reproducible analysis pipelines, and calculators that run on the old machines actually sitting next to the beamline.</p>
         </div>
+        <figure class="intro-figure shutter">
+          <img src="assets/img/laue-pattern.jpg" width="952" height="1000" alt="A Laue diffraction pattern: thousands of small spots on intersecting ellipses, recorded from a crystal in a broad-spectrum X-ray beam.">
+          <figcaption data-ko="방사광으로 찍은 Laue 회절 사진. 미국 에너지부, 퍼블릭 도메인.">A Laue diffraction pattern taken with synchrotron light. US Department of Energy, public domain.</figcaption>
+        </figure>
       </div>
     </section>
 
-    <section class="section wrap" id="open-source">
-      <div class="section-heading"><p class="section-index mono">04 / OPEN SOURCE</p><h2 data-ko="업스트림 기여">Upstream contributions<span class="accent">.</span></h2></div>
-      <div class="list">
-        <a href="https://github.com/pydata/xarray/pull/11720" target="_blank" rel="noopener noreferrer"><strong>xarray</strong><span>DOC: Link windowed operations tutorial from computation guide</span><em class="mono">PR #11720</em></a>
-        <a href="https://github.com/python/cpython/pull/159189" target="_blank" rel="noopener noreferrer"><strong>CPython</strong><span>IDLE: Show full syntax error diagnostics in Shell</span><em class="mono">PR #159189</em></a>
+    <section class="section work" id="work" aria-labelledby="work-title">
+      <div class="col reveal">
+        <h2 id="work-title" data-ko="직접 만든 도구">Tools I build</h2>
+        <ul class="ledger">
+          <li><a href="https://github.com/NaNIsaac/ReflectoLearn" target="_blank" rel="noopener noreferrer"><strong>ReflectoLearn</strong><span class="kind">Python, PyTorch</span><p data-ko="미분 가능한 Abeles 전달행렬 시뮬레이터가 노이즈, 분해능, 빔 footprint까지 반영한 학습 곡선을 즉석에서 만들고, 1D CNN이 R(q)에서 박막 파라미터를 예측합니다. 데이터셋 파일이 필요 없습니다.">A differentiable Abeles transfer-matrix simulator generates training curves on the fly, with Poisson noise, resolution smearing and beam footprint, and a 1D CNN predicts film parameters from R(q). No dataset files needed.</p></a></li>
+          <li><a href="https://github.com/NaNIsaac/QoraFlow" target="_blank" rel="noopener noreferrer"><strong>QoraFlow</strong><span class="kind">Python, HDF5</span><p data-ko="XFEL 시간분해 초고속 실험을 위한 데이터 처리 툴킷. 연구실의 레거시 시스템 XFEL_data(@paulpeterkim)를 바탕으로 재구성했습니다.">Data toolkit for time-resolved ultrafast experiments at X-ray free-electron lasers, refactored from the lab's legacy XFEL_data system by @paulpeterkim.</p></a></li>
+          <li><a href="https://github.com/NaNIsaac/QoraPhase" target="_blank" rel="noopener noreferrer"><strong>QoraPhase</strong><span class="kind">Python, JAX</span><p data-ko="JAX 기반의 조합형 위상 복원 프레임워크. 배열을 넣으면 재구성 결과가 나오고, 원점, 마스크, support 규약을 API 계약으로 명시했습니다.">A JAX-native, composable phase-retrieval framework for CDI. Array in, reconstruction out, with origin, mask and support conventions written into the API contract.</p></a></li>
+          <li><a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer"><strong>X-ray Toolkit</strong><span class="kind">ES5, offline</span><p data-ko="빔라인 제어실용 오프라인 X선 계산기와 빔타임 기록 도구. 서버도 외부 요청도 없고, hutch의 CentOS 7 기본 브라우저(Firefox 60 ESR)에서도 돌도록 ES5로 썼습니다.">Offline X-ray calculators and a beamtime logbook for the beamline control room. No server and no runtime fetches, written in ES5 so it runs on the CentOS 7 default browser, Firefox 60 ESR, in the hutch.</p></a></li>
+        </ul>
+        <h3 class="ledger-group" data-ko="작은 프로젝트">Smaller projects</h3>
+        <ul class="ledger">
+          <li><a href="https://github.com/NaNIsaac/QoraDFXM" target="_blank" rel="noopener noreferrer"><strong>QoraDFXM</strong><span class="kind">PySide6</span><p data-ko="DFXM 디텍터 영상 분석. 순수 Python 엔진, CLI, PySide6 데스크톱 앱.">DFXM detector-image analysis: a pure Python engine, a headless CLI and a PySide6 desktop app.</p></a></li>
+          <li><a href="https://github.com/NaNIsaac/TraTT" target="_blank" rel="noopener noreferrer"><strong>TraTT</strong><span class="kind">Python</span><p data-ko="음향 Bragg 위성 피크의 과도 동역학 솔버. 해석해와 비교하는 테스트로 검증합니다.">Transient acoustic Bragg-satellite solver, checked against analytic ground truth in its tests.</p></a></li>
+          <li><a href="https://pypi.org/project/codigest/" target="_blank" rel="noopener noreferrer"><strong>codigest</strong><span class="kind">PyPI</span><p data-ko="LLM에 넘길 코드베이스 컨텍스트를 만드는 CLI.">A command-line tool that packs codebase context for LLMs.</p></a></li>
+          <li><a href="https://pypi.org/project/roi_rectangle/" target="_blank" rel="noopener noreferrer"><strong>roi_rectangle</strong><span class="kind">PyPI</span><p data-ko="영상의 사각형 관심 영역을 다루는 모듈.">Rectangular region-of-interest helper for detector images.</p></a></li>
+          <li><a href="https://github.com/NaNIsaac/QoraGeom" target="_blank" rel="noopener noreferrer"><strong>QoraGeom</strong><span class="kind" data-ko="초기 단계">Early stage</span><p data-ko="회절 기하. 아직 공개된 코드는 없습니다.">Diffraction geometry. No public code yet.</p></a></li>
+        </ul>
       </div>
-      <p class="fineprint mono" data-ko="※ 제출한 PR이며 병합 여부를 뜻하지 않습니다.">Submitted pull requests; listing does not imply they were merged.</p>
+      <figure class="work-figure">
+        <img src="assets/img/bragg-1915-figure.jpg" width="1000" height="961" loading="lazy" decoding="async" alt="Engraved figure of a Laue spot pattern: black dots where ellipses cross, drawn on old paper.">
+        <figcaption data-ko="W. H.·W. L. Bragg, 『X rays and crystal structure』(1915)의 도판.">Plate from W. H. and W. L. Bragg, X rays and crystal structure, 1915.</figcaption>
+      </figure>
     </section>
 
-    <section class="section wrap contact" id="contact">
-      <p class="section-index mono">05 / CONTACT</p>
-      <h2 data-ko="연구, 소프트웨어, 오픈소스 이야기를 환영합니다.">Let's talk research, software, or open source<span class="accent">.</span></h2>
+    <section class="section lately" id="log" aria-labelledby="log-title">
+      <div class="col reveal">
+        <div data-owner-bar></div>
+        <h2 id="log-title" data-ko="최근 기록">Lately</h2>
+        <h3 class="rows-group" data-ko="노트">Notes</h3>
+        <div class="rows" id="notes-list"><a href="notes/"><strong data-ko="모든 노트">All notes</strong><em id="notes-age"></em></a></div>
+        <h3 class="rows-group" data-ko="GitHub 활동">On GitHub</h3>
+        <div class="rows" id="gh-list"><a href="https://github.com/NaNIsaac" target="_blank" rel="noopener noreferrer"><strong>@NaNIsaac</strong><em>github.com</em></a></div>
+        <h3 class="rows-group" data-ko="업스트림 기여">Upstream pull requests</h3>
+        <div class="rows">
+          <a href="https://github.com/pydata/xarray/pull/11720" target="_blank" rel="noopener noreferrer"><strong>xarray<span>Link the windowed operations tutorial from the computation guide</span></strong><em>#11720</em></a>
+          <a href="https://github.com/python/cpython/pull/159189" target="_blank" rel="noopener noreferrer"><strong>CPython<span>IDLE: show full syntax error diagnostics in the Shell</span></strong><em>#159189</em></a>
+        </div>
+        <p class="fineprint" data-ko="제출한 PR 목록이며 병합 여부를 뜻하지 않습니다.">Submitted pull requests; listing them does not mean they were merged.</p>
+      </div>
+      <figure class="lately-figure">
+        <img src="assets/img/rontgen-hand-1895.jpg" width="695" height="1000" loading="lazy" decoding="async" alt="Röntgen's 1895 radiograph of a hand: finger bones and a dark ring on one finger.">
+        <figcaption data-ko="빌헬름 뢴트겐, 반지를 낀 손, 1895. 퍼블릭 도메인.">Wilhelm Röntgen, hand with rings, 1895. Public domain.</figcaption>
+      </figure>
+    </section>
+
+    <section class="contact wrap" id="contact" aria-label="Contact">
+      <p class="contact-line" data-ko="빔타임, 역문제, 오픈소스 이야기라면 언제든 반갑습니다.">Happy to talk beamtime, inverse problems or open source.</p>
+      <figure class="contact-figure">
+        <img src="assets/img/synchrotron-light.jpg" width="1000" height="663" loading="lazy" decoding="async" alt="Synchrotron light glowing through a viewport window in a steel vacuum chamber.">
+        <figcaption data-ko="캐나다 방사광가속기의 빛.">Synchrotron light, Canadian Light Source.</figcaption>
+      </figure>
       <div class="contact-links">
-        <a href="https://github.com/NaNIsaac" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-        <a href="https://blog.naver.com/sjbpepper" target="_blank" rel="noopener noreferrer" data-ko="블로그 ↗">Blog ↗</a>
-        <a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">X-ray Toolkit ↗</a>
-        <button data-terminal>⌘ Terminal <kbd>`</kbd></button>
+        <p data-ko="어디서 찾나요?">Where to find me</p>
+        <a href="https://github.com/NaNIsaac" target="_blank" rel="noopener noreferrer">github.com/NaNIsaac</a>
+        <a href="https://blog.naver.com/sjbpepper" target="_blank" rel="noopener noreferrer" data-ko="블로그">Blog</a>
+        <button data-terminal data-ko="터미널 열기 <kbd>`</kbd>">Open the terminal <kbd>`</kbd></button>
+        <p class="soft" data-ko="서울, 서강대학교">Seoul, Sogang University</p>
       </div>
     </section>
   </main>
 
-  <footer><div class="wrap footer-inner mono"><span>© <span id="year">2026</span> ISAAC YONG · 용이삭</span><span><a href="notes/feed.xml">RSS</a> · <a href="#top">BACK TO TOP ↑</a></span></div></footer>
+  <footer>
+    <div class="footer-line">
+      <span data-ko="X선 물리와 과학 소프트웨어">X-ray physics and scientific software</span>
+      <nav aria-label="Footer"><a href="notes/" data-ko="노트">Notes</a><a href="lab/" data-ko="랩">Lab</a><a href="notes/feed.xml">RSS</a><a href="#top" data-ko="맨 위로">Top</a></nav>
+      <span class="tnum">© <span id="year">2026</span> Isaac Yong</span>
+    </div>
+    <p class="credits" data-ko="그림: 토머스 영의 간섭 그림(1807, 퍼블릭 도메인), 빌헬름 뢴트겐의 X선 사진(1895, 퍼블릭 도메인), Bragg 『X rays and crystal structure』 도판(1915, Internet Archive Book Images, 알려진 저작권 제한 없음), Laue 회절 사진(ENERGY.GOV, 퍼블릭 도메인), <a href=&quot;https://commons.wikimedia.org/w/index.php?curid=20430465&quot;>SynchrotronLight</a>(Canadian Light Source Inc., CC BY-SA 2.0, 흑백 변환본도 같은 라이선스). 모두 Wikimedia Commons.">Pictures: Thomas Young's drawing of interference (1807, public domain); Wilhelm Röntgen's radiograph of a hand (1895, public domain); a plate from Bragg, X rays and crystal structure (1915, Internet Archive Book Images, no known copyright restrictions); a Laue diffraction pattern (ENERGY.GOV, public domain); <a href="https://commons.wikimedia.org/w/index.php?curid=20430465">SynchrotronLight</a> by Canadian Light Source Inc. (CC BY-SA 2.0; the greyscale version here is shared under the same licence). All via Wikimedia Commons.</p>
+  </footer>
 
   <script src="wave.js" defer></script>
   <script src="wave-view.js" defer></script>
