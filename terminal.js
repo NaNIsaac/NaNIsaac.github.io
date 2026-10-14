@@ -1,18 +1,18 @@
 // Terminal mode: press ` anywhere (or a [data-terminal] button). Builds its own dialog so any page can load it.
 (() => {
-  const REPO = 'SJB7777/SJB7777.github.io';
+  const REPO = 'NaNIsaac/NaNIsaac.github.io';
   const HC = 12.398419843; // h·c in keV·Å
   const LINKS = {
-    github: 'https://github.com/SJB7777',
+    github: 'https://github.com/NaNIsaac',
     blog: 'https://blog.naver.com/sjbpepper',
     notes: '/notes/',
     lab: '/lab/',
     toolkit: 'https://xray.ooguy.com/',
-    reflectolearn: 'https://github.com/SJB7777/ReflectoLearn',
-    qoraflow: 'https://github.com/SJB7777/QoraFlow',
-    qoraphase: 'https://github.com/SJB7777/QoraPhase',
-    qoradfxm: 'https://github.com/SJB7777/QoraDFXM',
-    tratt: 'https://github.com/SJB7777/TraTT',
+    reflectolearn: 'https://github.com/NaNIsaac/ReflectoLearn',
+    qoraflow: 'https://github.com/NaNIsaac/QoraFlow',
+    qoraphase: 'https://github.com/NaNIsaac/QoraPhase',
+    qoradfxm: 'https://github.com/NaNIsaac/QoraDFXM',
+    tratt: 'https://github.com/NaNIsaac/TraTT',
     site: `https://github.com/${REPO}`,
   };
 
@@ -150,7 +150,7 @@
       window.open(url, '_blank', 'noopener');
     },
     gh: async () => {
-      const r = await fetch('https://api.github.com/users/SJB7777/events/public?per_page=30');
+      const r = await fetch('https://api.github.com/users/NaNIsaac/events/public?per_page=30');
       if (!r.ok) throw new Error(`GitHub API ${r.status}`);
       const seen = new Set();
       for (const ev of await r.json()) {

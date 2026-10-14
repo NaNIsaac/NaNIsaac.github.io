@@ -9,13 +9,13 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Isaac Yong — X-ray Physics & Scientific Software">
   <meta property="og:description" content="Simulation, inverse problems, data pipelines, and beamline tools — built by someone who runs the experiments.">
-  <meta property="og:url" content="https://sjb7777.github.io/">
-  <meta property="og:image" content="https://sjb7777.github.io/og-image.jpg">
+  <meta property="og:url" content="https://nanisaac.github.io/">
+  <meta property="og:image" content="https://nanisaac.github.io/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://sjb7777.github.io/">
+  <link rel="canonical" href="https://nanisaac.github.io/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Isaac Yong","alternateName":["용이삭","SJB7777"],"url":"https://sjb7777.github.io/","sameAs":["https://github.com/SJB7777","https://blog.naver.com/sjbpepper"],"affiliation":{"@type":"CollegeOrUniversity","name":"Sogang University"},"knowsAbout":["X-ray reflectivity","X-ray diffraction","Coherent diffraction imaging","Phase retrieval","XFEL data analysis","Scientific Python"]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Isaac Yong","alternateName":["용이삭","NaNIsaac"],"url":"https://nanisaac.github.io/","sameAs":["https://github.com/NaNIsaac","https://blog.naver.com/sjbpepper"],"affiliation":{"@type":"CollegeOrUniversity","name":"Sogang University"},"knowsAbout":["X-ray reflectivity","X-ray diffraction","Coherent diffraction imaging","Phase retrieval","XFEL data analysis","Scientific Python"]}</script>
   <title>Isaac Yong — X-ray Physics & Scientific Software</title>
 </head>
 <body>
@@ -62,19 +62,19 @@
           <p class="mono card-no">AXIS 01</p>
           <h3>X-ray Reflectometry &amp; Inverse Problems</h3>
           <p data-ko="반사율 곡선 R(q)에서 박막의 두께·거칠기·SLD를 구하는 역문제. 물리 모델링과 ML을 함께 씁니다.">Recovering thin-film thickness, roughness, and SLD from a reflectivity curve R(q) — physical modeling and machine learning together.</p>
-          <p class="mono links"><a href="https://github.com/SJB7777/ReflectoLearn" target="_blank" rel="noopener noreferrer">ReflectoLearn ↗</a></p>
+          <p class="mono links"><a href="https://github.com/NaNIsaac/ReflectoLearn" target="_blank" rel="noopener noreferrer">ReflectoLearn ↗</a></p>
         </article>
         <article class="card">
           <p class="mono card-no">AXIS 02</p>
           <h3>Coherent &amp; Time-resolved Imaging</h3>
           <p data-ko="Coherent diffraction imaging의 위상 복원, 그리고 동역학적 X선 회절에서 음향 Bragg 위성 피크의 과도 형성.">Phase retrieval for coherent diffraction imaging, and the transient formation of acoustic Bragg satellites in dynamical X-ray diffraction.</p>
-          <p class="mono links"><a href="https://github.com/SJB7777/QoraPhase" target="_blank" rel="noopener noreferrer">QoraPhase ↗</a> <a href="https://github.com/SJB7777/TraTT" target="_blank" rel="noopener noreferrer">TraTT ↗</a></p>
+          <p class="mono links"><a href="https://github.com/NaNIsaac/QoraPhase" target="_blank" rel="noopener noreferrer">QoraPhase ↗</a> <a href="https://github.com/NaNIsaac/TraTT" target="_blank" rel="noopener noreferrer">TraTT ↗</a></p>
         </article>
         <article class="card">
           <p class="mono card-no">AXIS 03</p>
           <h3>Experimental Imaging &amp; Data Systems</h3>
           <p data-ko="XFEL 시간분해 실험 데이터 파이프라인, Dark-Field X-ray Microscopy 영상 분석, 실험 자동화.">Pipelines for time-resolved XFEL data, Dark-Field X-ray Microscopy image analysis, and experiment automation.</p>
-          <p class="mono links"><a href="https://github.com/SJB7777/QoraFlow" target="_blank" rel="noopener noreferrer">QoraFlow ↗</a> <a href="https://github.com/SJB7777/QoraDFXM" target="_blank" rel="noopener noreferrer">QoraDFXM ↗</a></p>
+          <p class="mono links"><a href="https://github.com/NaNIsaac/QoraFlow" target="_blank" rel="noopener noreferrer">QoraFlow ↗</a> <a href="https://github.com/NaNIsaac/QoraDFXM" target="_blank" rel="noopener noreferrer">QoraDFXM ↗</a></p>
         </article>
       </div>
     </section>
@@ -82,17 +82,17 @@
     <section class="section wrap" id="software">
       <div class="section-heading"><p class="section-index mono">02 / SOFTWARE</p><h2 data-ko="직접 만든 도구">Tools I build<span class="accent">.</span></h2></div>
       <div class="grid2">
-        <a class="card project" href="https://github.com/SJB7777/ReflectoLearn" target="_blank" rel="noopener noreferrer">
+        <a class="card project" href="https://github.com/NaNIsaac/ReflectoLearn" target="_blank" rel="noopener noreferrer">
           <div class="card-top"><h3>ReflectoLearn</h3><span class="accent">↗</span></div>
           <p data-ko="미분 가능한 Abeles 전달행렬 시뮬레이터가 노이즈·분해능·빔 footprint까지 반영한 학습 곡선을 즉석 생성하고, 1D CNN이 R(q)에서 박막 파라미터를 예측합니다. 데이터셋 파일이 필요 없습니다.">A differentiable Abeles transfer-matrix simulator generates training curves on the fly — with Poisson noise, resolution smearing, and beam footprint — and a 1D CNN predicts film parameters from R(q). No dataset files needed.</p>
           <p class="tags mono">PYTHON · PYTORCH · XRR</p>
         </a>
-        <a class="card project" href="https://github.com/SJB7777/QoraFlow" target="_blank" rel="noopener noreferrer">
+        <a class="card project" href="https://github.com/NaNIsaac/QoraFlow" target="_blank" rel="noopener noreferrer">
           <div class="card-top"><h3>QoraFlow</h3><span class="accent">↗</span></div>
           <p data-ko="XFEL 시간분해 초고속 실험을 위한 데이터 처리 툴킷. 연구실의 레거시 시스템 XFEL_data(@paulpeterkim)를 바탕으로 재구성했습니다.">Data toolkit for time-resolved ultrafast experiments at X-ray free-electron lasers. Refactored from the lab's legacy XFEL_data system by @paulpeterkim.</p>
           <p class="tags mono">PYTHON · HDF5 · XFEL</p>
         </a>
-        <a class="card project" href="https://github.com/SJB7777/QoraPhase" target="_blank" rel="noopener noreferrer">
+        <a class="card project" href="https://github.com/NaNIsaac/QoraPhase" target="_blank" rel="noopener noreferrer">
           <div class="card-top"><h3>QoraPhase</h3><span class="accent">↗</span></div>
           <p data-ko="JAX 기반의 조합형 위상 복원 프레임워크. 배열을 넣으면 재구성 결과가 나옵니다. 원점·마스크·support 규약을 API 계약으로 명시했습니다.">A JAX-native, composable phase-retrieval framework for CDI. Array in, reconstruction out — with origin, mask, and support conventions written into the API contract.</p>
           <p class="tags mono">PYTHON · JAX · CDI</p>
@@ -105,11 +105,11 @@
       </div>
       <h3 class="sub-heading mono" data-ko="그 밖의 프로젝트">MORE PROJECTS</h3>
       <div class="list">
-        <a href="https://github.com/SJB7777/QoraDFXM" target="_blank" rel="noopener noreferrer"><strong>QoraDFXM</strong><span data-ko="DFXM 디텍터 영상 분석 — 순수 Python 엔진 + CLI + PySide6 데스크톱 앱">DFXM detector-image analysis — pure Python engine, headless CLI, PySide6 desktop app</span></a>
-        <a href="https://github.com/SJB7777/TraTT" target="_blank" rel="noopener noreferrer"><strong>TraTT</strong><span data-ko="음향 Bragg 위성 피크의 과도 동역학 솔버, 해석해를 테스트로 검증">Transient acoustic Bragg-satellite solver, checked against analytic ground truth in tests</span></a>
+        <a href="https://github.com/NaNIsaac/QoraDFXM" target="_blank" rel="noopener noreferrer"><strong>QoraDFXM</strong><span data-ko="DFXM 디텍터 영상 분석 — 순수 Python 엔진 + CLI + PySide6 데스크톱 앱">DFXM detector-image analysis — pure Python engine, headless CLI, PySide6 desktop app</span></a>
+        <a href="https://github.com/NaNIsaac/TraTT" target="_blank" rel="noopener noreferrer"><strong>TraTT</strong><span data-ko="음향 Bragg 위성 피크의 과도 동역학 솔버, 해석해를 테스트로 검증">Transient acoustic Bragg-satellite solver, checked against analytic ground truth in tests</span></a>
         <a href="https://pypi.org/project/codigest/" target="_blank" rel="noopener noreferrer"><strong>codigest</strong><span data-ko="LLM을 위한 코드베이스 컨텍스트 CLI (PyPI)">Codebase-context CLI for LLMs (PyPI)</span></a>
         <a href="https://pypi.org/project/roi_rectangle/" target="_blank" rel="noopener noreferrer"><strong>roi_rectangle</strong><span data-ko="영상의 사각형 ROI 처리 모듈 (PyPI)">Rectangular region-of-interest helper for images (PyPI)</span></a>
-        <a href="https://github.com/SJB7777/QoraGeom" target="_blank" rel="noopener noreferrer"><strong>QoraGeom</strong><span data-ko="회절 기하 — 초기 단계, 공개 코드 아직 없음">Diffraction geometry — early stage, no public code yet</span></a>
+        <a href="https://github.com/NaNIsaac/QoraGeom" target="_blank" rel="noopener noreferrer"><strong>QoraGeom</strong><span data-ko="회절 기하 — 초기 단계, 공개 코드 아직 없음">Diffraction geometry — early stage, no public code yet</span></a>
       </div>
     </section>
 
@@ -124,7 +124,7 @@
         </div>
         <div>
           <h3 class="sub-heading mono" data-ko="GitHub 활동">ON GITHUB</h3>
-          <div class="list" id="gh-list"><a href="https://github.com/SJB7777" target="_blank" rel="noopener noreferrer"><strong>@SJB7777 ↗</strong></a></div>
+          <div class="list" id="gh-list"><a href="https://github.com/NaNIsaac" target="_blank" rel="noopener noreferrer"><strong>@NaNIsaac ↗</strong></a></div>
         </div>
       </div>
     </section>
@@ -142,7 +142,7 @@
       <p class="section-index mono">05 / CONTACT</p>
       <h2 data-ko="연구, 소프트웨어, 오픈소스 이야기를 환영합니다.">Let's talk research, software, or open source<span class="accent">.</span></h2>
       <div class="contact-links">
-        <a href="https://github.com/SJB7777" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="https://github.com/NaNIsaac" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         <a href="https://blog.naver.com/sjbpepper" target="_blank" rel="noopener noreferrer" data-ko="블로그 ↗">Blog ↗</a>
         <a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">X-ray Toolkit ↗</a>
         <button data-terminal>⌘ Terminal <kbd>`</kbd></button>

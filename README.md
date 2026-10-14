@@ -78,7 +78,7 @@ python -m http.server 8000            # home + lab at http://localhost:8000
 ```
 
 Notes, the notes feed and the "Lately" note list need Jekyll, which is not installed on this machine:
-push and check the live site (build status: `gh api repos/SJB7777/SJB7777.github.io/pages/builds/latest`).
+push and check the live site (build status: `gh api repos/NaNIsaac/NaNIsaac.github.io/pages/builds/latest`).
 
 ## Tests
 
@@ -91,5 +91,5 @@ node tests/fourier.test.cjs   # FFT round trip, Parseval, sign, symmetry, fringe
 
 The hero is a 2D scalar wave equation (leapfrog, r = 0.5, Dirichlet barrier, sponge edges) and the
 lab is a separate Fourier-optics model. Both are explained in the first note,
-[How the homepage wave works](https://sjb7777.github.io/notes/2026/10/how-the-hero-wave-works/), and in
+[How the homepage wave works](https://nanisaac.github.io/notes/2026/10/how-the-hero-wave-works/), and in
 the lab's *How it works* panel. Glow and bloom are display-only and never feed the detector curve.
