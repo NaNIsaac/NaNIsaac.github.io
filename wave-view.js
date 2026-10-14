@@ -1,11 +1,12 @@
 // Interactive wave canvas: draws a wave.js simulation and handles pointer input.
 // scene geometry is in fractions of the canvas so a resize keeps the composition;
 // barrier: null removes the wall, slits may hold 1 or 2 openings.
+// wake: true makes a mouse moving over the canvas leave a speed-scaled ripple trail.
 function mountWave(canvas, opts = {}) {
   const ctx = canvas.getContext('2d');
   const off = document.createElement('canvas');
   const octx = off.getContext('2d');
-  const { pauseButton, hint, pauseLabel: label = (r) => (r ? 'Pause' : 'Play') } = opts;
+  const { pauseButton, hint, wake, pauseLabel: label = (r) => (r ? 'Pause' : 'Play') } = opts;
 
   const STEP_MS = 1000 / 120;
   const GAIN = 3;
@@ -17,7 +18,7 @@ function mountWave(canvas, opts = {}) {
     ...opts.scene,
   };
 
-  let sim, img, det, cell, cssW, cssH, dpr, colors;
+  let sim, img, det, cell, cssW, cssH, dpr, colors, dropped = false;
 
   function readColor(name) {
     const v = getComputedStyle(document.body).getPropertyValue(name).trim();
@@ -55,7 +56,8 @@ function mountWave(canvas, opts = {}) {
     img = octx.createImageData(w, h);
     det = new Float32Array(h);
     applyScene();
-    for (let i = 0; i < 600; i++) tick(); // composed frame before the first paint
+    if (scene.sources.length) for (let i = 0; i < 600; i++) tick(); // composed frame before the first paint
+    if (!scene.sources.length && !dropped) { dropped = true; sim.pulse(0.55 * sim.w, 0.5 * sim.h, 1.5); } // one drop so a still screen reads as live
     draw();
   }
 
@@ -186,6 +188,20 @@ function mountWave(canvas, opts = {}) {
   }
   function engaged() { hint?.classList.add('gone'); }
 
+  // Wake: splats every ~1.5 cells along the segment since the last move, amplitude ∝ speed.
+  let prevMove = null;
+  function trail(p, t) {
+    const q = prevMove;
+    prevMove = { x: p.x / cell, y: p.y / cell, t };
+    if (!q || t - q.t > 100) return; // pointer just entered or rested
+    const d = Math.hypot(prevMove.x - q.x, prevMove.y - q.y);
+    const a = Math.min(0.012, (d / Math.max(t - q.t, 1)) * 0.03);
+    if (a < 0.001) return;
+    const n = Math.ceil(d / 1.5);
+    for (let k = 1; k <= n; k++) sim.pulse(q.x + ((prevMove.x - q.x) * k) / n, q.y + ((prevMove.y - q.y) * k) / n, a);
+  }
+  canvas.addEventListener('pointerleave', () => { prevMove = null; });
+
   canvas.addEventListener('pointerdown', (e) => {
     if (!sim || e.button > 0) return;
     const p = pos(e), touch = e.pointerType !== 'mouse';
@@ -196,7 +212,11 @@ function mountWave(canvas, opts = {}) {
   canvas.addEventListener('pointermove', (e) => {
     if (!sim) return;
     const p = pos(e);
-    if (!press) { canvas.classList.toggle('grab', !!hitTest(p, false)); return; }
+    if (!press) {
+      canvas.classList.toggle('grab', !!hitTest(p, false));
+      if (wake && e.pointerType === 'mouse') trail(p, e.timeStamp);
+      return;
+    }
     if (!press.dragging && Math.hypot(p.x - press.start.x, p.y - press.start.y) > press.thr) press.dragging = true;
     if (!press.dragging) return;
     engaged();

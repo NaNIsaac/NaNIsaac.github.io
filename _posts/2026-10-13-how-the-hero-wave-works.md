@@ -22,11 +22,12 @@ $$
 with $$r = c\,\Delta t / \Delta x = 0.5$$, inside the 2D stability limit $$r \le 1/\sqrt{2}$$.
 Units are grid cells and time steps — there is no mapping to SI and none is implied.
 
-- **Sources** are two coherent oscillators, each a small Gaussian drive
-  $$s \propto \sin(2\pi t / T)$$ with $$T = 16$$ steps, so the wavelength is
-  $$cT = 8$$ cells.
-- **Click** adds a single Gaussian bump; **dragging on empty space** adds a rate-limited
-  trail of smaller bumps. Neither creates new persistent sources.
+- **No continuous sources** on the home page: the field rests at zero until you touch it.
+  (The [lab](/lab/) keeps two coherent oscillators, $$s \propto \sin(2\pi t / T)$$ with
+  $$T = 16$$ steps, so the wavelength is $$cT = 8$$ cells.)
+- **Moving the mouse** leaves a faint wake of Gaussian bumps whose amplitude scales with
+  pointer speed; **click** adds one strong bump; **dragging** adds a rate-limited trail.
+  On load a single drop falls in front of the slits so touch screens see it is live.
 - **The barrier** is Dirichlet, $$u = 0$$: an idealized *reflecting* wall, which is why
   the region left of it fills with standing-wave structure. Each slit is 7 cells wide,
   a bit less than one wavelength, so diffraction is strong.

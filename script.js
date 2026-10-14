@@ -70,6 +70,8 @@ if (waveCanvas && typeof mountWave === 'function') {
   mountWave(waveCanvas, {
     hint: document.querySelector('#hint'),
     pauseButton,
+    wake: true,
+    scene: { sources: [] },
     pauseLabel: (running) => (running ? (isKo() ? '일시정지' : 'Pause') : (isKo() ? '재생' : 'Play')),
   });
 }

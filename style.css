@@ -95,7 +95,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .primary-btn { background: var(--accent); color: var(--bg); padding: 12px 20px; border-radius: 7px; font-size: 13px; font-weight: 800; }
 .primary-btn:hover { filter: brightness(1.1); }
 .quiet-link { font-size: 13px; font-weight: 700; background: none; border: 0; padding: 0; }
-.hero-note { position: absolute; z-index: 2; left: 0; right: 0; bottom: 14px; margin-top: 0; margin-bottom: 0; font-size: 10px; color: var(--muted); pointer-events: none; }
+.hero-note { position: absolute; z-index: 2; left: 0; right: 0; bottom: 14px; margin-top: 0; margin-bottom: 0; font-size: 10px; color: var(--muted); opacity: 0.5; pointer-events: none; }
 
 /* Sections */
 .section { padding-top: 96px; padding-bottom: 24px; scroll-margin-top: 24px; }
@@ -158,7 +158,7 @@ dialog::backdrop { background: #050a11bc; backdrop-filter: blur(5px); }
   .hero { height: auto; min-height: 0; display: flex; flex-direction: column; }
   .hero::after { display: none; }
   .hero-inner { position: relative; padding-top: 40px; padding-bottom: 24px; }
-  #wave { position: relative; height: 58vh; }
+  #wave { position: relative; height: 44vh; }
   .hero-note { position: relative; bottom: auto; padding-bottom: 16px; }
   .lead { font-size: 17px; }
   .grid2 { grid-template-columns: 1fr; }
@@ -215,7 +215,10 @@ kbd { font: 11px ui-monospace, monospace; border: 1px solid var(--line); border-
 .lab-notes { border-top: 1px solid var(--line); padding-top: 16px; max-width: 760px; }
 .lab-notes summary { cursor: pointer; font-weight: 700; }
 @media (max-width: 760px) {
-  .lab-panels { grid-template-columns: 1fr; }
+  /* keep the three panels side by side: input, spectrum and result must be seen together */
+  .lab-panels { gap: 8px; }
+  .lab-panels figcaption { font-size: 9px; }
+  .lab-controls { gap: 10px 16px; margin-bottom: 14px; }
 }
 .owner-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; font-size: 11px; color: var(--accent); border: 1px dashed var(--accent); border-radius: 8px; padding: 10px 14px; margin-bottom: 28px; }
 .owner-bar span { flex: 1; min-width: 220px; }
@@ -225,4 +228,7 @@ kbd { font: 11px ui-monospace, monospace; border: 1px solid var(--line); border-
 .lab-wave { width: 100%; height: min(62vh, 520px); display: block; border: 1px solid var(--line); border-radius: 12px; touch-action: pan-y; cursor: crosshair; }
 .lab-wave.grab { cursor: grab; }
 .lab-wave.grabbing { cursor: grabbing; }
+@media (max-width: 760px) { .lab-wave { height: min(46vh, 380px); } }
+@media (hover: hover) { .on-touch { display: none; } }
+@media (hover: none) { .on-hover { display: none; } }
 [hidden] { display: none !important; }
