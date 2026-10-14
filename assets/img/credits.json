@@ -1,51 +1,5 @@
 [
  {
-  "file": "assets/img/rontgen-hand-1895.jpg",
-  "media": "image",
-  "ref": "commons:12354709",
-  "title": "First medical X-ray by Wilhelm Röntgen of his wife Anna Bertha Ludwig's hand - 18951222",
-  "creator": "Wilhelm Röntgen",
-  "creatorUrl": null,
-  "date": "1895-12-22",
-  "license": "public domain",
-  "licenseCode": "pd",
-  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
-  "creditRequired": false,
-  "page": "https://commons.wikimedia.org/wiki/File:First_medical_X-ray_by_Wilhelm_R%C3%B6ntgen_of_his_wife_Anna_Bertha_Ludwig%27s_hand_-_18951222.jpg",
-  "via": "Wikimedia Commons",
-  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/First_medical_X-ray_by_Wilhelm_R%C3%B6ntgen_of_his_wife_Anna_Bertha_Ludwig%27s_hand_-_18951222.jpg/1280px-First_medical_X-ray_by_Wilhelm_R%C3%B6ntgen_of_his_wife_Anna_Bertha_Ludwig%27s_hand_-_18951222.jpg",
-  "width": 1280,
-  "height": 1841,
-  "bytes": 797366,
-  "credit": "\"First medical X-ray by Wilhelm Röntgen of his wife Anna Bertha Ludwig's hand - 18951222\" by Wilhelm Röntgen, public domain, via Wikimedia Commons",
-  "notes": [],
-  "saved": "2026-10-14T11:09:00.255Z"
- },
- {
-  "file": "assets/img/bragg-1915-figure.jpg",
-  "media": "image",
-  "ref": "commons:43273842",
-  "title": "X rays and crystal structure (1915) (14778089875)",
-  "creator": "Internet Archive Book Images",
-  "creatorUrl": null,
-  "date": "1915",
-  "license": "no known copyright restrictions",
-  "licenseCode": "pd",
-  "licenseUrl": "https://www.flickr.com/commons/usage/",
-  "creditRequired": false,
-  "page": "https://commons.wikimedia.org/wiki/File:X_rays_and_crystal_structure_(1915)_(14778089875).jpg",
-  "via": "Wikimedia Commons",
-  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/X_rays_and_crystal_structure_%281915%29_%2814778089875%29.jpg/1280px-X_rays_and_crystal_structure_%281915%29_%2814778089875%29.jpg",
-  "width": 1280,
-  "height": 1230,
-  "bytes": 173950,
-  "credit": "\"X rays and crystal structure (1915) (14778089875)\" by Internet Archive Book Images, no known copyright restrictions, via Wikimedia Commons",
-  "notes": [
-   "Not a formal licence: the archive that published it states it knows of no copyright restrictions."
-  ],
-  "saved": "2026-10-14T11:09:01.632Z"
- },
- {
   "file": "assets/img/laue-pattern.jpg",
   "media": "image",
   "ref": "commons:36083907",
@@ -112,5 +66,54 @@
   "credit": "\"Young Diffraction\", public domain, via Wikimedia Commons",
   "notes": [],
   "saved": "2026-10-14T11:49:52.620Z"
+ },
+ {
+  "file": "assets/img/detector-frame-thaumatin.jpg",
+  "media": "image",
+  "ref": "commons:67715199",
+  "title": "Thaumatin diffraction",
+  "creator": "Perditax",
+  "creatorUrl": null,
+  "date": "2018-03-26",
+  "license": "CC BY-SA 4.0",
+  "licenseCode": "by-sa",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "creditRequired": true,
+  "page": "https://commons.wikimedia.org/wiki/File:Thaumatin_diffraction.png",
+  "via": "Wikimedia Commons",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Thaumatin_diffraction.png/1280px-Thaumatin_diffraction.png",
+  "width": 1280,
+  "height": 1296,
+  "bytes": 914466,
+  "credit": "\"Thaumatin diffraction\" by Perditax, CC BY-SA 4.0, via Wikimedia Commons",
+  "notes": [
+   "Share-alike: an altered version (recoloured, combined with other pictures) must be shared under the same licence."
+  ],
+  "saved": "2026-10-14T12:35:46.176Z"
+ },
+ {
+  "file": "assets/img/beamline-hutch.jpg",
+  "media": "image",
+  "ref": "commons:71188761",
+  "title": "18th July 2011 no. 2 (5951207301)",
+  "creator": "CLS Research Office from Saskatoon, Canada",
+  "creatorUrl": null,
+  "date": "2011-07-18",
+  "license": "CC BY-SA 2.0",
+  "licenseCode": "by-sa",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "creditRequired": true,
+  "page": "https://commons.wikimedia.org/wiki/File:18th_July_2011_no._2_(5951207301).jpg",
+  "via": "Wikimedia Commons",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/18th_July_2011_no._2_%285951207301%29.jpg/1280px-18th_July_2011_no._2_%285951207301%29.jpg",
+  "width": 1280,
+  "height": 960,
+  "bytes": 252958,
+  "credit": "\"18th July 2011 no. 2 (5951207301)\" by CLS Research Office from Saskatoon, Canada, CC BY-SA 2.0, via Wikimedia Commons",
+  "notes": [
+   "Share-alike: an altered version (recoloured, combined with other pictures) must be shared under the same licence."
+  ],
+  "saved": "2026-10-14T12:35:47.785Z",
+  "note": "cropped and converted to greyscale"
  }
 ]

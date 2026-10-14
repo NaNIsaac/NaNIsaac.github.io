@@ -41,9 +41,7 @@
         <canvas id="wave" role="img" aria-label="Interactive 2D wave simulation with a double slit. Move or click to create waves; drag the slit to adjust."></canvas>
         <div class="film-bar">
           <p class="hint" id="hint"><span class="on-hover" data-ko="파동을 만져보세요. 움직이거나 클릭하면 물결, 슬릿은 드래그.">Touch the wave. Move or click to ripple, drag a slit.</span><span class="on-touch" data-ko="파동을 만져보세요. 탭하면 물결, 슬릿은 드래그.">Touch the wave. Tap to ripple, drag a slit.</span></p>
-          <button id="pause">Pause</button>
         </div>
-        <a class="film-lab" href="#lab" data-ko="랩에서는 결정 격자를 돌려볼 수 있어요 ↓">In the lab, you can rotate a crystal ↓</a>
 
       </div>
       <div class="hero-copy">
@@ -53,6 +51,7 @@
         <div class="hero-actions">
           <a class="button" href="#work" data-ko="작업 보기">See the work</a>
           <a class="text-link" href="lab/" data-ko="랩 열기">Open the lab</a>
+          <button class="quiet" id="pause">Pause</button>
         </div>
         </div>
         <figure class="film-note">
@@ -142,9 +141,9 @@
         </ul>
         <p class="ledger-more"><a class="text-link" href="tools/" data-ko="빔라인 계산기">Beamline calculators</a></p>
       </div>
-      <figure class="work-figure">
-        <img src="assets/img/bragg-1915-figure.jpg" width="1000" height="961" loading="lazy" decoding="async" alt="Engraved figure of a Laue spot pattern: black dots where ellipses cross, drawn on old paper.">
-        <figcaption data-ko="W. H.·W. L. Bragg, 『X rays and crystal structure』(1915)의 도판.">Plate from W. H. and W. L. Bragg, X rays and crystal structure, 1915.</figcaption>
+      <figure class="work-figure"><!-- placeholder: swap for one of Isaac's own detector frames -->
+        <img src="assets/img/detector-frame-thaumatin.jpg" width="988" height="1000" loading="lazy" decoding="async" alt="A raw X-ray detector frame: diffraction spots around a dark ring, crossed by the white gaps between detector modules and the shadow of the beamstop.">
+        <figcaption data-ko="Pilatus 6M 검출기에 찍힌 thaumatin 결정의 회절 프레임. HZB BL14.1, Perditax, CC BY-SA 4.0.">A thaumatin crystal's diffraction frame on a Pilatus 6M detector, HZB BL14.1. Perditax, CC BY-SA 4.0.</figcaption>
       </figure>
     </section>
 
@@ -163,9 +162,9 @@
         </div>
         <p class="fineprint" data-ko="제출한 PR 목록이며 병합 여부를 뜻하지 않습니다.">Submitted pull requests; listing them does not mean they were merged.</p>
       </div>
-      <figure class="lately-figure">
-        <img src="assets/img/rontgen-hand-1895.jpg" width="695" height="1000" loading="lazy" decoding="async" alt="Röntgen's 1895 radiograph of a hand: finger bones and a dark ring on one finger.">
-        <figcaption data-ko="빌헬름 뢴트겐, 반지를 낀 손, 1895. 퍼블릭 도메인.">Wilhelm Röntgen, hand with rings, 1895. Public domain.</figcaption>
+      <figure class="lately-figure"><!-- placeholder: swap for a photo from Isaac's own beamtime -->
+        <img src="assets/img/beamline-hutch.jpg" width="720" height="780" loading="lazy" decoding="async" alt="An empty experimental hutch at a beamline: an optical table, cable trays and power panels on bare walls.">
+        <figcaption data-ko="비어 있는 빔라인 실험 hutch. Canadian Light Source, CC BY-SA 2.0.">An empty experimental hutch, Canadian Light Source. CC BY-SA 2.0.</figcaption>
       </figure>
     </section>
 
@@ -191,7 +190,7 @@
       <nav aria-label="Footer"><a href="notes/" data-ko="노트">Notes</a><a href="lab/" data-ko="랩">Lab</a><a href="tools/" data-ko="도구">Tools</a><a href="notes/feed.xml">RSS</a><a href="#top" data-ko="맨 위로">Top</a></nav>
       <span class="tnum">© <span id="year">2026</span> Isaac Yong</span>
     </div>
-    <p class="credits" data-ko="그림: 토머스 영의 간섭 그림(1807, 퍼블릭 도메인), 빌헬름 뢴트겐의 X선 사진(1895, 퍼블릭 도메인), Bragg 『X rays and crystal structure』 도판(1915, Internet Archive Book Images, 알려진 저작권 제한 없음), Laue 회절 사진(ENERGY.GOV, 퍼블릭 도메인), <a href=&quot;https://commons.wikimedia.org/w/index.php?curid=20430465&quot;>SynchrotronLight</a>(Canadian Light Source Inc., CC BY-SA 2.0, 흑백 변환본도 같은 라이선스). 모두 Wikimedia Commons.">Pictures: Thomas Young's drawing of interference (1807, public domain); Wilhelm Röntgen's radiograph of a hand (1895, public domain); a plate from Bragg, X rays and crystal structure (1915, Internet Archive Book Images, no known copyright restrictions); a Laue diffraction pattern (ENERGY.GOV, public domain); <a href="https://commons.wikimedia.org/w/index.php?curid=20430465">SynchrotronLight</a> by Canadian Light Source Inc. (CC BY-SA 2.0; the greyscale version here is shared under the same licence). All via Wikimedia Commons.</p>
+    <p class="credits" data-ko="그림: 토머스 영의 간섭 그림(1807, 퍼블릭 도메인), Laue 회절 사진(ENERGY.GOV, 퍼블릭 도메인), <a href=&quot;https://commons.wikimedia.org/wiki/File:Thaumatin_diffraction.png&quot;>Thaumatin diffraction</a>(Perditax, CC BY-SA 4.0, 흑백 변환본도 같은 라이선스), <a href=&quot;https://commons.wikimedia.org/wiki/File:18th_July_2011_no._2_(5951207301).jpg&quot;>IDEAS 빔라인 hutch</a>(CLS Research Office, CC BY-SA 2.0, 자르고 흑백 변환한 본도 같은 라이선스), <a href=&quot;https://commons.wikimedia.org/w/index.php?curid=20430465&quot;>SynchrotronLight</a>(Canadian Light Source Inc., CC BY-SA 2.0, 흑백 변환본도 같은 라이선스). 모두 Wikimedia Commons.">Pictures: Thomas Young's drawing of interference (1807, public domain); a Laue diffraction pattern (ENERGY.GOV, public domain); <a href="https://commons.wikimedia.org/wiki/File:Thaumatin_diffraction.png">Thaumatin diffraction</a> by Perditax (CC BY-SA 4.0); <a href="https://commons.wikimedia.org/wiki/File:18th_July_2011_no._2_(5951207301).jpg">the IDEAS beamline hutch</a> by CLS Research Office (CC BY-SA 2.0); <a href="https://commons.wikimedia.org/w/index.php?curid=20430465">SynchrotronLight</a> by Canadian Light Source Inc. (CC BY-SA 2.0). The greyscale and cropped versions here are shared under the same licences. All via Wikimedia Commons.</p>
   </footer>
 
   <script src="wave.js" defer></script>

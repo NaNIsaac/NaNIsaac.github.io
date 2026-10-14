@@ -79,7 +79,7 @@ if (labPreview && typeof mountWave === 'function') {
   mountWave(labPreview, {
     tools: true,
     speed: 0.5, gain: 0.55, // half speed, softer contrast: it sits beside reading text
-    scene: { sources: [{ fx: 0.1, fy: 0.5 }], barrier: null, slits: [], detector: 0.92, lattice: { fx: 0.48, fy: 0.5, theta: 0.35, d: 6, n: 4 } },
+    scene: { sources: [{ fx: 0.1, fy: 0.5 }], barrier: null, slits: [], detector: 0.92, lattice: { fx: 0.48, fy: 0.5, theta: 0.35, d: 9, n: 3 } },
   });
 }
 

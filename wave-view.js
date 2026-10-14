@@ -19,8 +19,8 @@ function mountWave(canvas, opts = {}) {
   const scene = {
     sources: [{ fx: 0.53, fy: 0.4 }, { fx: 0.53, fy: 0.6 }],
     barrier: 0.7, slits: [0.43, 0.57], detector: 0.93,
-    slitHalf: 3, // cells; default wavelength is 8 cells
-    period: 16, // steps per oscillation
+    slitHalf: 3, // cells; default wavelength is 12 cells
+    period: 24, // steps per oscillation; wavelength = 0.5 * period = 12 cells
     lattice: null, // { fx, fy, theta, d (cells), n (rings) }: hard point scatterers on a hexagonal lattice
     absorb: true, // jaws absorb like real slit blades; false makes them ideal reflectors
     ...opts.scene,
@@ -105,7 +105,9 @@ function mountWave(canvas, opts = {}) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high'; // the field is ~3x upscaled: smooth interpolation, not visible cells
-    ctx.drawImage(off, 0, 0, cssW, cssH);
+    ctx.filter = `blur(${(cell * 0.6).toFixed(1)}px)`; // and a soft focus so no cell edge survives on large screens
+    ctx.drawImage(off, -cell, -cell, cssW + 2 * cell, cssH + 2 * cell); // drawn a cell oversize so the blur has no pale rim
+    ctx.filter = 'none';
     const ink = `rgb(${a})`;
     ctx.strokeStyle = ink;
     ctx.lineWidth = 1.5;
@@ -192,9 +194,9 @@ function mountWave(canvas, opts = {}) {
       }
     }
     fctx.putImageData(filmImg, 0, 0);
-    ctx.imageSmoothingEnabled = false;
+    ctx.filter = `blur(${(cell * 0.35).toFixed(1)}px)`; // grain stays, blocks go
     ctx.drawImage(film, x0, 0, FILM_W, cssH - RAIL);
-    ctx.imageSmoothingEnabled = true;
+    ctx.filter = 'none';
     let max = 1e-9, imax = 1e-9;
     for (const e of det) max = Math.max(max, e);
     for (const e of inst) imax = Math.max(imax, e);

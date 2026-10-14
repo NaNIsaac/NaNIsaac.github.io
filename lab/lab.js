@@ -9,7 +9,7 @@
   });
   const sc = view.scene;
   const opts = { sources: '2', barrier: 'double', sample: 'none', jaws: 'absorb' };
-  const LATTICE = { fx: 0.4, fy: 0.5, theta: 0, d: 6, n: 4 }; // d = 6 cells against λ = 8 cells: Bragg peaks exist
+  const LATTICE = { fx: 0.4, fy: 0.5, theta: 0, d: 9, n: 3 }; // d = 9 cells against λ = 12 cells: Bragg orders exist (2d > λ)
   function seg(id, key, onChange) {
     const root = $(id);
     root.addEventListener('click', (e) => {
