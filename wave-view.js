@@ -13,8 +13,9 @@ function mountWave(canvas, opts = {}) {
   const octx = off.getContext('2d');
   const { pauseButton, hint, wake, tools, onChange, pauseLabel: label = (r) => (r ? 'Pause' : 'Play') } = opts;
 
-  const STEP_MS = 1000 / 120;
-  const GAIN = 3;
+  // speed scales solver steps per second, gain the display contrast; a calm preview uses less of both.
+  const STEP_MS = 1000 / (120 * (opts.speed ?? 1));
+  const GAIN = 3 * (opts.gain ?? 1);
   const scene = {
     sources: [{ fx: 0.53, fy: 0.4 }, { fx: 0.53, fy: 0.6 }],
     barrier: 0.7, slits: [0.43, 0.57], detector: 0.93,

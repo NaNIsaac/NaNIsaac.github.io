@@ -74,6 +74,8 @@ img { display: block; max-width: 100%; height: auto; }
 .film-bar button { pointer-events: auto; color: var(--ink); min-height: 32px; }
 .hint { margin: 0; transition: opacity .8s; }
 .hint.gone { opacity: 0; }
+.film-lab { position: absolute; top: 76px; left: 32px; font-size: var(--step-small); color: var(--ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; transition: text-underline-offset .2s; }
+.film-lab:hover { text-underline-offset: 7px; }
 .hero-copy { padding: 0 calc(var(--margin) - 12px); display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; }
 .hero h1 { grid-column: 1 / -1; font-size: var(--step-display); font-weight: 400; letter-spacing: -.035em; line-height: 1; margin: 32px 0 28px; }
 .hero h1 span { display: block; }
@@ -106,12 +108,39 @@ figure { margin: 0; }
 figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 10px; }
 .shutter { overflow: hidden; }
 
+/* Lab teaser: the argument on the left, a live bench on the right */
+.lab-teaser { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: center; }
+.lab-teaser-copy { grid-column: 1 / span 5; }
+.lab-teaser-copy p { margin: 0 0 28px; max-width: 34em; }
+.lab-teaser-figure { grid-column: 7 / -1; }
+#lab-preview { display: block; width: 100%; height: clamp(300px, 32vw, 460px); background: var(--surface); touch-action: pan-y; cursor: crosshair; }
+#lab-preview.grab { cursor: grab; }
+#lab-preview.grabbing { cursor: grabbing; }
+
+/* Measure: the curve wide on the left, the argument on the right */
+.measure { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: center; }
+.measure-figure { grid-column: 1 / span 7; }
+#xrr { display: block; width: 100%; height: clamp(280px, 30vw, 440px); background: var(--surface); }
+.measure-controls { display: flex; flex-wrap: wrap; gap: 12px 28px; margin-top: 14px; }
+.measure-copy { grid-column: 9 / -1; }
+.measure-copy p a, .reconstruct-copy p a { text-decoration: underline; text-underline-offset: 3px; }
+.measure-readout { color: var(--muted); font-size: var(--step-small); }
+
+/* Reconstruct: the argument across the top, object and detector side by side */
+.reconstruct-copy { max-width: 46em; margin-bottom: 40px; }
+.reconstruct-copy .seg { margin: 8px 0 20px; }
+.ft-panels { display: grid; grid-template-columns: repeat(2, minmax(0, 420px)); gap: 24px; }
+.ft-panels canvas { display: block; width: 100%; aspect-ratio: 1; touch-action: none; cursor: crosshair; }
+.ft-panels figure:last-child canvas { cursor: default; }
+
 /* Work: a quiet ledger with the engraving held beside it */
 .work { position: relative; }
 .ledger { list-style: none; margin: 0; padding: 0; }
 .ledger li + li { margin-top: 28px; }
 .ledger a { display: grid; grid-template-columns: 1fr auto; column-gap: 24px; transition: color .2s; }
 .ledger strong { font-weight: 600; }
+.ledger p.soft { color: var(--muted); font-size: var(--step-small); }
+.ledger-more { margin-top: 48px; }
 .ledger .kind { font-size: var(--step-small); color: var(--muted); text-align: right; white-space: nowrap; }
 .ledger p { grid-column: 1 / -1; margin: 4px 0 0; max-width: 38em; transition: color .2s; }
 .ledger:hover a, .ledger:focus-within a { color: var(--muted); }
@@ -207,6 +236,17 @@ dialog::backdrop { background: #0f0f0dcc; }
 .prose blockquote { margin: 0; padding: 4px 0 4px 18px; background: var(--surface); color: var(--muted); }
 .prose .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
 
+/* Tools: plain fields, the answer set larger than the question */
+.tool { max-width: 760px; margin-bottom: 104px; }
+.tool h2 { font-size: var(--step-head); font-weight: 600; letter-spacing: -.02em; margin: 0 0 20px; }
+.tool-row { display: flex; flex-wrap: wrap; gap: 16px 24px; }
+.tool-row label { display: grid; gap: 6px; font-size: var(--step-small); color: var(--muted); }
+.tool-row input { font: inherit; font-size: var(--step-body); color: var(--ink); background: var(--surface); border: 0; border-bottom: 2px solid var(--ink); padding: 10px 12px; width: 11em; font-variant-numeric: tabular-nums; }
+.tool-row input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; }
+.tool-out { font-size: var(--step-lead); letter-spacing: -.01em; margin: 20px 0 8px; font-variant-numeric: tabular-nums; white-space: pre-wrap; }
+.tool-note { margin: 12px 0 0; max-width: 60ch; }
+.tool-note a { text-decoration: underline; text-underline-offset: 3px; }
+
 /* Lab */
 .lab-h2 { font-size: var(--step-head); font-weight: 600; letter-spacing: -.02em; margin: 120px 0 12px; }
 .lab-controls { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; margin-bottom: 22px; font-size: var(--step-small); }
@@ -228,6 +268,8 @@ dialog::backdrop { background: #0f0f0dcc; }
 @media (max-width: 960px) {
   .work-figure, .lately-figure { position: static; width: auto; max-width: 420px; margin: 56px var(--margin) 0; }
   .col { margin-left: var(--margin); }
+  .measure { display: block; }
+  .measure-copy { margin-top: 40px; max-width: 40em; }
   .contact-line { grid-column: 1 / span 7; }
   .contact-figure { grid-column: 8 / span 2; }
   .contact-links { grid-column: 10 / -1; }
@@ -243,7 +285,11 @@ dialog::backdrop { background: #0f0f0dcc; }
   .hero-copy { padding: 0 12px; display: block; }
   .hero h1 { margin: 28px 0 24px; }
   .hero-actions { margin-bottom: 20px; }
-  .intro, .contact { display: block; }
+  .intro, .contact, .lab-teaser, .measure { display: block; }
+  .measure-copy { margin-top: 40px; }
+  .ft-panels { gap: 12px; }
+  .lab-teaser-figure { margin-top: 40px; }
+  .film-lab { display: none; }
   .intro-lead { margin-bottom: 40px; }
   .intro-cols { grid-template-columns: 1fr; gap: 24px; }
   .intro-figure { margin-top: 48px; }

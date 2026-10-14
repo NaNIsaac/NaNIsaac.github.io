@@ -23,6 +23,7 @@
     <a class="brand" href="../">Isaac Yong</a>
     <nav aria-label="Main">
       <a class="wide" href="../#work">Work</a>
+      <a class="wide" href="../tools/">Tools</a>
       <a href="../notes/">Notes</a>
       <button class="toggle" id="theme" aria-label="Toggle theme">Dark</button>
     </nav>
@@ -32,7 +33,7 @@
     <h1 class="page-title">Touch the wave.<br>See the transform.</h1>
     <p class="page-lead">Two small experiments built on two different models: a time-domain wave you can poke, and a Fourier-optics bench for apertures and filters. Nothing here is precomputed.</p>
 
-    <h2 class="lab-h2" id="waves">Ripple and diffraction</h2>
+    <h2 class="lab-h2" id="waves">Ripple tank</h2>
     <p class="page-lead">A ripple tank for light: a 2D scalar wave equation on an optical table. The slit jaws absorb by default, like the tungsten blades of an X-ray slit; switch them to reflecting to see the standing waves an ideal mirror sends back. Click to ripple. Double-click to pin a source, double-click it again to remove it. Drag the barrier by its mount on the rail, a slit up or down by its opening, or a jaw's knife edge to change the gap. With the lattice in place, drag its middle to move it and its rim to rotate it, and watch for the angle where the detector lights up: that is the Bragg condition. At the right edge a film strip darkens where intensity arrives; click it for fresh film. Beside it, the thin line is the intensity arriving now and the heavy one its running average.</p>
     <div class="lab-controls" role="group" aria-label="Wave controls">
       <div class="seg" role="group" aria-label="Sources" id="w-sources">
@@ -58,7 +59,7 @@
     </div>
     <canvas id="lab-wave" class="lab-wave" role="img" aria-label="Wave simulation on an optical table. Click to ripple, double-click to pin or remove a source, drag the barrier, slits, gap grips or the lattice."></canvas>
 
-    <h2 class="lab-h2" id="fourier">Fourier filtering</h2>
+    <h2 class="lab-h2" id="fourier">Fourier bench</h2>
     <p class="page-lead">A separate model: a monochromatic complex field and its 2D Fourier transform, not a time-domain wave. Pick an aperture, drag on the panels, and watch the far-field intensity and the filtered field respond.</p>
 
     <div class="lab-controls" role="group" aria-label="Controls">
@@ -106,7 +107,7 @@
     </details>
   </main>
 
-  <footer><div class="footer-line"><span>Isaac Yong, the lab</span><nav aria-label="Footer"><a href="../">Home</a><a href="../notes/">Notes</a></nav><span>Press <kbd>`</kbd> for the terminal</span></div></footer>
+  <footer><div class="footer-line"><span>Isaac Yong, the lab</span><nav aria-label="Footer"><a href="../">Home</a><a href="../tools/">Tools</a><a href="../notes/">Notes</a></nav><span>Press <kbd>`</kbd> for the terminal</span></div></footer>
   <script src="../wave.js" defer></script>
   <script src="../wave-view.js" defer></script>
   <script src="../fourier.js" defer></script>

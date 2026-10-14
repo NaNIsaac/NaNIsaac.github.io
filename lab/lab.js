@@ -127,7 +127,7 @@
 
     if (state.filter !== 'none') { // cutoff circle overlay
       const g = canvases.s.getContext('2d');
-      g.strokeStyle = 'rgba(255,255,255,.7)';
+      g.strokeStyle = getComputedStyle(document.body).getPropertyValue('--accent').trim();
       g.setLineDash([4, 4]);
       g.beginPath(); g.arc(N / 2, N / 2, state.cutoff * N, 0, Math.PI * 2); g.stroke();
       g.setLineDash([]);
