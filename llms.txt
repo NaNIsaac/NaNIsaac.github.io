@@ -1,0 +1,33 @@
+# Isaac Yong
+
+> Personal site of Isaac Yong (용이삭, GitHub NaNIsaac), M.S. in physics, Sogang University. Works on X-ray scattering and diffraction and the scientific software around it: XRR inverse problems, coherent and time-resolved diffraction, and experimental data systems.
+
+The site is static (GitHub Pages, Jekyll for the notes). The home page has an interactive 2D wave simulation, short explainers on diffraction, thin-film fringes and phase retrieval, a project list, and links to upstream pull requests. Pressing the backtick key opens an in-page terminal with X-ray calculators.
+
+## Pages
+
+- [Home](https://nanisaac.github.io/): profile, projects, recent notes and upstream pull requests
+- [Lab](https://nanisaac.github.io/lab/): ripple tank and Fourier bench; draw an aperture, see its far field, filter the spectrum
+- [Tools](https://nanisaac.github.io/tools/): beamline arithmetic: energy and wavelength, Bragg angle, q and d-spacing, beam footprint, transmission
+- [Notes](https://nanisaac.github.io/notes/): short notes on X-ray physics and scientific software
+- [How the homepage wave works](https://nanisaac.github.io/notes/2026/10/how-the-hero-wave-works/): the 2D scalar wave model, double slit and detector line behind the hero
+
+## Software
+
+- [xray.ooguy](https://xray.ooguy.com/): offline X-ray and beamline calculators with a beamtime logbook, ES5 for old control-room browsers ([Korean](https://xray.ooguy.com/ko/))
+- [QoraFlow](https://github.com/NaNIsaac/QoraFlow): toolkit for time-resolved XFEL pump-probe data, tailored to PAL-XFEL
+- [QoraPhase](https://github.com/NaNIsaac/QoraPhase): JAX-native, composable phase-retrieval framework for coherent diffraction imaging
+- [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM): dark-field X-ray microscopy image analysis; Python engine, CLI and PySide6 app
+- [CXD](https://github.com/NaNIsaac/CXD): coherent X-ray diffraction analysis: SPEC parsing, Timepix frames, q-space regridding
+- [ReflectoLearn](https://github.com/NaNIsaac/ReflectoLearn): XRR inverse modeling with a differentiable Abeles simulator and a 1D CNN
+- [TraTT](https://github.com/NaNIsaac/TraTT): Takagi-Taupin study of how acoustic Bragg satellites form in a crystal (KPS 2026 Fall poster)
+- [codigest](https://github.com/NaNIsaac/codigest): CLI that extracts, structures and tracks codebase context for LLMs (PyPI: codigest)
+- [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle): Lightweight rectangular ROI handling for images (PyPI: roi-rectangle)
+- [hanfix](https://github.com/NaNIsaac/hanfix): re-runs a shell command typed with the Korean keyboard layout on, converted back to QWERTY
+- [deai](https://github.com/NaNIsaac/deai): removes AI co-author credits from git history without changing code
+
+## Optional
+
+- [GitHub profile](https://github.com/NaNIsaac): all public repositories
+- [Notes feed](https://nanisaac.github.io/notes/feed.xml): Atom feed of the notes
+- [Source](https://github.com/NaNIsaac/NaNIsaac.github.io): repository of this site
