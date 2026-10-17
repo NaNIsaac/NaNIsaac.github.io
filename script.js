@@ -103,7 +103,7 @@ if (waveCanvas && typeof mountWave === 'function') {
 const cssVar = (name) => getComputedStyle(document.body).getPropertyValue(name).trim();
 const hexRgb = (v) => [1, 3, 5].map((i) => parseInt(v.slice(i, i + 2), 16));
 
-// XRefine training video: plays only while on screen; with reduced motion it stays on the poster (last epoch) with controls
+// XRefine video: plays only while on screen; with reduced motion it stays on the poster (the final fit) with controls
 const fitVideo = document.querySelector('.fit-video');
 if (fitVideo) {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) fitVideo.controls = true;
