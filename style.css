@@ -268,6 +268,8 @@ dialog::backdrop { background: #0f0f0dcc; }
 .lab-wave { width: 100%; height: min(62vh, 520px); display: block; background: var(--surface); touch-action: pan-y; cursor: crosshair; }
 .lab-wave-pause { font-weight: 600; color: var(--ink); }
 
+/* Between 960 and 1320px the side photos would sit on the text column; drop them under it */
+@media (max-width: 1320px) { .work-figure, .lately-figure { position: static; width: auto; max-width: 420px; margin: 56px 0 0 var(--col); } }
 @media (max-width: 960px) {
   .work-figure, .lately-figure { position: static; width: auto; max-width: 420px; margin: 56px var(--margin) 0; }
   .col { margin-left: var(--margin); }
