@@ -281,11 +281,12 @@ dialog::backdrop { background: #0f0f0dcc; }
 }
 @media (max-width: 760px) {
   :root { --margin: 20px; }
-  .site-header { height: 56px; }
-  .site-header nav { gap: 16px; }
+  /* brand + Work, Notes, Contact + two 44px toggles must fit in 375px */
+  .site-header { height: 56px; gap: 8px; padding: 0 12px; }
+  .site-header nav { gap: 8px; }
   .site-header nav .wide { display: none; }
   .hero { padding: 0 8px; }
-  .film { height: 46svh; min-height: 300px; }
+  .film { height: 36svh; min-height: 240px; }
   .film-bar { left: 12px; right: calc(7% + 28px); top: 64px; flex-wrap: wrap; gap: 8px 16px; }
   .hero-copy { padding: 0 12px; display: block; }
   .hero h1 { margin: 28px 0 24px; }
