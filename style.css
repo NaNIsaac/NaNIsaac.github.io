@@ -130,6 +130,10 @@ figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 10px
 .measure-copy { grid-column: 9 / -1; }
 .measure-copy p a, .reconstruct-copy p a { text-decoration: underline; text-underline-offset: 3px; }
 .measure-readout { color: var(--muted); font-size: var(--step-small); }
+.fit-figure { margin-top: 28px; }
+.fit-caption { font-size: var(--step-small); color: var(--muted); margin: 10px 0 0; }
+.fit-video { display: block; width: 100%; height: auto; background: var(--bg); }
+body.dark .fit-video { filter: invert(1) hue-rotate(180deg); } /* the video is rendered on paper; flip it to ink */
 
 /* Reconstruct: the argument across the top, object and detector side by side */
 .reconstruct-copy { max-width: 46em; margin-bottom: 40px; }

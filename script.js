@@ -150,6 +150,13 @@ if (xrrCanvas && typeof reflectivity === 'function') {
   new ResizeObserver(drawXRR).observe(xrrCanvas);
 }
 
+// XRefine training video: plays only while on screen; with reduced motion it stays on the poster (last epoch) with controls
+const fitVideo = document.querySelector('.fit-video');
+if (fitVideo) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) fitVideo.controls = true;
+  else new IntersectionObserver(([e]) => { e.isIntersecting ? fitVideo.play().catch(() => {}) : fitVideo.pause(); }).observe(fitVideo);
+}
+
 // Reconstruct: an aperture and its far-field intensity (fourier.js); drag on the aperture to resize it
 const ftA = document.querySelector('#ft-a'), ftS = document.querySelector('#ft-s');
 if (ftA && typeof createFourier === 'function') {
