@@ -258,6 +258,11 @@ dialog::backdrop { background: #0f0f0dcc; }
 .tool-row input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; }
 .tool-out { font-size: var(--step-lead); letter-spacing: -.01em; margin: 20px 0 8px; font-variant-numeric: tabular-nums; white-space: pre-wrap; }
 .tool-note { margin: 12px 0 0; max-width: 60ch; }
+.tool-copy { font-size: var(--step-small); color: var(--muted); min-height: 44px; text-decoration: underline; text-underline-offset: 3px; }
+.tool-copy:hover { color: var(--ink); }
+.tool-index { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 0 0 72px; font-size: var(--step-small); }
+.tool-index a { text-decoration: underline; text-underline-offset: 3px; min-height: 44px; display: inline-flex; align-items: center; }
+.tool h2 { scroll-margin-top: 96px; }
 .tool-note a { text-decoration: underline; text-underline-offset: 3px; }
 
 /* Lab */
