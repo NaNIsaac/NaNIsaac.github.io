@@ -92,7 +92,7 @@ if (waveCanvas && typeof mountWave === 'function') {
     pauseButton,
     wake: true,
     fixed: true, // the slit is scenery here; moving it is the lab's job
-    scene: { sources: [{ fx: 0.16, fy: 0.5 }] }, // one steady source: the slits always have something to diffract
+    scene: { sources: [], slits: [0.36, 0.64] }, // no steady source: taps light it; slits wide apart so the two waves read
     pauseLabel: (running) => (running ? (isKo() ? '일시정지' : 'Pause') : (isKo() ? '재생' : 'Play')),
   });
 }

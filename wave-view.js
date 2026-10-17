@@ -5,6 +5,7 @@
 // tools: true is the optical-table mode (lab): double-click pins/removes a source, the barrier and the
 // slit edges drag, a finite hexagonal lattice moves and rotates, and the detector shows I(y, t) and <I(y)>.
 // fixed: true draws the slit as a plain plate and makes nothing draggable; taps and moves only ripple.
+// Until the first touch a ghost hand alternates a tap and a swipe left of the slits, so people see what each does.
 // onChange(scene) fires after a drag changes the scene.
 function mountWave(canvas, opts = {}) {
   const ctx = canvas.getContext('2d');
@@ -15,6 +16,7 @@ function mountWave(canvas, opts = {}) {
   const { pauseButton, hint, wake, tools, fixed, onChange, pauseLabel: label = (r) => (r ? 'Pause' : 'Play') } = opts;
   // Affordance: brass arrows on what can be dragged until the first drag, and one slow nudge of the slits after load.
   let cued = !fixed, nudge = null;
+  let ghost = fixed ? { t0: performance.now() + 1500, n: -1 } : null;
 
   // speed scales solver steps per second, gain the display contrast; a calm preview uses less of both.
   const STEP_MS = 1000 / (120 * (opts.speed ?? 1));
@@ -29,7 +31,7 @@ function mountWave(canvas, opts = {}) {
     ...opts.scene,
   };
 
-  let sim, img, det, inst, expo, grain, filmImg, cell, cssW, cssH, dpr, colors, dropped = false, hover = null, pop = null, press = null;
+  let sim, img, det, inst, expo, grain, filmImg, cell, cssW, cssH, dpr, colors, hover = null, pop = null, press = null;
 
   function readColor(name) {
     const v = getComputedStyle(document.body).getPropertyValue(name).trim();
@@ -89,7 +91,6 @@ function mountWave(canvas, opts = {}) {
     filmImg = fctx.createImageData(FILM_COLS, h);
     applyScene();
     if (scene.sources.length) for (let i = 0; i < 600; i++) tick(); // composed frame before the first paint
-    if (!scene.sources.length && !dropped) { dropped = true; sim.burst(0.55 * sim.w, 0.5 * sim.h); } // one drop so a still screen reads as live
     if (cued && !nudge && scene.barrier != null && scene.slits.length && running && !build.done) nudge = { t0: performance.now() + 1400, base: [...scene.slits] };
     build.done = true;
     draw();
@@ -123,6 +124,8 @@ function mountWave(canvas, opts = {}) {
       const age = (performance.now() - pop.t) / 350;
       if (age < 1) { ctx.globalAlpha = 1 - age; ctx.beginPath(); ctx.arc(pop.x, pop.y, 11 + 14 * age, 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1; } else pop = null;
     }
+
+    if (ghost) drawGhost(ink);
 
     for (const s of scene.sources) {
       const x = s.fx * cssW, y = s.fy * cssH;
@@ -368,7 +371,38 @@ function mountWave(canvas, opts = {}) {
     }
     onChange?.(scene);
   }
-  function engaged() { hint?.classList.add('gone'); }
+  function engaged() { hint?.classList.add('gone'); ghost = null; }
+
+  // Ghost hand, alternating two gestures. Tap: a dot presses down, a ring spreads, and the field gets the
+  // burst a real tap gives. Swipe: the dot wanders toward the slits leaving the wake a moving mouse leaves.
+  const GHOST_MS = 2800;
+  function drawGhost(ink) {
+    const t = performance.now() - ghost.t0;
+    if (t < 0) return;
+    const n = Math.floor(t / GHOST_MS), ph = (t % GHOST_MS) / GHOST_MS, B = scene.barrier * cssW;
+    ctx.fillStyle = ink;
+    if (n % 2) { // swipe
+      const q = Math.min(1, Math.max(0, (ph - 0.1) / 0.6));
+      const x = (0.15 + 0.6 * q) * B, y = (0.5 + 0.22 * Math.sin(2 * Math.PI * q)) * cssH;
+      const c = { x: x / cell, y: y / cell };
+      if (q > 0 && q < 1 && (!ghost.last || Math.hypot(c.x - ghost.last.x, c.y - ghost.last.y) >= 4)) { ghost.last = c; sim.burst(c.x, c.y, 0.05, 2); }
+      if (q >= 1) ghost.last = null;
+      ctx.globalAlpha = 0.6 * Math.min(1, ph / 0.1, (1 - ph) / 0.2);
+      ctx.beginPath(); ctx.arc(x, y, 7, 0, Math.PI * 2); ctx.fill();
+    } else { // tap
+      const x = 0.4 * B, y = 0.5 * cssH;
+      if (n !== ghost.n && ph > 0.15) { ghost.n = n; sim.burst(x / cell, y / cell, 0.6); }
+      const down = ph < 0.15 ? ph / 0.15 : Math.max(0, 1 - (ph - 0.15) / 0.2);
+      ctx.globalAlpha = 0.25 + 0.5 * down;
+      ctx.beginPath(); ctx.arc(x, y, 9 - 3 * down, 0, Math.PI * 2); ctx.fill();
+      if (ph > 0.15 && ph < 0.75) {
+        const q = (ph - 0.15) / 0.6;
+        ctx.globalAlpha = 0.6 * (1 - q);
+        ctx.beginPath(); ctx.arc(x, y, 10 + 30 * q, 0, Math.PI * 2); ctx.stroke();
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
 
   // Wake: short bursts every ~4 cells along the segment since the last move, amplitude ∝ speed.
   let prevMove = null;
@@ -382,7 +416,15 @@ function mountWave(canvas, opts = {}) {
     const n = Math.ceil(d / 4);
     for (let k = 1; k <= n; k++) sim.burst(q.x + ((prevMove.x - q.x) * k) / n, q.y + ((prevMove.y - q.y) * k) / n, a, 2);
   }
-  canvas.addEventListener('pointerleave', () => { prevMove = null; });
+  // Scrolling under a resting mouse moves the canvas past it: that is pointer motion too.
+  let mouse = null; // last mouse position over the canvas, client coordinates
+  canvas.addEventListener('pointerleave', () => { prevMove = null; mouse = null; });
+  if (wake) window.addEventListener('scroll', (e) => {
+    if (!mouse || !sim) return;
+    const r = canvas.getBoundingClientRect(), p = { x: mouse.x - r.left, y: mouse.y - r.top };
+    if (p.y < 0 || p.y > r.height) { mouse = null; prevMove = null; return; }
+    trail(p, e.timeStamp);
+  }, { passive: true });
 
   canvas.addEventListener('pointerdown', (e) => {
     if (!sim || e.button > 0) return;
@@ -399,7 +441,7 @@ function mountWave(canvas, opts = {}) {
       hover = hitTest(p, false);
       canvas.classList.toggle('grab', !!hover);
       if (!running && tools) draw();
-      if (wake && e.pointerType === 'mouse') trail(p, e.timeStamp);
+      if (wake && e.pointerType === 'mouse') { trail(p, e.timeStamp); mouse = { x: e.clientX, y: e.clientY }; ghost = null; }
       return;
     }
     if (!press.dragging && Math.hypot(p.x - press.start.x, p.y - press.start.y) > press.thr) press.dragging = true;

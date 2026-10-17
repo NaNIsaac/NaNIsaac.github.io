@@ -305,7 +305,7 @@ dialog::backdrop { background: #0f0f0dcc; }
   .hero-actions { margin-bottom: 20px; }
   .intro, .contact, .lab-teaser, .measure, .reconstruct { display: block; }
   .ft-figure { margin-top: 32px; }
-  /* small film: the button is enough, the hint would sit on the source */
+  /* small film: the button is enough, the ghost tap shows what to do */
   .film-bar .hint { display: none; }
   .measure-copy { margin-top: 40px; }
   .lab-teaser-figure { margin-top: 40px; }
