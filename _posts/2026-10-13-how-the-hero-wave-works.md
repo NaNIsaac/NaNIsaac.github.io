@@ -22,12 +22,12 @@ $$
 with $$r = c\,\Delta t / \Delta x = 0.5$$, inside the 2D stability limit $$r \le 1/\sqrt{2}$$.
 Units are grid cells and time steps — there is no mapping to SI and none is implied.
 
-- **One steady source** on the home page, $$s \propto \sin(2\pi t / T)$$,
-  sits left of the slits so the double slit always has something to diffract. The slit itself
-  is fixed here; moving it is the [lab](/lab/)'s job. (The lab keeps two coherent oscillators
+- **No continuous source** on the home page: the field rests until something taps it. Until
+  you do, a ghost hand left of the slits alternates a tap and a swipe, feeding the field
+  exactly what a real tap or mouse move would. The slit itself is fixed here; moving it is the [lab](/lab/)'s job. (The lab keeps two coherent oscillators
   with $$T = 24$$ steps by default, so the wavelength is $$cT = 12$$ cells; a slider changes it.)
 - **Moving the mouse** leaves a faint wake of Gaussian bumps whose amplitude scales with
-  pointer speed; **click** adds one strong bump; **dragging** adds a rate-limited trail.
+  pointer speed (scrolling with the mouse resting on the film counts as moving); **click** adds one strong bump; **dragging** adds a rate-limited trail.
 - **The barrier** is two cells of Dirichlet wall, $$u = 0$$, with a six-cell graded damping
   layer on its upstream face, so the jaws mostly soak up what hits them, like tungsten
   X-ray slit blades. This is an approximation, not a perfect absorber: some reflection

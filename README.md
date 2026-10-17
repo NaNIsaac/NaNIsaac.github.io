@@ -4,7 +4,7 @@ Personal site of **Isaac Yong (용이삭) / NaNIsaac** — https://nanisaac.gith
 
 | Path | What it is |
 |---|---|
-| `/` | Portfolio with the *Liquid Light* hero: a live 2D wave simulation (`wave.js`): a fixed double slit lit by one source; clicks and moves ripple it |
+| `/` | Portfolio with the *Liquid Light* hero: a live 2D wave simulation (`wave.js`): a fixed double slit; clicks and moves ripple it, and a ghost hand shows how until you do |
 | `/lab/` | Fourier & Filtering sandbox (`fourier.js`, `lab/lab.js`) |
 | `/notes/` | Notes written as Markdown in `_posts/`, built by GitHub Pages' Jekyll |
 | `` ` `` key | Terminal: X-ray calculators, quick capture, shortcuts (`terminal.js`) |
