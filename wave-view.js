@@ -6,6 +6,8 @@
 // slit edges drag, a finite hexagonal lattice moves and rotates, and the detector shows I(y, t) and <I(y)>.
 // fixed: true draws the slit as a plain plate and makes nothing draggable; taps and moves only ripple.
 // Until the first touch a ghost hand alternates a tap and a swipe left of the slits, so people see what each does.
+// demo: true (with tools and a lattice) has the ghost hand turn the lattice by its rim, then shift it by its middle.
+// cellPx(cssW) sets the screen pixels per solver cell (default 3); fewer zooms the whole bench out.
 // onChange(scene) fires after a drag changes the scene.
 function mountWave(canvas, opts = {}) {
   const ctx = canvas.getContext('2d');
@@ -16,7 +18,7 @@ function mountWave(canvas, opts = {}) {
   const { pauseButton, hint, wake, tools, fixed, onChange, pauseLabel: label = (r) => (r ? 'Pause' : 'Play') } = opts;
   // Affordance: brass arrows on what can be dragged until the first drag, and one slow nudge of the slits after load.
   let cued = !fixed, nudge = null;
-  let ghost = fixed ? { t0: performance.now() + 1500, n: -1 } : null;
+  let ghost = fixed || opts.demo ? { t0: performance.now() + 1500, n: -1 } : null;
 
   // speed scales solver steps per second, gain the display contrast; a calm preview uses less of both.
   const STEP_MS = 1000 / (120 * (opts.speed ?? 1));
@@ -77,7 +79,7 @@ function mountWave(canvas, opts = {}) {
     dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     canvas.width = Math.round(cssW * dpr);
     canvas.height = Math.round(cssH * dpr);
-    const w = Math.min(420, Math.round(cssW / 3));
+    const w = Math.min(420, Math.round(cssW / (opts.cellPx?.(cssW) ?? 3)));
     const h = Math.round((w * cssH) / cssW); // square cells: no anisotropic stretching
     cell = cssW / w;
     sim = createWave(w, h);
@@ -119,13 +121,12 @@ function mountWave(canvas, opts = {}) {
     ctx.lineWidth = 1.5;
     if (scene.barrier != null) drawBench(ink);
 
+    if (ghost) drawGhost(ink);
     if (scene.lattice) drawLattice(f, ink);
     if (pop) { // a pinned source swells once
       const age = (performance.now() - pop.t) / 350;
       if (age < 1) { ctx.globalAlpha = 1 - age; ctx.beginPath(); ctx.arc(pop.x, pop.y, 11 + 14 * age, 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1; } else pop = null;
     }
-
-    if (ghost) drawGhost(ink);
 
     for (const s of scene.sources) {
       const x = s.fx * cssW, y = s.fy * cssH;
@@ -253,7 +254,7 @@ function mountWave(canvas, opts = {}) {
   // Atoms brighten with the local wave amplitude (sampled beside the hard cell, which is always 0).
   function drawLattice(f, ink) {
     const L = scene.lattice, cx = L.fx * cssW, cy = L.fy * cssH, R = shellR(L) * cell;
-    const active = (hover && hover.kind in LATTICE) || (press && press.hit && press.hit.kind in LATTICE);
+    const active = (hover && hover.kind in LATTICE) || (press && press.hit && press.hit.kind in LATTICE) || ghost?.active;
     ctx.fillStyle = ink;
     for (const a of latticeAtoms(L)) {
       const i = Math.round(a.y) * sim.w + Math.round(a.x) + 1;
@@ -373,12 +374,31 @@ function mountWave(canvas, opts = {}) {
   }
   function engaged() { hint?.classList.add('gone'); ghost = null; }
 
+  // Lattice demo: the dot grabs the rim handle and turns the lattice ~20° and back, then grabs the
+  // middle and shifts it and back. The lattice really moves, so the scattering changes with it.
+  const DEMO_MS = 3600;
+  function ghostLattice(t, ink) {
+    const L = scene.lattice, b = (ghost.base ??= { fx: L.fx, theta: L.theta });
+    const n = Math.floor(t / DEMO_MS), ph = (t % DEMO_MS) / DEMO_MS;
+    const q = Math.min(1, Math.max(0, (ph - 0.2) / 0.55)), bump = Math.sin(Math.PI * q);
+    if (n % 2) { L.theta = b.theta; L.fx = b.fx + 0.08 * bump; } else { L.fx = b.fx; L.theta = b.theta + 0.35 * bump; }
+    sim.setPoints(latticeAtoms(L));
+    ghost.active = q > 0 && q < 1;
+    const cx = L.fx * cssW, cy = L.fy * cssH, R = shellR(L) * cell;
+    const x = n % 2 ? cx : cx + R * Math.cos(L.theta), y = n % 2 ? cy : cy + R * Math.sin(L.theta);
+    ctx.fillStyle = ink;
+    ctx.globalAlpha = 0.55 * Math.min(1, ph / 0.15, Math.max(0, (0.95 - ph) / 0.15));
+    ctx.beginPath(); ctx.arc(x, y, ghost.active ? 7 : 9, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+
   // Ghost hand, alternating two gestures. Tap: a dot presses down, a ring spreads, and the field gets the
   // burst a real tap gives. Swipe: the dot wanders toward the slits leaving the wake a moving mouse leaves.
   const GHOST_MS = 2800;
   function drawGhost(ink) {
     const t = performance.now() - ghost.t0;
     if (t < 0) return;
+    if (!fixed) return ghostLattice(t, ink);
     const n = Math.floor(t / GHOST_MS), ph = (t % GHOST_MS) / GHOST_MS, B = scene.barrier * cssW;
     ctx.fillStyle = ink;
     if (n % 2) { // swipe
@@ -448,7 +468,8 @@ function mountWave(canvas, opts = {}) {
       hover = hitTest(p, false);
       canvas.classList.toggle('grab', !!hover);
       if (!running && tools) draw();
-      if (wake && e.pointerType === 'mouse') { trail(p, e.timeStamp); ghost = null; }
+      if (e.pointerType === 'mouse') ghost = null;
+      if (wake && e.pointerType === 'mouse') trail(p, e.timeStamp);
       return;
     }
     if (!press.dragging && Math.hypot(p.x - press.start.x, p.y - press.start.y) > press.thr) press.dragging = true;

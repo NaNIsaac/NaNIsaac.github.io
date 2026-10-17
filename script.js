@@ -79,6 +79,8 @@ if (labPreview && typeof mountWave === 'function') {
   mountWave(labPreview, {
     tools: true,
     speed: 0.5, gain: 0.55, // half speed, softer contrast: it sits beside reading text
+    demo: true, // a ghost hand turns and shifts the lattice until someone touches it
+    cellPx: (w) => (w < 600 ? 2 : 3), // phones: zoom out, so the crystal is small and the pattern dense
     scene: { sources: [{ fx: 0.1, fy: 0.5 }], barrier: null, slits: [], detector: 0.92, lattice: { fx: 0.48, fy: 0.5, theta: 0.35, d: 9, n: 3 } },
   });
 }
@@ -97,59 +99,9 @@ if (waveCanvas && typeof mountWave === 'function') {
   });
 }
 
-// Shared canvas helpers for the two small home benches
+// Shared canvas helpers
 const cssVar = (name) => getComputedStyle(document.body).getPropertyValue(name).trim();
 const hexRgb = (v) => [1, 3, 5].map((i) => parseInt(v.slice(i, i + 2), 16));
-function fitCanvas(canvas) {
-  const r = canvas.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = Math.round(r.width * dpr); canvas.height = Math.round(r.height * dpr);
-  const g = canvas.getContext('2d');
-  g.setTransform(dpr, 0, 0, dpr, 0, 0);
-  return { g, w: r.width, h: r.height };
-}
-
-// Measure: reflectivity of a film on silicon, Parratt recursion (xrr.js), redrawn on every slider move
-const xrrCanvas = document.querySelector('#xrr');
-if (xrrCanvas && typeof reflectivity === 'function') {
-  const SI = 2.0e-5, FILM = 3.3e-5; // X-ray SLD in Å⁻²: silicon, and an Al₂O₃-like film
-  const Q0 = 0.01, Q1 = 0.3, LOG_MIN = -8;
-  const tIn = document.querySelector('#xrr-t'), sIn = document.querySelector('#xrr-s');
-  function drawXRR() {
-    const t = +tIn.value, s = +sIn.value;
-    document.querySelector('#xrr-t-out').textContent = `${t} Å`;
-    document.querySelector('#xrr-s-out').textContent = `${s} Å`;
-    document.querySelector('#xrr-out').textContent = `Fringe period 2π/t = ${((2 * Math.PI) / t).toFixed(4)} Å⁻¹`;
-    const { g, w, h } = fitCanvas(xrrCanvas);
-    const ink = cssVar('--ink'), muted = cssVar('--muted');
-    const L = 52, B = 36, T = 14, R = 14, pw = w - L - R, ph = h - T - B;
-    const X = (q) => L + ((q - Q0) / (Q1 - Q0)) * pw;
-    const Y = (r) => T + (Math.max(Math.log10(r), LOG_MIN) / LOG_MIN) * ph;
-    g.clearRect(0, 0, w, h);
-    g.font = '13px Archivo, sans-serif';
-    g.fillStyle = muted;
-    g.textAlign = 'center';
-    for (const q of [0.05, 0.1, 0.15, 0.2, 0.25, 0.3]) { g.fillRect(X(q), T + ph, 1, 5); g.fillText(q.toFixed(2), X(q), T + ph + 20); }
-    g.textAlign = 'right';
-    for (const e of [0, -2, -4, -6, -8]) { g.fillRect(L - 5, Y(10 ** e), 5, 1); g.fillText(`10${e ? '⁻' + '⁰¹²³⁴⁵⁶⁷⁸⁹'[-e] : '⁰'}`, L - 9, Y(10 ** e) + 4); }
-    g.textAlign = 'left';
-    g.fillText('q, Å⁻¹', L + pw - 44, T + ph - 8);
-    g.fillText('R', L + 6, T + 12);
-    const plot = (layers, sub, color, width) => {
-      g.strokeStyle = color; g.lineWidth = width; g.beginPath();
-      for (let i = 0; i <= 600; i++) {
-        const q = Q0 + ((Q1 - Q0) * i) / 600, y = Y(reflectivity(q, layers, sub));
-        i ? g.lineTo(X(q), y) : g.moveTo(X(q), y);
-      }
-      g.stroke();
-    };
-    plot([], { rho: SI, sigma: s }, muted, 1); // the bare substrate, for reference
-    plot([{ rho: FILM, d: t, sigma: s }], { rho: SI, sigma: s }, ink, 2);
-  }
-  tIn.addEventListener('input', drawXRR);
-  sIn.addEventListener('input', drawXRR);
-  window.addEventListener('themechange', drawXRR);
-  new ResizeObserver(drawXRR).observe(xrrCanvas);
-}
 
 // XRefine training video: plays only while on screen; with reduced motion it stays on the poster (last epoch) with controls
 const fitVideo = document.querySelector('.fit-video');
