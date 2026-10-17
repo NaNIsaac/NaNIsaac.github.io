@@ -1,6 +1,6 @@
 ---
 title: How the homepage wave works
-description: The model behind the interactive hero — a 2D scalar wave equation on a grid, a reflecting double slit, and what the detector line does and does not measure.
+description: The model behind the interactive hero — a 2D scalar wave equation on a grid, a double slit with absorbing jaws, and what the detector line does and does not measure.
 tags: [simulation, waves]
 ---
 
@@ -24,13 +24,15 @@ Units are grid cells and time steps — there is no mapping to SI and none is im
 
 - **No continuous sources** on the home page: the field rests at zero until you touch it.
   (The [lab](/lab/) keeps two coherent oscillators, $$s \propto \sin(2\pi t / T)$$ with
-  $$T = 16$$ steps, so the wavelength is $$cT = 8$$ cells.)
+  $$T = 24$$ steps by default, so the wavelength is $$cT = 12$$ cells; a slider changes it.)
 - **Moving the mouse** leaves a faint wake of Gaussian bumps whose amplitude scales with
   pointer speed; **click** adds one strong bump; **dragging** adds a rate-limited trail.
   On load a single drop falls in front of the slits so touch screens see it is live.
-- **The barrier** is Dirichlet, $$u = 0$$: an idealized *reflecting* wall, which is why
-  the region left of it fills with standing-wave structure. Each slit is 7 cells wide,
-  a bit less than one wavelength, so diffraction is strong.
+- **The barrier** is two cells of Dirichlet wall, $$u = 0$$, with a six-cell graded damping
+  layer on its upstream face, so the jaws mostly soak up what hits them, like tungsten
+  X-ray slit blades. This is an approximation, not a perfect absorber: some reflection
+  remains. (The lab can switch the jaws to ideal reflectors.) Each slit is 7 cells wide,
+  narrower than the 12-cell wavelength, so diffraction is strong.
 - **Edges** use a quadratic sponge layer,
   $$u^{n+1} = \left[ 2u^n - (1-\sigma)u^{n-1} + r^2 \nabla^2 u^n \right] / (1+\sigma)$$,
   to suppress border reflections. It is an approximation, not a perfectly matched layer.
@@ -48,9 +50,10 @@ The fringe physics — spacing shrinks as the slits move apart — is the same.
 
 ## Colors
 
-Positive displacement maps toward cyan, negative toward violet, with a white highlight on
-the strongest crests. The palette is a visual encoding of the sign of $$u$$, not the
-color of any real wavelength.
+The field is drawn like exposed film on a grey panel: crests develop toward the ink colour,
+troughs toward the opposite tone. The shading is a visual encoding of the sign of $$u$$,
+not the colour of any real wavelength.
 
-The solver is about 70 lines of plain JavaScript (`wave.js`), with a regression test that
-checks stability, absorption at the edges, and that a closed barrier blocks transmission.
+The solver is about 100 lines of plain JavaScript (`wave.js`), with a regression test that
+checks stability, absorption at the edges, that a closed barrier blocks transmission, and
+that the absorbing jaws send back less than a quarter of the energy reflecting ones do.
