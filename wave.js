@@ -34,7 +34,7 @@ function createWave(w, h) {
   const sim = {
     w, h, wall, t: 0,
     period: 16, // steps per oscillation; wavelength = 0.5 * period = 8 cells
-    sources: [], // { x, y, phase } in cells, coherent at the same frequency
+    sources: [], // { x, y, phase, a } in cells, coherent at the same frequency; a scales the drive (default 1)
     bursts: [], // short wave packets at the same frequency: { x, y, a, n, len }
     get field() { return curr; },
     step() {
@@ -46,7 +46,7 @@ function createWave(w, h) {
       }
       sim.t++;
       const phase = (2 * Math.PI * sim.t) / sim.period;
-      for (const s of sim.sources) splat(next, s.x, s.y, 0.3 * Math.sin(phase + (s.phase || 0)), 1.5);
+      for (const s of sim.sources) splat(next, s.x, s.y, 0.3 * (s.a ?? 1) * Math.sin(phase + (s.phase || 0)), 1.5);
       // Bursts: the same drive as a source under a sin² envelope, so taps make rings of the lab's wavelength.
       for (const b of sim.bursts) {
         const env = Math.sin((Math.PI * b.n) / b.len) ** 2;

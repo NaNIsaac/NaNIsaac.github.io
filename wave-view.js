@@ -4,6 +4,7 @@
 // wake: true makes a mouse moving over the canvas leave a speed-scaled ripple trail.
 // tools: true is the optical-table mode (lab): double-click pins/removes a source, the barrier and the
 // slit edges drag, a finite hexagonal lattice moves and rotates, and the detector shows I(y, t) and <I(y)>.
+// fixed: true draws the slit as a plain plate and makes nothing draggable; taps and moves only ripple.
 // onChange(scene) fires after a drag changes the scene.
 function mountWave(canvas, opts = {}) {
   const ctx = canvas.getContext('2d');
@@ -11,9 +12,9 @@ function mountWave(canvas, opts = {}) {
   const film = document.createElement('canvas');
   const fctx = film.getContext('2d');
   const octx = off.getContext('2d');
-  const { pauseButton, hint, wake, tools, onChange, pauseLabel: label = (r) => (r ? 'Pause' : 'Play') } = opts;
+  const { pauseButton, hint, wake, tools, fixed, onChange, pauseLabel: label = (r) => (r ? 'Pause' : 'Play') } = opts;
   // Affordance: brass arrows on what can be dragged until the first drag, and one slow nudge of the slits after load.
-  let cued = true, nudge = null;
+  let cued = !fixed, nudge = null;
 
   // speed scales solver steps per second, gain the display contrast; a calm preview uses less of both.
   const STEP_MS = 1000 / (120 * (opts.speed ?? 1));
@@ -56,7 +57,7 @@ function mountWave(canvas, opts = {}) {
   function applyScene() {
     sim.period = scene.period;
     sim.setPoints(scene.lattice ? latticeAtoms(scene.lattice) : []);
-    sim.sources = scene.sources.map((s) => ({ x: s.fx * sim.w, y: s.fy * sim.h }));
+    sim.sources = scene.sources.map((s) => ({ x: s.fx * sim.w, y: s.fy * sim.h, a: s.a }));
     sim.setBarrier(scene.barrier == null ? null : Math.round(scene.barrier * sim.w), scene.slits.map((fy) => ({ y: fy * sim.h, half: scene.slitHalf })), scene.absorb);
   }
 
@@ -125,6 +126,7 @@ function mountWave(canvas, opts = {}) {
 
     for (const s of scene.sources) {
       const x = s.fx * cssW, y = s.fy * cssH;
+      if (fixed) { ctx.fillStyle = ink; ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill(); continue; }
       ctx.beginPath(); ctx.arc(x, y, 11, 0, Math.PI * 2); ctx.stroke();
       ctx.fillStyle = ink;
       ctx.beginPath(); ctx.arc(x, y, 3.5, 0, Math.PI * 2); ctx.fill();
@@ -137,8 +139,20 @@ function mountWave(canvas, opts = {}) {
 
   // The slit as bench hardware: a plate with knife-edged jaws on a mount that rides a rail.
   // The jaws are bevelled on the downstream face; the plate stops at the mount; brass marks what a hand holds.
-  const RAIL = 12, MOUNT = 14, BEVEL = 8;
+  const RAIL_H = 12, MOUNT = 14, BEVEL = 8, RAIL = fixed ? 0 : RAIL_H;
+  // Fixed mode: one flat plate, full height, with two clean openings. No rail, mount or cues.
+  function drawPlate(ink) {
+    const bx = Math.round(scene.barrier * sim.w) * cell, W = Math.max(3, 2 * cell);
+    const edges = [...scene.slits].sort((p, q) => p - q).map((fy) => [(fy * sim.h - scene.slitHalf - 0.5) * cell, (fy * sim.h + scene.slitHalf + 0.5) * cell]);
+    ctx.fillStyle = ink;
+    ctx.globalAlpha = 0.9;
+    let y0 = 0;
+    for (const [t, b] of edges) { if (t > y0) ctx.fillRect(bx, y0, W, t - y0); y0 = b; }
+    if (cssH > y0) ctx.fillRect(bx, y0, W, cssH - y0);
+    ctx.globalAlpha = 1;
+  }
   function drawBench(ink) {
+    if (fixed) return drawPlate(ink);
     const brass = `rgb(${colors.brass})`, W = 2 * cell, bx = Math.round(scene.barrier * sim.w) * cell, mid = bx + W / 2;
     const railY = cssH - RAIL, plateEnd = railY - MOUNT;
     const held = (kind) => (press?.hit?.kind === kind && press.hit) || (hover?.kind === kind && hover);
@@ -272,7 +286,7 @@ function mountWave(canvas, opts = {}) {
   let visible = true, raf = 0, last = 0, acc = 0;
   function frame(now) {
     raf = 0;
-    if (!running || !visible || document.hidden) return;
+    if (!sim || !running || !visible || document.hidden) return; // build() runs on the first resize and kicks again
     acc += Math.min(now - (last || now), 100); // clamp after tab switches
     last = now;
     while (acc >= STEP_MS) { tick(); acc -= STEP_MS; }
@@ -296,6 +310,7 @@ function mountWave(canvas, opts = {}) {
   const pos = (e) => { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
   const LATTICE = { lattice: 1, rotate: 1 };
   function hitTest(p, touch) {
+    if (fixed) return Math.abs(p.x - scene.detector * cssW) < FILM_W / 2 + 4 ? { kind: 'film' } : null;
     const rad = touch ? 26 : 18;
     for (let k = 0; k < scene.sources.length; k++) {
       const s = scene.sources[k];
@@ -328,7 +343,7 @@ function mountWave(canvas, opts = {}) {
       const s = scene.sources[hit.k];
       s.fx = clamp(p.x / cssW, 0.14, (scene.barrier ?? 0.9) - 0.05);
       s.fy = clamp(p.y / cssH, 0.14, 0.86);
-      sim.sources = scene.sources.map((q) => ({ x: q.fx * sim.w, y: q.fy * sim.h }));
+      sim.sources = scene.sources.map((q) => ({ x: q.fx * sim.w, y: q.fy * sim.h, a: q.a }));
     } else if (hit.kind === 'lattice') {
       scene.lattice.fx = clamp(p.x / cssW, 0.08, 0.92);
       scene.lattice.fy = clamp(p.y / cssH, 0.08, 0.92);
