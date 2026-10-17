@@ -115,20 +115,12 @@
 
     <section class="section wrap measure" id="measure" aria-labelledby="measure-title">
       <figure class="measure-figure">
-        <canvas id="xrr" role="img" aria-label="X-ray reflectivity of a thin film on silicon on a log scale, with Kiessig fringes. Sliders set the film thickness and roughness."></canvas>
-        <div class="measure-controls">
-          <label class="range"><span data-ko="두께">Thickness</span> <input type="range" id="xrr-t" min="50" max="600" step="5" value="200"><output id="xrr-t-out"></output></label>
-          <label class="range"><span data-ko="거칠기">Roughness</span> <input type="range" id="xrr-s" min="0" max="15" step="0.5" value="4"><output id="xrr-s-out"></output></label>
-        </div>
-        <div class="fit-figure">
-          <video class="fit-video" src="assets/xrefine-training.mp4" poster="assets/xrefine-training.png" muted loop playsinline preload="none" width="960" height="600" aria-label="Training run of XRefine: its reconstruction of one simulated reflectivity curve moves onto the curve over 300 epochs."></video>
-          <p class="fit-caption" data-ko="ReflectoLearn의 전신인 physics-informed 신경망 XRefine을 이 PC(GTX 1060)에서 300 epoch 학습하며 녹화했습니다. 회색은 노이즈를 넣은 시뮬레이션 곡선 하나, 검은 선은 매 epoch 신경망이 예측한 파라미터를 Abeles 시뮬레이터에 넣어 다시 그린 곡선입니다. 300 epoch 뒤 두께는 3% 안으로 맞지만 거칠기와 background는 아직 어긋나 있습니다. 마무리 경사하강 refinement 전, 신경망만의 결과입니다. 측정 데이터가 아닙니다.">Recorded from a real 300-epoch training run of XRefine, the physics-informed network before ReflectoLearn, on a GTX 1060. Grey is one simulated curve with noise; ink is the curve the Abeles simulator draws from the network's predicted parameters, once per epoch. After 300 epochs the thickness is within 3% but the roughness and the background are still off: this is the network alone, before the gradient refinement that finishes the fit. Simulated, not measured.</p>
-        </div>
+        <video class="fit-video" src="assets/xrefine-training.mp4" poster="assets/xrefine-training.png" muted loop playsinline preload="none" width="960" height="600" aria-label="Training run of XRefine: its reconstruction of one simulated reflectivity curve moves onto the curve over 300 epochs."></video>
+        <figcaption class="fit-caption" data-ko="ReflectoLearn의 전신인 physics-informed 신경망 XRefine을 이 PC(GTX 1060)에서 300 epoch 학습하며 녹화했습니다. 회색은 노이즈를 넣은 시뮬레이션 곡선 하나, 검은 선은 매 epoch 신경망이 예측한 파라미터를 Abeles 시뮬레이터에 넣어 다시 그린 곡선입니다. 300 epoch 뒤 두께는 3% 안으로 맞지만 거칠기와 background는 아직 어긋나 있습니다. 마무리 경사하강 refinement 전, 신경망만의 결과입니다. 측정 데이터가 아닙니다.">Recorded from a real 300-epoch training run of XRefine, the physics-informed network before ReflectoLearn, on a GTX 1060. Grey is one simulated curve with noise; ink is the curve the Abeles simulator draws from the network's predicted parameters, once per epoch. After 300 epochs the thickness is within 3% but the roughness and the background are still off: this is the network alone, before the gradient refinement that finishes the fit. Simulated, not measured.</figcaption>
       </figure>
       <div class="measure-copy reveal">
         <h2 id="measure-title" data-ko="박막은 두께를 무늬로 남깁니다.">A film writes its thickness into fringes.</h2>
-        <p data-ko="실리콘 위 박막의 X선 반사율을 Parratt 점화식으로 실시간 계산한 곡선입니다. 두께를 늘리면 Kiessig 무늬가 촘촘해지고(Δq ≈ 2π/t), 계면이 거칠수록 곡선이 빨리 떨어집니다. 측정된 곡선에서 거꾸로 박막을 읽어내는 역문제를 ReflectoLearn이 배웁니다.">This is the X-ray reflectivity of a thin film on silicon, computed live with the Parratt recursion. Make the film thicker and the Kiessig fringes crowd together, Δq ≈ 2π/t; roughen the interfaces and the curve falls away faster. Reading the film back out of a measured curve is the inverse problem <a href="https://github.com/NaNIsaac/ReflectoLearn" target="_blank" rel="noopener noreferrer">ReflectoLearn</a> learns to solve.</p>
-        <p class="measure-readout tnum" id="xrr-out" aria-live="polite"></p>
+        <p data-ko="박막의 X선 반사율에는 두께가 Kiessig 무늬로(Δq ≈ 2π/t), 계면 거칠기가 곡선이 떨어지는 속도로 남습니다. 측정된 곡선에서 거꾸로 박막을 읽어내는 역문제를 신경망에 맡긴 것이 ReflectoLearn과 그 전신 XRefine입니다. 왼쪽은 XRefine이 실제로 학습하고, 그 추정에서 피팅을 마무리하는 과정입니다.">A thin film writes its thickness into the X-ray reflectivity as Kiessig fringes, Δq ≈ 2π/t, and its interface roughness into how fast the curve falls away. Reading the film back out of a measured curve is the inverse problem <a href="https://github.com/NaNIsaac/ReflectoLearn" target="_blank" rel="noopener noreferrer">ReflectoLearn</a> and its predecessor <a href="https://github.com/NaNIsaac/XRefine" target="_blank" rel="noopener noreferrer">XRefine</a> hand to a neural network. Here XRefine learns, then refines its own guess into a fit.</p>
       </div>
     </section>
 
@@ -196,7 +188,6 @@
 
   <script src="wave.js" defer></script>
   <script src="wave-view.js" defer></script>
-  <script src="xrr.js" defer></script>
   <script src="fourier.js" defer></script>
   <script src="script.js" defer></script>
   <script src="terminal.js" defer></script>
