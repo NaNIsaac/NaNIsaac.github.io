@@ -3,7 +3,8 @@
   const $ = (id) => document.getElementById(id);
   const num = (id) => parseFloat($(id).value);
   const fmt = (v, digits = 4) => (Number.isFinite(v) ? +v.toPrecision(digits) : '—');
-  const on = (ids, fn) => { ids.forEach((id) => $(id).addEventListener('input', fn)); fn(); };
+  const ko = () => document.documentElement.lang === 'ko';
+  const on = (ids, fn) => { ids.forEach((id) => $(id).addEventListener('input', fn)); window.addEventListener('langchange', fn); fn(); };
 
   // Energy ↔ wavelength: whichever field was typed in drives the other
   const energyOut = () => {
@@ -19,7 +20,7 @@
     const lambda = calc.wavelength(num('b-kev')), tth = calc.twoTheta(num('b-d'), lambda);
     $('b-out').textContent = Number.isFinite(tth)
       ? `2θ = ${fmt(tth)}°   θ = ${fmt(tth / 2)}°   q = ${fmt(calc.q(tth, lambda))} Å⁻¹   λ = ${fmt(lambda)} Å`
-      : `No reflection: λ = ${fmt(lambda)} Å is longer than 2d.`;
+      : ko() ? `반사 없음: λ = ${fmt(lambda)} Å가 2d보다 깁니다.` : `No reflection: λ = ${fmt(lambda)} Å is longer than 2d.`;
   });
 
   on(['q-tth', 'q-kev'], () => {
@@ -27,11 +28,11 @@
     $('q-out').textContent = `q = ${fmt(q)} Å⁻¹   d = ${fmt(calc.dFromQ(q))} Å`;
   });
 
-  on(['f-h', 'f-a'], () => { $('f-out').textContent = `Footprint L = ${fmt(calc.footprint(num('f-h'), num('f-a')))} mm`; });
+  on(['f-h', 'f-a'], () => { $('f-out').textContent = `${ko() ? '풋프린트' : 'Footprint'} L = ${fmt(calc.footprint(num('f-h'), num('f-a')))} mm`; });
 
   on(['a-t', 'a-l'], () => {
     const T = calc.transmission(num('a-t'), num('a-l'));
-    $('a-out').textContent = `Transmitted ${fmt(100 * T, 3)}%   absorbed ${fmt(100 * (1 - T), 3)}%`;
+    $('a-out').textContent = ko() ? `투과 ${fmt(100 * T, 3)}%   흡수 ${fmt(100 * (1 - T), 3)}%` : `Transmitted ${fmt(100 * T, 3)}%   absorbed ${fmt(100 * (1 - T), 3)}%`;
   });
 
   // A copy button under every result
@@ -39,10 +40,12 @@
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'tool-copy';
-    b.textContent = 'Copy';
+    const label = () => { b.textContent = ko() ? '복사' : 'Copy'; };
+    label();
+    window.addEventListener('langchange', label);
     b.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(out.textContent.replace(/ {3}/g, ', ')); b.textContent = 'Copied'; } catch { b.textContent = 'Select and copy'; }
-      setTimeout(() => { b.textContent = 'Copy'; }, 1500);
+      try { await navigator.clipboard.writeText(out.textContent.replace(/ {3}/g, ', ')); b.textContent = ko() ? '복사됨' : 'Copied'; } catch { b.textContent = ko() ? '선택해서 복사하세요' : 'Select and copy'; }
+      setTimeout(label, 1500);
     });
     out.after(b);
   });
