@@ -1,27 +1,5 @@
 [
  {
-  "file": "assets/img/laue-pattern.jpg",
-  "media": "image",
-  "ref": "commons:36083907",
-  "title": "HD.17.023 (12639257703)",
-  "creator": "ENERGY.GOV",
-  "creatorUrl": null,
-  "date": "2014-02-19",
-  "license": "public domain",
-  "licenseCode": "pd",
-  "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
-  "creditRequired": false,
-  "page": "https://commons.wikimedia.org/wiki/File:HD.17.023_(12639257703).jpg",
-  "via": "Wikimedia Commons",
-  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/HD.17.023_%2812639257703%29.jpg/1280px-HD.17.023_%2812639257703%29.jpg",
-  "width": 1280,
-  "height": 1345,
-  "bytes": 461330,
-  "credit": "\"HD.17.023 (12639257703)\" by ENERGY.GOV, public domain, via Wikimedia Commons",
-  "notes": [],
-  "saved": "2026-10-14T11:09:04.750Z"
- },
- {
   "file": "assets/img/young-1807-interference.jpg",
   "media": "image",
   "ref": "commons:2468490",
