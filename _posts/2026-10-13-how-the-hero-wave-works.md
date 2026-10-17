@@ -22,7 +22,7 @@ $$
 with $$r = c\,\Delta t / \Delta x = 0.5$$, inside the 2D stability limit $$r \le 1/\sqrt{2}$$.
 Units are grid cells and time steps — there is no mapping to SI and none is implied.
 
-- **One steady source** on the home page, $$s \propto \sin(2\pi t / T)$$ at a reduced drive,
+- **One steady source** on the home page, $$s \propto \sin(2\pi t / T)$$,
   sits left of the slits so the double slit always has something to diffract. The slit itself
   is fixed here; moving it is the [lab](/lab/)'s job. (The lab keeps two coherent oscillators
   with $$T = 24$$ steps by default, so the wavelength is $$cT = 12$$ cells; a slider changes it.)
