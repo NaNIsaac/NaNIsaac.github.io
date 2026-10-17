@@ -97,6 +97,8 @@ body.dark .film-note img { filter: invert(1); mix-blend-mode: screen; }
 
 /* Sections are separated only by space */
 .section { padding-top: clamp(96px, 12vw, 180px); scroll-margin-top: 24px; }
+/* The three benches read as one sequence: keep the big gap only before the first */
+.lab-teaser + .measure, .measure + .reconstruct { padding-top: clamp(64px, 7vw, 104px); }
 .section h2 { font-size: var(--step-head); font-weight: 600; letter-spacing: -.02em; line-height: 1.1; margin: 0 0 32px; }
 
 /* Intro: lead line over a four-column text block with the one large picture */
