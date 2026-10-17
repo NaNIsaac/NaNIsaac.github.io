@@ -91,7 +91,8 @@ if (waveCanvas && typeof mountWave === 'function') {
     hint: document.querySelector('#hint'),
     pauseButton,
     wake: true,
-    scene: { sources: [] },
+    fixed: true, // the slit is scenery here; moving it is the lab's job
+    scene: { sources: [{ fx: 0.16, fy: 0.5, a: 0.18 }] }, // one steady source: the slits always have something to diffract
     pauseLabel: (running) => (running ? (isKo() ? '일시정지' : 'Pause') : (isKo() ? '재생' : 'Play')),
   });
 }
@@ -157,10 +158,26 @@ if (fitVideo) {
   else new IntersectionObserver(([e]) => { e.isIntersecting ? fitVideo.play().catch(() => {}) : fitVideo.pause(); }).observe(fitVideo);
 }
 
-// Reconstruct: an aperture and its far-field intensity (fourier.js); drag on the aperture to resize it
+// Reconstruct: an aperture and its far-field intensity (fourier.js), cycling through four shapes on its own.
+// Nothing to operate here; the lab has the controls. Pauses offscreen, stays on the circle with reduced motion.
 const ftA = document.querySelector('#ft-a'), ftS = document.querySelector('#ft-s');
 if (ftA && typeof createFourier === 'function') {
-  const N = 128, F = createFourier(N), st = { kind: 'circle', size: 10 };
+  const N = 128, F = createFourier(N);
+  const SHAPES = [
+    { kind: 'circle', size: 10, en: 'circle', ko: '원' },
+    { kind: 'ring', size: 12, en: 'ring', ko: '고리' },
+    { kind: 'double', size: 2.5, sep: 20, en: 'double slit', ko: '이중 슬릿' },
+    { kind: 'square', size: 8, en: 'square', ko: '정사각형' },
+  ];
+  // Each shape is transformed once; a cycle only repaints.
+  const frames = SHAPES.map((sh) => {
+    const t = F.aperture(sh.kind, sh.size, sh.sep ?? 0);
+    const re = t.slice(), im = new Float64Array(N * N);
+    F.fft2(re, im);
+    let max = 0;
+    const I = re.map((v, i) => { const p = v * v + im[i] * im[i]; max = Math.max(max, p); return p; });
+    return { t, I: I.map((v) => Math.log10(1 + (v / (max || 1)) * 1e4) / 4) };
+  });
   function paint(canvas, val) {
     const g = canvas.getContext('2d'), img = g.createImageData(N, N), d = img.data;
     const bg = hexRgb(cssVar('--surface')), ink = hexRgb(cssVar('--ink'));
@@ -173,32 +190,25 @@ if (ftA && typeof createFourier === 'function') {
     }
     g.putImageData(img, 0, 0);
   }
-  function computeFT() {
-    const size = st.kind === 'double' ? Math.max(2, st.size / 4) : st.size;
-    const t = F.aperture(st.kind, size, Math.round(st.size * 2));
-    const re = t.slice(), im = new Float64Array(N * N);
-    F.fft2(re, im);
-    let max = 0;
-    const I = re.map((v, i) => { const p = v * v + im[i] * im[i]; max = Math.max(max, p); return p; });
-    paint(ftA, t);
-    paint(ftS, I.map((v) => Math.log10(1 + (v / (max || 1)) * 1e4) / 4));
+  const panels = document.querySelector('#ft-panels'), nameEl = document.querySelector('#ft-name');
+  let k = 0, timer = 0, onScreen = false;
+  function show() {
+    paint(ftA, frames[k].t);
+    paint(ftS, frames[k].I);
+    nameEl.textContent = isKo() ? SHAPES[k].ko : SHAPES[k].en;
   }
-  document.querySelector('#ft-kind').addEventListener('click', (e) => {
-    const b = e.target.closest('button');
-    if (!b) return;
-    document.querySelectorAll('#ft-kind button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-    st.kind = b.dataset.v;
-    computeFT();
-  });
-  let dragging = false;
-  const resize = (e) => {
-    const r = ftA.getBoundingClientRect(), dist = Math.hypot(e.clientX - r.left - r.width / 2, e.clientY - r.top - r.height / 2);
-    st.size = Math.min(40, Math.max(2, Math.round((dist / r.width) * N)));
-    computeFT();
-  };
-  ftA.addEventListener('pointerdown', (e) => { dragging = true; ftA.setPointerCapture(e.pointerId); resize(e); });
-  ftA.addEventListener('pointermove', (e) => { if (dragging) resize(e); });
-  ftA.addEventListener('pointerup', () => { dragging = false; });
-  window.addEventListener('themechange', computeFT);
-  computeFT();
+  function advance() {
+    panels.classList.add('fading');
+    setTimeout(() => { k = (k + 1) % SHAPES.length; show(); panels.classList.remove('fading'); }, 350);
+  }
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function schedule() {
+    clearInterval(timer); timer = 0;
+    if (!still && onScreen && !document.hidden) timer = setInterval(advance, 3200);
+  }
+  new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; schedule(); }).observe(panels);
+  document.addEventListener('visibilitychange', schedule);
+  window.addEventListener('themechange', show);
+  window.addEventListener('langchange', show);
+  show();
 }

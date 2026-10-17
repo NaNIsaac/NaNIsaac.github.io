@@ -38,10 +38,10 @@
             <button class="toggle" id="theme" aria-label="Toggle theme">Dark</button>
           </nav>
         </header>
-        <canvas id="wave" role="img" aria-label="Interactive 2D wave simulation with a double slit. Move or click to create waves; drag the slit to adjust."></canvas>
+        <canvas id="wave" role="img" aria-label="Live 2D wave simulation: a source on the left lights a double slit and the film on the right records the fringes. Move or click to make ripples."></canvas>
         <div class="film-bar">
           <a class="film-button" href="lab/" data-ko="랩 열기 →">Open the lab →</a>
-          <p class="hint" id="hint"><span class="on-hover" data-ko="파동을 만져보세요. 움직이거나 클릭하면 물결, 슬릿은 드래그.">Touch the wave. Move or click to ripple, drag a slit.</span><span class="on-touch" data-ko="파동을 만져보세요. 탭하면 물결, 슬릿은 드래그.">Touch the wave. Tap to ripple, drag a slit.</span></p>
+          <p class="hint" id="hint"><span class="on-hover" data-ko="움직이거나 클릭하면 물결이 생깁니다.">Move or click to make ripples.</span><span class="on-touch" data-ko="탭하면 물결이 생깁니다.">Tap to make ripples.</span></p>
         </div>
 
       </div>
@@ -135,19 +135,16 @@
     <section class="section wrap reconstruct" id="reconstruct" aria-labelledby="reconstruct-title">
       <div class="reconstruct-copy reveal">
         <h2 id="reconstruct-title" data-ko="검출기는 세기만 남기고 위상을 잃습니다.">The detector keeps |F|² and loses the phase.</h2>
-        <p data-ko="왼쪽은 조리개, 오른쪽은 그 원거리 세기입니다. coherent 회절 패턴이 측정하는 바로 그 2D 푸리에 변환이죠. 검출기는 크기만 기록하고 위상은 잃습니다. 세기만으로는 물체가 하나로 정해지지 않아서, support 같은 추가 제약과 충분한 oversampling을 걸어 위상을, 그리고 그것과 함께 이미지를 되찾습니다. 그게 위상 복원이고, QoraPhase가 CDI에서 하는 일입니다. 조리개를 끌어 크기를 바꿔보세요.">An aperture on the left, its far-field intensity on the right: the 2D Fourier transform a coherent diffraction pattern measures. The detector keeps the magnitudes and loses the phases, and intensity alone does not pin the object down. Recovering the phases, and with them the image, takes extra constraints such as a support and enough oversampling: that is phase retrieval, which is what <a href="https://github.com/NaNIsaac/QoraPhase" target="_blank" rel="noopener noreferrer">QoraPhase</a> does for CDI. Drag on the aperture to resize it.</p>
-        <div class="seg" role="group" aria-label="Aperture" id="ft-kind">
-          <button data-v="circle" aria-pressed="true" data-ko="원">Circle</button>
-          <button data-v="ring" data-ko="고리">Ring</button>
-          <button data-v="double" data-ko="이중 슬릿">Double slit</button>
-          <button data-v="square" data-ko="정사각형">Square</button>
+        <p data-ko="왼쪽은 조리개, 오른쪽은 그 원거리 세기입니다. coherent 회절 패턴이 측정하는 바로 그 2D 푸리에 변환이죠. 검출기는 크기만 기록하고 위상은 잃습니다. 세기만으로는 물체가 하나로 정해지지 않아서, support 같은 추가 제약과 충분한 oversampling을 걸어 위상을, 그리고 그것과 함께 이미지를 되찾습니다. 그게 위상 복원이고, QoraPhase가 CDI에서 하는 일입니다.">An aperture on the left, its far-field intensity on the right: the 2D Fourier transform a coherent diffraction pattern measures. The detector keeps the magnitudes and loses the phases, and intensity alone does not pin the object down. Recovering the phases, and with them the image, takes extra constraints such as a support and enough oversampling: that is phase retrieval, which is what <a href="https://github.com/NaNIsaac/QoraPhase" target="_blank" rel="noopener noreferrer">QoraPhase</a> does for CDI.</p>
+        <p><a class="text-link" href="lab/#fourier" data-ko="랩에서 직접 조리개 바꾸고 필터링하기">Change the aperture and filter it in the lab</a></p>
+      </div>
+      <figure class="ft-figure">
+        <div class="ft-panels" id="ft-panels">
+          <canvas id="ft-a" width="128" height="128" role="img" aria-label="Aperture, cycling through circle, ring, double slit and square."></canvas>
+          <canvas id="ft-s" width="128" height="128" role="img" aria-label="Far-field intensity of the aperture on a log scale."></canvas>
         </div>
-        <p><a class="text-link" href="lab/#fourier" data-ko="랩에서 스펙트럼 필터링하기">Filter the spectrum in the lab</a></p>
-      </div>
-      <div class="ft-panels">
-        <figure><canvas id="ft-a" width="128" height="128" aria-label="Aperture. Drag to resize."></canvas><figcaption data-ko="물체, t(x, y)">Object, t(x, y)</figcaption></figure>
-        <figure><canvas id="ft-s" width="128" height="128" aria-label="Far-field intensity on a log scale."></canvas><figcaption data-ko="검출기, log |F|²">Detector, log |F|²</figcaption></figure>
-      </div>
+        <figcaption><span class="ft-arrow"><span data-ko="물체">Object</span> → <span data-ko="검출기, log |F|²">detector, log |F|²</span></span><span class="ft-name" id="ft-name" aria-live="off"></span></figcaption>
+      </figure>
     </section>
 
     <section class="section lately" id="log" aria-labelledby="log-title">

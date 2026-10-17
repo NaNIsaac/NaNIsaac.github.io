@@ -22,12 +22,12 @@ $$
 with $$r = c\,\Delta t / \Delta x = 0.5$$, inside the 2D stability limit $$r \le 1/\sqrt{2}$$.
 Units are grid cells and time steps — there is no mapping to SI and none is implied.
 
-- **No continuous sources** on the home page: the field rests at zero until you touch it.
-  (The [lab](/lab/) keeps two coherent oscillators, $$s \propto \sin(2\pi t / T)$$ with
-  $$T = 24$$ steps by default, so the wavelength is $$cT = 12$$ cells; a slider changes it.)
+- **One steady source** on the home page, $$s \propto \sin(2\pi t / T)$$ at a reduced drive,
+  sits left of the slits so the double slit always has something to diffract. The slit itself
+  is fixed here; moving it is the [lab](/lab/)'s job. (The lab keeps two coherent oscillators
+  with $$T = 24$$ steps by default, so the wavelength is $$cT = 12$$ cells; a slider changes it.)
 - **Moving the mouse** leaves a faint wake of Gaussian bumps whose amplitude scales with
   pointer speed; **click** adds one strong bump; **dragging** adds a rate-limited trail.
-  On load a single drop falls in front of the slits so touch screens see it is live.
 - **The barrier** is two cells of Dirichlet wall, $$u = 0$$, with a six-cell graded damping
   layer on its upstream face, so the jaws mostly soak up what hits them, like tungsten
   X-ray slit blades. This is an approximation, not a perfect absorber: some reflection
@@ -42,7 +42,7 @@ Units are grid cells and time steps — there is no mapping to SI and none is im
 The curve on the right is an exponential moving average of $$u^2$$ along one column,
 with a time constant of about six periods, normalized to its own maximum. It is a
 *relative* intensity from the solver arrays only — the glow and bloom are drawn on top
-and never feed into it. Drag a slit and the fringes on the detector respond after a short lag.
+and never feed into it. In the lab, drag a slit and the fringes on the detector respond after a short lag.
 
 One honest caveat: this is an in-plane 2D field. A real double slit lit in 3D produces a
 2D pattern on a screen; here the slit is a gap in a line, and the detector sees a 1D profile.

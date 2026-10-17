@@ -135,12 +135,16 @@ figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 10px
 .fit-video { display: block; width: 100%; height: auto; background: var(--bg); }
 body.dark .fit-video { filter: invert(1) hue-rotate(180deg); } /* the video is rendered on paper; flip it to ink */
 
-/* Reconstruct: the argument across the top, object and detector side by side */
-.reconstruct-copy { max-width: 46em; margin-bottom: 40px; }
-.reconstruct-copy .seg { margin: 8px 0 20px; }
-.ft-panels { display: grid; grid-template-columns: repeat(2, minmax(0, 420px)); gap: 24px; }
-.ft-panels canvas { display: block; width: 100%; aspect-ratio: 1; touch-action: none; cursor: crosshair; }
-.ft-panels figure:last-child canvas { cursor: default; }
+/* Reconstruct: the argument on the left, a small self-running figure on the right */
+.reconstruct { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: center; }
+.reconstruct-copy { grid-column: 1 / span 6; }
+.reconstruct-copy p { margin: 0 0 24px; max-width: 34em; }
+.ft-figure { grid-column: 8 / -1; }
+.ft-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; transition: opacity .35s var(--ease); }
+.ft-panels.fading { opacity: 0; }
+.ft-panels canvas { display: block; width: 100%; aspect-ratio: 1; }
+.ft-figure figcaption { display: flex; justify-content: space-between; gap: 12px; }
+.ft-name { color: var(--ink); }
 
 /* Work: a quiet ledger with the engraving held beside it */
 .work { position: relative; }
@@ -281,6 +285,8 @@ dialog::backdrop { background: #0f0f0dcc; }
   .col { margin-left: var(--margin); }
   .measure { display: block; }
   .measure-copy { margin-top: 40px; max-width: 40em; }
+  .reconstruct { display: block; }
+  .ft-figure { margin-top: 40px; max-width: 520px; }
   .contact-line { grid-column: 1 / span 7; }
   .contact-figure { grid-column: 8 / span 2; }
   .contact-links { grid-column: 10 / -1; }
@@ -297,9 +303,11 @@ dialog::backdrop { background: #0f0f0dcc; }
   .hero-copy { padding: 0 12px; display: block; }
   .hero h1 { margin: 28px 0 24px; }
   .hero-actions { margin-bottom: 20px; }
-  .intro, .contact, .lab-teaser, .measure { display: block; }
+  .intro, .contact, .lab-teaser, .measure, .reconstruct { display: block; }
+  .ft-figure { margin-top: 32px; }
+  /* small film: the button is enough, the hint would sit on the source */
+  .film-bar .hint { display: none; }
   .measure-copy { margin-top: 40px; }
-  .ft-panels { gap: 12px; }
   .lab-teaser-figure { margin-top: 40px; }
   .intro-lead { margin-bottom: 40px; }
   .intro-cols { grid-template-columns: 1fr; gap: 24px; }
