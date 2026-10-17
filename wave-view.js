@@ -406,25 +406,32 @@ function mountWave(canvas, opts = {}) {
 
   // Wake: short bursts every ~4 cells along the segment since the last move, amplitude ∝ speed.
   let prevMove = null;
-  function trail(p, t) {
+  function trail(p, t, gain = 1) {
     const q = prevMove;
     prevMove = { x: p.x / cell, y: p.y / cell, t };
     if (!q || t - q.t > 100) return; // pointer just entered or rested
     const d = Math.hypot(prevMove.x - q.x, prevMove.y - q.y);
-    const a = Math.min(0.05, (d / Math.max(t - q.t, 1)) * 0.12);
+    const a = Math.min(0.05, (d / Math.max(t - q.t, 1)) * 0.12 * gain);
     if (a < 0.004) return;
     const n = Math.ceil(d / 4);
     for (let k = 1; k <= n; k++) sim.burst(q.x + ((prevMove.x - q.x) * k) / n, q.y + ((prevMove.y - q.y) * k) / n, a, 2);
   }
-  // Scrolling under a resting mouse moves the canvas past it: that is pointer motion too.
-  let mouse = null; // last mouse position over the canvas, client coordinates
-  canvas.addEventListener('pointerleave', () => { prevMove = null; mouse = null; });
-  if (wake) window.addEventListener('scroll', (e) => {
-    if (!mouse || !sim) return;
-    const r = canvas.getBoundingClientRect(), p = { x: mouse.x - r.left, y: mouse.y - r.top };
-    if (p.y < 0 || p.y > r.height) { mouse = null; prevMove = null; return; }
-    trail(p, e.timeStamp);
-  }, { passive: true });
+  canvas.addEventListener('pointerleave', () => { prevMove = null; });
+  // Scrolling under a resting mouse moves the canvas past it: that is pointer motion too. The segment comes
+  // from the scroll distance itself, so every scroll event counts, even the first after a pause.
+  let mouse = null, lastScroll = scrollY, lastScrollT = 0; // mouse: last position anywhere, client coordinates
+  if (wake) {
+    window.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') mouse = { x: e.clientX, y: e.clientY }; }, { passive: true });
+    window.addEventListener('scroll', (e) => {
+      const dy = scrollY - lastScroll, dt = clamp(e.timeStamp - lastScrollT, 8, 50);
+      lastScroll = scrollY; lastScrollT = e.timeStamp;
+      if (!mouse || !sim || !dy) return;
+      const r = canvas.getBoundingClientRect(), p = { x: mouse.x - r.left, y: mouse.y - r.top };
+      if (p.x < 0 || p.x > r.width || p.y < 0 || p.y > r.height) return;
+      prevMove = { x: p.x / cell, y: (p.y - dy) / cell, t: e.timeStamp - dt };
+      trail(p, e.timeStamp, 2); // a scroll is a coarser motion than a hand, so it counts double
+    }, { passive: true });
+  }
 
   canvas.addEventListener('pointerdown', (e) => {
     if (!sim || e.button > 0) return;
@@ -441,7 +448,7 @@ function mountWave(canvas, opts = {}) {
       hover = hitTest(p, false);
       canvas.classList.toggle('grab', !!hover);
       if (!running && tools) draw();
-      if (wake && e.pointerType === 'mouse') { trail(p, e.timeStamp); mouse = { x: e.clientX, y: e.clientY }; ghost = null; }
+      if (wake && e.pointerType === 'mouse') { trail(p, e.timeStamp); ghost = null; }
       return;
     }
     if (!press.dragging && Math.hypot(p.x - press.start.x, p.y - press.start.y) > press.thr) press.dragging = true;
