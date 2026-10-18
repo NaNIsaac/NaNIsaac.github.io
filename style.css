@@ -273,6 +273,12 @@ dialog::backdrop { background: #0f0f0dcc; }
 .result dd button.changed { animation: changed 1s var(--ease); }
 @keyframes changed { from { box-shadow: inset 0 -3px 0 var(--accent); } to { box-shadow: inset 0 -3px 0 transparent; } }
 .result .warn { max-width: 30em; }
+.tool-wide { grid-column: 1 / -1; }
+.tool-wide .chips + .chips { margin-top: 8px; }
+.lattice-fields, .hkl-fields { margin-top: 20px; }
+.hkl-fields .field input { width: 3.5em; }
+.tool-sub { margin: 28px 0 0; font-size: var(--step-small); color: var(--muted); }
+.tool-sub + .chips { margin-top: 10px; }
 .foot-fig { display: block; width: 100%; max-width: 420px; height: auto; margin: 24px 0 0; }
 .foot-beam { fill: color-mix(in srgb, var(--accent) 22%, transparent); }
 .foot-sample { fill: var(--ink); }

@@ -53,7 +53,7 @@
   // Beam: energy ↔ wavelength, then everything that depends on λ
   function beam() {
     press('e-presets', LINES.findIndex(([, e]) => Math.abs(e - num('e-kev')) < 5e-4));
-    angle(); kiessig(); scherrer();
+    angle(); kiessig(); scherrer(); lattice();
   }
   $('e-kev').addEventListener('input', () => { $('e-ang').value = fmt(calc.wavelength(num('e-kev')), 6); beam(); });
   $('e-ang').addEventListener('input', () => { $('e-kev').value = fmt(calc.energy(num('e-ang')), 6); beam(); });
@@ -130,7 +130,68 @@
     show('s-out', [[tr('Crystallite size', '결정 크기'), fmt(tau / 10, 3), 'nm']]);
   }
 
+  // Bravais lattice: 7 systems × their centrings = the 14 lattices. `free` lists the cell constants
+  // the system leaves open; the rest follow from it (hexagonal and R use hexagonal axes, γ = 120°).
+  const SYSTEMS = [
+    { id: 'cubic', en: 'Cubic', ko: '입방', p: 'c', cen: ['P', 'I', 'F'], free: ['a'], cell: (v) => ({ b: v.a, c: v.a, al: 90, be: 90, ga: 90 }) },
+    { id: 'tetragonal', en: 'Tetragonal', ko: '정방', p: 't', cen: ['P', 'I'], free: ['a', 'c'], cell: (v) => ({ b: v.a, al: 90, be: 90, ga: 90 }) },
+    { id: 'orthorhombic', en: 'Orthorhombic', ko: '사방', p: 'o', cen: ['P', 'C', 'I', 'F'], free: ['a', 'b', 'c'], cell: () => ({ al: 90, be: 90, ga: 90 }) },
+    { id: 'hexagonal', en: 'Hexagonal', ko: '육방', p: 'h', cen: ['P'], free: ['a', 'c'], cell: (v) => ({ b: v.a, al: 90, be: 90, ga: 120 }) },
+    { id: 'trigonal', en: 'Rhombohedral', ko: '능면체', p: 'h', cen: ['R'], free: ['a', 'c'], cell: (v) => ({ b: v.a, al: 90, be: 90, ga: 120 }) },
+    { id: 'monoclinic', en: 'Monoclinic', ko: '단사', p: 'm', cen: ['P', 'C'], free: ['a', 'b', 'c', 'be'], cell: () => ({ al: 90, ga: 90 }) },
+    { id: 'triclinic', en: 'Triclinic', ko: '삼사', p: 'a', cen: ['P'], free: ['a', 'b', 'c', 'al', 'be', 'ga'], cell: () => ({}) },
+  ];
+  const CENTRING = { P: ['primitive', '단순'], I: ['body-centred', '체심'], F: ['face-centred', '면심'], C: ['base-centred', '저심'], R: ['rhombohedral', '능면체'] };
+  const lat = { sys: 'cubic', cen: 'F' };
+  const KEYS = ['a', 'b', 'c', 'al', 'be', 'ga'];
+  const system = () => SYSTEMS.find((s) => s.id === lat.sys);
+  function cellNow() {
+    const v = Object.fromEntries(KEYS.map((k) => [k, num(`l-${k}`)]));
+    return { ...v, ...system().cell(v) };
+  }
+  function latticeChips() {
+    chips('l-systems', SYSTEMS.map((s) => ({ label: tr(s.en, s.ko), s })), ({ s }) => {
+      lat.sys = s.id;
+      if (!s.cen.includes(lat.cen)) lat.cen = s.cen[0];
+      latticeChips(); lattice();
+    });
+    press('l-systems', SYSTEMS.findIndex((s) => s.id === lat.sys));
+    const cens = system().cen;
+    chips('l-centrings', cens.map((c) => ({ label: `${c} · ${tr(...CENTRING[c])}`, c })), ({ c }) => { lat.cen = c; latticeChips(); lattice(); });
+    press('l-centrings', cens.indexOf(lat.cen));
+  }
+  function lattice() {
+    const s = system(), cell = cellNow(), l = lambda();
+    KEYS.forEach((k) => { $(`l-${k}-f`).hidden = !s.free.includes(k); });
+    const [h, k, ll] = ['l-h', 'l-k', 'l-l'].map((id) => Math.round(num(id)));
+    const V = calc.volume(cell), name = `${s.p}${lat.cen}`;
+    if (!(V > 0)) return show('l-out', [[tr('No cell', '셀 없음'), null, tr('These angles do not close a cell.', '이 각도로는 셀이 닫히지 않습니다.')]]);
+    const rows = [[tr('Lattice', '격자'), name, ''], [tr('Cell volume', '셀 부피'), fmt(V, 5), 'Å³']];
+    if (!(h || k || ll)) rows.push([tr('Pick hkl', 'hkl 입력'), null, tr('(000) is the direct beam.', '(000)은 직진 빔입니다.')]);
+    else {
+      const d = calc.dSpacing(cell, h, k, ll), tth = calc.twoTheta(d, l);
+      rows.push(['d', fmt(d), 'Å'], ['2θ', Number.isFinite(tth) ? fmt(tth) : '—', Number.isFinite(tth) ? '°' : ''], ['q', fmt(calc.dFromQ(d)), 'Å⁻¹']);
+      const by = calc.absentBy(lat.cen, h, k, ll);
+      if (by) rows.push([tr('Absent', '소멸'), null, tr(`(${h}${k}${ll}) is forbidden by ${by} (${CENTRING[by][0]}) centring.`, `(${h}${k}${ll})은 ${by}(${CENTRING[by][1]}) 중심화로 사라지는 반사입니다.`)]);
+    }
+    show('l-out', rows);
+    // The first allowed reflections, one per d (lowest |hkl| as the label), that this energy can reach
+    const seen = new Map();
+    for (let a = 4; a >= -4; a--) for (let b = 4; b >= -4; b--) for (let c = 4; c >= -4; c--) { // descending: (1 1 1), not (−1 −1 −1)
+      if (!(a || b || c) || calc.absentBy(lat.cen, a, b, c)) continue;
+      const d = calc.dSpacing(cell, a, b, c), key = d.toFixed(4), neg = (a < 0) + (b < 0) + (c < 0);
+      if (!(d > l / 2) || (seen.has(key) && seen.get(key).neg <= neg)) continue; // 2d > λ; per spacing keep the fewest minus signs
+      seen.set(key, { d, neg, hkl: [a, b, c] });
+    }
+    const peaks = [...seen.values()].sort((p, q2) => q2.d - p.d).slice(0, 8);
+    chips('l-peaks', peaks.map(({ d, hkl }) => ({ label: `(${hkl.join(' ')}) ${fmt(calc.twoTheta(d, l), 4)}°`, hkl })), ({ hkl }) => {
+      ['l-h', 'l-k', 'l-l'].forEach((id, i) => { $(id).value = hkl[i]; });
+      lattice();
+    });
+  }
+
   const on = (ids, fn) => ids.forEach((id) => $(id).addEventListener('input', fn));
+  on(['l-a', 'l-b', 'l-c', 'l-al', 'l-be', 'l-ga', 'l-h', 'l-k', 'l-l'], lattice);
   on(['f-h', 'f-a', 'f-s'], footprint);
   on(['a-t', 'a-l'], transmission);
   on(['s-tth', 's-w', 's-k'], scherrer);
@@ -141,10 +202,13 @@
   inputs.forEach((i) => { if (params.has(i.id)) i.value = params.get(i.id); });
   angleSource = ['b-tth', 'b-q'].find((id) => params.has(id)) ?? 'b-d';
   if (params.has('k-d2t')) fringeSource = 'k-d2t';
+  if (SYSTEMS.some((x) => x.id === params.get('l-sys'))) lat.sys = params.get('l-sys');
+  lat.cen = system().cen.includes(params.get('l-cen')) ? params.get('l-cen') : (params.has('l-sys') ? system().cen[0] : lat.cen);
   const link = () => {
     const derived = ['e-ang', 'b-tth', 'b-q', 'b-d', 'k-dq', 'k-d2t'].filter((id) => id !== angleSource && id !== fringeSource);
     const p = new URLSearchParams();
     inputs.forEach((i) => { if (!derived.includes(i.id) && i.value !== i.defaultValue) p.set(i.id, i.value); });
+    if (lat.sys !== 'cubic' || lat.cen !== 'F') { p.set('l-sys', lat.sys); p.set('l-cen', lat.cen); }
     return `${location.origin}${location.pathname}${p.size ? `?${p}` : ''}${location.hash}`;
   };
   document.querySelector('main').addEventListener('input', () => history.replaceState(null, '', link()));
@@ -152,6 +216,7 @@
   $('share').addEventListener('click', () => copy(link(), $('share')));
 
   $('e-ang').value = fmt(calc.wavelength(num('e-kev')), 6);
+  latticeChips();
   beam(); footprint(); transmission();
-  window.addEventListener('langchange', () => { angle(); footprint(); transmission(); kiessig(); scherrer(); });
+  window.addEventListener('langchange', () => { angle(); footprint(); transmission(); kiessig(); scherrer(); latticeChips(); lattice(); });
 })();

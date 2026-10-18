@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#e8e8e3">
-  <meta name="description" content="Free X-ray calculator for the beamline and the lab diffractometer: photon energy ↔ wavelength, Bragg angle 2θ ↔ q ↔ d-spacing with Si and Ge reflections, grazing-incidence beam footprint, transmission, film thickness from Kiessig fringes, and Scherrer crystallite size. Live results, works on phones.">
+  <meta name="description" content="Free X-ray calculator for the beamline and the lab diffractometer: photon energy ↔ wavelength, Bragg angle 2θ ↔ q ↔ d-spacing with Si and Ge reflections, grazing-incidence beam footprint, transmission, film thickness from Kiessig fringes, Scherrer crystallite size, and d-spacing for all 14 Bravais lattices with centring extinctions. Live results, works on phones.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="X-ray Calculator: Energy, Bragg Angle, q, Footprint, Kiessig, Scherrer">
   <meta property="og:description" content="Set the beam energy once; Bragg angle, q, d-spacing, footprint, film thickness and crystallite size follow. Live results as you type.">
@@ -16,9 +16,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap">
-  <link rel="stylesheet" href="../style.css?v=detail1">
+  <link rel="stylesheet" href="../style.css?v=lattice1">
   <title>X-ray Calculator: Energy ↔ Wavelength, Bragg Angle, q, Footprint, Scherrer · Isaac Yong</title>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"X-ray beamline calculator","url":"https://nanisaac.github.io/tools/","description":"Photon energy and wavelength, Bragg angle, momentum transfer q and d-spacing, beam footprint at grazing incidence, X-ray transmission, film thickness from Kiessig fringes and Scherrer crystallite size.","applicationCategory":"EducationalApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"inLanguage":["en","ko"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Photon energy to wavelength (keV to Å), with Cu, Mo, Ag, Co and Cr Kα1 presets","Bragg angle 2θ, momentum transfer q and d-spacing, linked both ways","Si and Ge reflection d-spacings","Grazing-incidence beam footprint and overfill angle","Transmission from thickness and attenuation length","Film thickness from Kiessig fringe spacing","Scherrer crystallite size from peak width"],"author":{"@type":"Person","name":"Isaac Yong","url":"https://nanisaac.github.io/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"X-ray beamline calculator","url":"https://nanisaac.github.io/tools/","description":"Photon energy and wavelength, Bragg angle, momentum transfer q and d-spacing, beam footprint at grazing incidence, X-ray transmission, film thickness from Kiessig fringes and Scherrer crystallite size.","applicationCategory":"EducationalApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"inLanguage":["en","ko"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Photon energy to wavelength (keV to Å), with Cu, Mo, Ag, Co and Cr Kα1 presets","Bragg angle 2θ, momentum transfer q and d-spacing, linked both ways","Si and Ge reflection d-spacings","Grazing-incidence beam footprint and overfill angle","Transmission from thickness and attenuation length","Film thickness from Kiessig fringe spacing","Scherrer crystallite size from peak width","d-spacing, 2θ and cell volume for all 14 Bravais lattices, with lattice-centring extinctions"],"author":{"@type":"Person","name":"Isaac Yong","url":"https://nanisaac.github.io/"}}</script>
 </head>
 <body class="sub">
   <script>let t; try { t = localStorage.getItem('isaac-theme'); } catch {} if ((t ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark') document.body.classList.add('dark');</script>
@@ -105,14 +105,38 @@
         <dl class="result" id="s-out" aria-live="polite"></dl>
         <p class="tool-note" data-ko="τ = K λ / (β cos θ), β는 라디안. 장비 폭을 먼저 빼세요. 변형에 의한 폭이 섞이면 실제보다 작게 나옵니다.">τ = K λ / (β cos θ), with β in radians. Subtract the instrument width first; strain broadening makes the size come out too small.</p>
       </section>
+
+      <section class="tool tool-wide" id="bravais-lattice" aria-labelledby="lattice-title">
+        <h2 id="lattice-title" data-ko="브라베 격자와 d-간격">Bravais lattice and d-spacing</h2>
+        <p class="tool-lead" data-ko="결정계와 중심화를 고르고 격자 상수와 hkl을 넣으세요. 중심화 때문에 사라지는 반사는 따로 알려 줍니다.">Pick the crystal system and centring, then the cell and hkl. Reflections the centring forbids are flagged.</p>
+        <div class="chips" role="group" aria-label="Crystal system" id="l-systems"></div>
+        <div class="chips" role="group" aria-label="Centring" id="l-centrings"></div>
+        <div class="fields lattice-fields">
+          <label class="field" id="l-a-f"><span>a</span><span class="in"><input id="l-a" type="number" step="any" min="0" value="5.43102" inputmode="decimal"><i>Å</i></span></label>
+          <label class="field" id="l-b-f"><span>b</span><span class="in"><input id="l-b" type="number" step="any" min="0" value="5.43102" inputmode="decimal"><i>Å</i></span></label>
+          <label class="field" id="l-c-f"><span>c</span><span class="in"><input id="l-c" type="number" step="any" min="0" value="5.43102" inputmode="decimal"><i>Å</i></span></label>
+          <label class="field" id="l-al-f"><span>α</span><span class="in"><input id="l-al" type="number" step="any" min="0" max="180" value="90" inputmode="decimal"><i>°</i></span></label>
+          <label class="field" id="l-be-f"><span>β</span><span class="in"><input id="l-be" type="number" step="any" min="0" max="180" value="90" inputmode="decimal"><i>°</i></span></label>
+          <label class="field" id="l-ga-f"><span>γ</span><span class="in"><input id="l-ga" type="number" step="any" min="0" max="180" value="90" inputmode="decimal"><i>°</i></span></label>
+        </div>
+        <div class="fields hkl-fields">
+          <label class="field"><span>h</span><span class="in"><input id="l-h" type="number" step="1" value="1" inputmode="numeric"></span></label>
+          <label class="field"><span>k</span><span class="in"><input id="l-k" type="number" step="1" value="1" inputmode="numeric"></span></label>
+          <label class="field"><span>l</span><span class="in"><input id="l-l" type="number" step="1" value="1" inputmode="numeric"></span></label>
+        </div>
+        <dl class="result" id="l-out" aria-live="polite"></dl>
+        <p class="tool-sub" data-ko="처음 나오는 반사 (누르면 hkl로)">First allowed reflections (tap to use)</p>
+        <div class="chips" role="group" aria-label="First allowed reflections" id="l-peaks"></div>
+        <p class="tool-note" data-ko="1/d² = h·G*·h, 삼사정계 일반식을 모든 격자에 그대로 씁니다. 소멸 규칙은 격자 중심화만 봅니다(I: h+k+l 홀수, F: 홀짝 섞임, C: h+k 홀수, R: −h+k+l ≠ 3n, 육방 축). 공간군의 나사축·미끄럼면 소멸과 구조 인자 0은 따지지 않습니다. 예: 다이아몬드 Si (200)은 F로는 허용이지만 실제로는 0입니다.">1/d² = h·G*·h, the general triclinic form, used for every lattice. Extinctions here come from the lattice centring only (I: h+k+l odd; F: mixed parity; C: h+k odd; R: −h+k+l ≠ 3n, hexagonal axes). Screw axes, glide planes and zero structure factors are not checked: diamond Si (200) is allowed by F but is zero in practice.</p>
+      </section>
     </div>
 
     <p class="tool-share"><button type="button" id="share" data-ko="이 값들로 링크 복사">Copy a link with these values</button></p>
   </main>
 
   <footer><div class="footer-line"><span data-ko="용이삭, 빔라인 도구">Isaac Yong, beamline tools</span><nav aria-label="Footer"><a href="../" data-ko="홈">Home</a><a href="../notes/" data-ko="노트">Notes</a><a href="../lab/" data-ko="랩">Lab</a><a href="../notes/feed.xml">RSS</a><a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">X-ray Toolkit</a></nav><span data-ko="&lt;kbd&gt;`&lt;/kbd&gt; 키로 터미널 열기">Press <kbd>`</kbd> for the terminal</span></div></footer>
-  <script src="calc.js?v=2" defer></script>
-  <script src="tools.js?v=detail1" defer></script>
+  <script src="calc.js?v=lattice1" defer></script>
+  <script src="tools.js?v=lattice1" defer></script>
   <script src="../script.js?v=detail1" defer></script>
   <script src="../terminal.js" defer></script>
 </body>
