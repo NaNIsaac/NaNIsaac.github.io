@@ -309,7 +309,13 @@ dialog::backdrop { background: #0f0f0dcc; }
 .range input { accent-color: var(--ink); width: 140px; }
 .range output { color: var(--ink); min-width: 88px; font-variant-numeric: tabular-nums; }
 .lab-panels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.lab-panels canvas { width: 100%; aspect-ratio: 1; display: block; image-rendering: pixelated; cursor: crosshair; touch-action: none; background: var(--surface); }
+.lab-panels canvas { width: 100%; aspect-ratio: 1; display: block; cursor: crosshair; touch-action: none; background: var(--surface); outline: 1px solid transparent; transition: outline-color .2s; }
+.lab-panels canvas:hover { outline-color: color-mix(in srgb, var(--accent) 70%, transparent); }
+.lab-panels canvas.draggable { cursor: nwse-resize; }
+.lab-panels canvas.paintable { cursor: cell; }
+.lab-tools { display: flex; gap: 10px; align-items: center; }
+.lab-clear { font-size: var(--step-small); font-weight: 600; padding: 10px 6px; text-decoration: underline; text-underline-offset: 3px; }
+.lab-hover { min-height: 1.5em; margin-top: -20px; color: var(--muted); }
 .lab-readout { font-size: var(--step-small); margin: 16px 0 28px; font-variant-numeric: tabular-nums; }
 .lab-notes { padding-top: 16px; max-width: 760px; }
 .lab-notes summary { cursor: pointer; font-weight: 600; }
@@ -357,7 +363,7 @@ dialog::backdrop { background: #0f0f0dcc; }
   .footer-line { grid-template-columns: 1fr; gap: 8px; }
   .footer-line > :last-child { text-align: left; }
   /* keep the three panels side by side: input, spectrum and result must be seen together */
-  .lab-panels { gap: 8px; }
+  .lab-panels { gap: 12px 8px; grid-template-columns: 1fr 1fr; } /* phones: two to a row, so there is room to draw */
   .lab-panels figcaption { font-size: .8125rem; }
   .lab-controls { gap: 10px 16px; margin-bottom: 14px; }
   .lab-wave { height: min(46vh, 380px); }

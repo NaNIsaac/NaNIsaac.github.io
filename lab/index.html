@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap">
-  <link rel="stylesheet" href="../style.css?v=detail1">
+  <link rel="stylesheet" href="../style.css?v=bench2">
   <title>Lab — Fourier &amp; Filtering · Isaac Yong</title>
 </head>
 <body class="sub">
@@ -61,48 +61,70 @@
     <canvas id="lab-wave" class="lab-wave" role="img" aria-label="Wave simulation on an optical table. Click to ripple, double-click to pin or remove a source, drag the barrier, slits, gap grips or the lattice."></canvas>
 
     <h2 class="lab-h2" id="fourier" data-ko="푸리에 벤치">Fourier bench</h2>
-    <p class="page-lead" data-ko="별개의 모델입니다. 시간 영역의 파동이 아니라 단색 복소 장과 그 2D 푸리에 변환입니다. 조리개를 고르고 패널을 끌면서 원거리 세기와 필터를 거친 장이 어떻게 반응하는지 보세요.">A separate model: a monochromatic complex field and its 2D Fourier transform, not a time-domain wave. Pick an aperture, drag on the panels, and watch the far-field intensity and the filtered field respond.</p>
+    <p class="page-lead" data-ko="별개의 모델입니다. 시간 영역의 파동이 아니라 단색 복소 장과 그 2D 푸리에 변환입니다. 조리개를 고르거나 직접 그리고, 가운데 원거리 패턴에서 주파수를 막아 보고, 오른쪽에서 위상을 버리면 무엇이 남는지 보세요.">A separate model: a monochromatic complex field and its 2D Fourier transform, not a time-domain wave. Pick an aperture or draw one, block frequencies in the far field in the middle, and on the right see what survives when the phase is thrown away.</p>
 
-    <div class="lab-controls" role="group" aria-label="Controls">
+    <div class="lab-controls" role="group" aria-label="Aperture controls">
       <div class="seg" role="group" aria-label="Aperture" id="aperture">
         <button data-v="circle" aria-pressed="true" data-ko="원">Circle</button>
         <button data-v="ring" data-ko="고리">Ring</button>
         <button data-v="slit" data-ko="슬릿">Slit</button>
         <button data-v="double" data-ko="이중 슬릿">Double slit</button>
         <button data-v="square" data-ko="정사각형">Square</button>
+        <button data-v="grating" data-ko="격자 무늬">Grating</button>
+        <button data-v="lattice" data-ko="구멍 격자">Hole lattice</button>
+        <button data-v="speckle" data-ko="무작위 구멍">Random holes</button>
         <button data-v="letter" data-ko="글자 λ">Letter λ</button>
+        <button data-v="draw" data-ko="직접 그리기">Draw</button>
       </div>
-      <label class="range"><span data-ko="크기">Size</span> <input type="range" id="size" min="2" max="60" value="12"><output id="size-out"></output></label>
-      <label class="range" id="sep-wrap"><span data-ko="간격">Separation</span> <input type="range" id="sep" min="8" max="120" value="40"><output id="sep-out"></output></label>
+      <label class="range" id="size-wrap"><span data-ko="크기">Size</span> <input type="range" id="size" min="2" max="60" value="12"><output id="size-out"></output></label>
+      <label class="range" id="sep-wrap"><span data-ko="간격">Spacing</span> <input type="range" id="sep" min="8" max="120" value="40"><output id="sep-out"></output></label>
+      <div class="lab-tools" id="draw-tools" hidden>
+        <div class="seg" role="group" aria-label="Brush" id="brush">
+          <button data-v="1" aria-pressed="true" data-ko="붓">Brush</button>
+          <button data-v="0" data-ko="지우개">Eraser</button>
+        </div>
+        <button class="lab-clear" id="clear-draw" data-ko="비우기">Clear</button>
+      </div>
+    </div>
+    <div class="lab-controls" role="group" aria-label="Filter and view">
       <div class="seg" role="group" aria-label="Frequency filter" id="filter">
         <button data-v="none" aria-pressed="true" data-ko="필터 없음">No filter</button>
         <button data-v="low" data-ko="저역 통과">Low-pass</button>
         <button data-v="high" data-ko="고역 통과">High-pass</button>
+        <button data-v="paint" data-ko="직접 막기">Paint stops</button>
       </div>
-      <label class="range"><span data-ko="차단 주파수">Cutoff</span> <input type="range" id="cutoff" min="0.005" max="0.5" step="0.005" value="0.08"><output id="cutoff-out"></output></label>
+      <label class="range" id="cutoff-wrap"><span data-ko="차단 주파수">Cutoff</span> <input type="range" id="cutoff" min="0.005" max="0.5" step="0.005" value="0.08"><output id="cutoff-out"></output></label>
+      <button class="lab-clear" id="clear-stops" hidden data-ko="막은 곳 지우기">Clear stops</button>
+      <div class="seg" role="group" aria-label="Right panel" id="view">
+        <button data-v="image" aria-pressed="true" data-ko="필터 거친 상">Filtered image</button>
+        <button data-v="nophase" data-ko="위상 버림">Phase discarded</button>
+        <button data-v="phaseonly" data-ko="위상만">Phase only</button>
+      </div>
     </div>
 
     <div class="lab-panels">
       <figure>
-        <canvas id="c-aperture" width="256" height="256" aria-label="Aperture transmission. Drag to resize."></canvas>
-        <figcaption data-ko="조리개 t(x,y) · 끌어서 크기 조절">APERTURE t(x,y) · drag to resize</figcaption>
+        <canvas id="c-aperture" width="256" height="256" aria-label="Aperture transmission."></canvas>
+        <figcaption id="cap-a"></figcaption>
       </figure>
       <figure>
-        <canvas id="c-spectrum" width="256" height="256" aria-label="Fourier intensity on a log scale. Drag to set the filter cutoff."></canvas>
-        <figcaption data-ko="|F|² · 로그 표시 · 끌기 = 차단 주파수">|F|² · log display · drag = cutoff</figcaption>
+        <canvas id="c-spectrum" width="256" height="256" aria-label="Far-field intensity on a log scale."></canvas>
+        <figcaption id="cap-s"></figcaption>
       </figure>
       <figure>
-        <canvas id="c-output" width="256" height="256" aria-label="Intensity of the inverse transform of the filtered spectrum."></canvas>
-        <figcaption data-ko="|IFFT(H·F)|² · γ 0.5 표시">|IFFT(H·F)|² · γ 0.5 display</figcaption>
+        <canvas id="c-output" width="256" height="256" aria-label="Image rebuilt from the filtered spectrum."></canvas>
+        <figcaption id="cap-o"></figcaption>
       </figure>
     </div>
     <p class="lab-readout" id="readout" aria-live="polite"></p>
+    <p class="lab-readout lab-hover" id="hover"></p>
 
     <details class="lab-notes">
       <summary data-ko="어떻게 동작하나">How it works</summary>
       <div class="prose">
         <p>The aperture is a transmission function <code>t(x,y)</code> on a 256 × 256 grid, lit by a uniform coherent plane wave, so the exit wave is <code>U = t</code>. Under the scalar, paraxial, coherent Fraunhofer approximation the far-field amplitude is proportional to the 2D Fourier transform of <code>U</code>; the middle panel shows <code>log(1 + α|F|²)</code> purely for visibility.</p>
         <p>The filter multiplies the <em>complex</em> spectrum by a mask <code>H</code> — like a stop in the Fourier plane of a 4f lens system — and the right panel is the intensity of the inverse transform. Because the phase of <code>F</code> is kept, an unfiltered round trip returns the aperture exactly. Inverting the intensity <code>|F|²</code> alone would not: recovering the lost phase is the phase-retrieval problem, which this page does not solve.</p>
+        <p><em>Paint stops</em> lets you block any part of the spectrum by hand, as a mask cut for the Fourier plane would. The right panel can also show what the phase carries: <em>Phase discarded</em> keeps every |F| and sets the phase to zero (what you would rebuild from the detector alone), <em>Phase only</em> keeps the phase and sets every magnitude to one. The edges survive in the second, not in the first. Hovering the spectrum draws, over the aperture, the grating whose frequency is under the pointer.</p>
         <p>Frequencies are in cycles per sample; the edge of the panel is 0.5. Propagation distance is not modeled here (that needs a Fresnel transfer function, not a bigger FFT).</p>
       </div>
     </details>
@@ -114,6 +136,6 @@
   <script src="../fourier.js?v=detail1" defer></script>
   <script src="../script.js?v=detail1" defer></script>
   <script src="../terminal.js" defer></script>
-  <script src="lab.js?v=detail1" defer></script>
+  <script src="lab.js?v=bench1" defer></script>
 </body>
 </html>
