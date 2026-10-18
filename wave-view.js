@@ -247,7 +247,14 @@ function mountWave(canvas, opts = {}) {
     ctx.lineWidth = 1;
     if (tools) { ctx.globalAlpha = 0.45; curve(inst, imax); ctx.stroke(); } // I(y, t): what arrives this instant, own scale
     ctx.lineWidth = tools ? 2.2 : 1.5;
-    ctx.globalAlpha = 0.9; curve(det, max); ctx.stroke(); // <I(y)>: running average
+    curve(det, max); // <I(y)>: running average
+    // a faint brass wash under it, deeper where more arrives, so the curve reads as a profile, not a thread
+    const wash = ctx.createLinearGradient(base, 0, base - span, 0);
+    wash.addColorStop(0, `rgba(${colors.brass}, 0.04)`);
+    wash.addColorStop(1, `rgba(${colors.brass}, 0.32)`);
+    ctx.lineTo(base, cssH - RAIL); ctx.lineTo(base, 0);
+    ctx.fillStyle = wash; ctx.globalAlpha = 1; ctx.fill();
+    ctx.globalAlpha = 0.9; curve(det, max); ctx.stroke();
     ctx.restore();
   }
 
