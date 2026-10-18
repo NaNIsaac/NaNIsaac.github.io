@@ -93,15 +93,18 @@
   }
 
   // Draw an unshifted N×N array of values in [0,1], centered on the canvas.
-  function paint(canvas, val) {
+  // tint: a faint brass wash on the mid-to-bright levels (the spectrum panel), as on the home page
+  function paint(canvas, val, tint = false) {
     const g = canvas.getContext('2d'), img = g.createImageData(N, N), d = img.data;
-    const bg = rgb('--surface'), a = rgb('--ink');
+    const bg = rgb('--surface'), a = rgb('--ink'), brass = rgb('--accent');
     for (let y = 0; y < N; y++) {
       for (let x = 0; x < N; x++) {
         const v = val[((y + N / 2) % N) * N + ((x + N / 2) % N)];
         const j = (y * N + x) * 4;
+        const m = Math.min(1, v), w = tint ? 0.28 * Math.sin(Math.PI * m) ** 2 : 0;
         for (let ch = 0; ch < 3; ch++) {
-          d[j + ch] = bg[ch] + (a[ch] - bg[ch]) * Math.min(1, v);
+          const base = bg[ch] + (a[ch] - bg[ch]) * m;
+          d[j + ch] = base + (brass[ch] - base) * w;
         }
         d[j + 3] = 255;
       }
@@ -131,7 +134,7 @@
     paint(canvases.a, t);
     const logI = I.map((v) => Math.log10(1 + (v / (imax || 1)) * 1e4) / 4);
     if (state.filter !== 'none') for (let i = 0; i < logI.length; i++) if (!H[i]) logI[i] *= 0.25;
-    paint(canvases.s, logI);
+    paint(canvases.s, logI, true);
     paint(canvases.o, out.map((v) => Math.sqrt(v / (omax || 1))));
 
     if (state.filter !== 'none') { // cutoff circle overlay

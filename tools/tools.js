@@ -12,7 +12,9 @@
   const REFLECTIONS = [['Si 111', 5.43102, 1, 1, 1], ['Si 220', 5.43102, 2, 2, 0], ['Si 311', 5.43102, 3, 1, 1], ['Si 400', 5.43102, 4, 0, 0], ['Ge 111', 5.6579, 1, 1, 1]];
 
   // Results: label, value, unit. Each value is a button that copies "label = value unit".
+  // A value that differs from the one it replaces gets a brief brass underline, so you see what moved.
   function show(id, rows) {
+    const before = new Map([...$(id).querySelectorAll('div')].map((d) => [d.querySelector('dt').textContent, d.querySelector('dd').textContent]));
     $(id).replaceChildren(...rows.map(([label, value, unit = '']) => {
       const div = document.createElement('div');
       const dt = document.createElement('dt');
@@ -22,6 +24,8 @@
         const b = document.createElement('button');
         b.type = 'button';
         b.innerHTML = /^[°%]$/.test(unit) ? `${value}${unit}` : `${value}<small>${unit}</small>`;
+        const old = before.get(label);
+        if (old !== undefined && old !== `${value}${unit}`) b.classList.add('changed');
         b.addEventListener('click', () => copy(`${label ? `${label} = ` : ''}${value}${/^[°%]$/.test(unit) ? '' : ' '}${unit}`.trim(), b));
         dd.append(b);
       }
@@ -90,6 +94,20 @@
       [tr('Beam on sample', '시료에 닿는 빔'), fmt(100 * Math.min(1, s / L), 3), '%'],
       [tr('Full beam above', '전체 빔이 닿는 각도'), fmt(fill, 4), '°'],
     ]);
+    sketch(L, s);
+  }
+  // Side view: footprint and sample to one scale; the beam comes in at a drawn angle, not the real one.
+  function sketch(L, s) {
+    const fig = $('f-fig');
+    if (!(L > 0 && s > 0)) { fig.replaceChildren(); return; }
+    const y = 46, rise = 30, run = rise / Math.tan((14 * Math.PI) / 180); // the beam needs `run` units on the left
+    const k = (312 - run - 8) / Math.max(L, s), mid = run + 8 + (312 - run - 8) / 2;
+    const sx = mid - (s * k) / 2, lx = mid - (L * k) / 2, lw = L * k, sw = s * k;
+    const on0 = Math.max(lx, sx), on1 = Math.min(lx + lw, sx + sw);
+    fig.innerHTML = `<polygon class="foot-beam" points="${lx - run},${y - rise} ${lx + lw - run},${y - rise} ${lx + lw},${y} ${lx},${y}"/>`
+      + `<rect class="foot-sample" x="${sx}" y="${y}" width="${sw}" height="7"/>`
+      + `<line class="foot-spill" x1="${lx}" y1="${y - 1}" x2="${lx + lw}" y2="${y - 1}"/>`
+      + `<line class="foot-on" x1="${on0}" y1="${y - 1}" x2="${on1}" y2="${y - 1}"/>`;
   }
 
   function transmission() {

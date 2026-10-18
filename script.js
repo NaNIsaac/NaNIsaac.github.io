@@ -45,22 +45,33 @@ const yearEl = document.querySelector('#year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 // Lately: newest notes (Jekyll JSON feed) and public GitHub activity. Both optional; failures leave the fallback link.
-function logRow(href, title, meta, external) {
+// Dates read as "3 days ago" in either language; hovering shows the date itself.
+function ago(iso) {
+  const d = Math.floor((Date.now() - new Date(iso)) / 864e5);
+  if (isKo()) return d < 1 ? '오늘' : d === 1 ? '어제' : d < 30 ? `${d}일 전` : `${Math.floor(d / 30)}달 전`;
+  return d < 1 ? 'today' : d === 1 ? 'yesterday' : d < 30 ? `${d} days ago` : `${Math.floor(d / 30)} mo ago`;
+}
+function stamp(em, iso, prefix) {
+  em.dataset.date = iso;
+  if (prefix) em.dataset.prefix = prefix;
+  em.title = iso.slice(0, 10);
+  em.textContent = em.dataset.prefix ? (isKo() ? `마지막 노트 ${ago(iso)}` : `last note ${ago(iso)}`) : ago(iso);
+}
+window.addEventListener('langchange', () => document.querySelectorAll('em[data-date]').forEach((em) => stamp(em, em.dataset.date)));
+function logRow(href, title, iso, external) {
   const a = document.createElement('a');
   a.href = href;
   if (external) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
   const strong = document.createElement('strong'); strong.textContent = title;
-  const em = document.createElement('em'); em.textContent = meta;
+  const em = document.createElement('em'); stamp(em, iso);
   a.append(strong, em);
   return a;
 }
 const notesList = document.querySelector('#notes-list');
 if (notesList) {
   fetch('notes/feed.json').then((r) => (r.ok ? r.json() : [])).then((posts) => {
-    notesList.prepend(...posts.slice(0, 4).map((p) => logRow(p.url, p.title, p.date.slice(5))));
-    if (!posts[0]) return;
-    const days = Math.floor((Date.now() - new Date(posts[0].date)) / 864e5);
-    document.querySelector('#notes-age').textContent = days < 1 ? 'last note today' : `last note ${days} day${days > 1 ? 's' : ''} ago`;
+    notesList.prepend(...posts.slice(0, 4).map((p) => logRow(p.url, p.title, p.date)));
+    if (posts[0]) stamp(document.querySelector('#notes-age'), posts[0].date, 'last');
   }).catch(() => {});
 }
 const OWN_WORK = /^(Push|PullRequest|Create|Release|Issues|PullRequestReview)Event$/; // not stars/forks of other people's repos
@@ -69,7 +80,7 @@ if (ghList) {
   fetch('https://api.github.com/users/NaNIsaac/events/public?per_page=50').then((r) => (r.ok ? r.json() : [])).then((events) => {
     const latest = new Map();
     for (const e of events) if (OWN_WORK.test(e.type) && !latest.has(e.repo.name) && latest.size < 5) latest.set(e.repo.name, e.created_at);
-    ghList.prepend(...[...latest].map(([name, at]) => logRow(`https://github.com/${name}`, name.replace(/^NaNIsaac\//, ''), at.slice(5, 10), true)));
+    ghList.prepend(...[...latest].map(([name, at]) => logRow(`https://github.com/${name}`, name.replace(/^NaNIsaac\//, ''), at, true)));
   }).catch(() => {});
 }
 
@@ -130,13 +141,15 @@ if (ftA && typeof createFourier === 'function') {
     const I = re.map((v, i) => { const p = v * v + im[i] * im[i]; max = Math.max(max, p); return p; });
     return { t, I: I.map((v) => Math.log10(1 + (v / (max || 1)) * 1e4) / 4) };
   });
-  function paint(canvas, val) {
+  // tint: a faint brass wash on the mid-to-bright levels (the detector panel), the hero's detector colour
+  function paint(canvas, val, tint = false) {
     const g = canvas.getContext('2d'), img = g.createImageData(N, N), d = img.data;
-    const bg = hexRgb(cssVar('--surface')), ink = hexRgb(cssVar('--ink'));
+    const bg = hexRgb(cssVar('--surface')), ink = hexRgb(cssVar('--ink')), brass = hexRgb(cssVar('--accent'));
     for (let y = 0; y < N; y++) {
       for (let x = 0; x < N; x++) {
         const v = Math.min(1, val[((y + N / 2) % N) * N + ((x + N / 2) % N)]), j = (y * N + x) * 4; // draw centred
-        for (let c = 0; c < 3; c++) d[j + c] = bg[c] + (ink[c] - bg[c]) * v;
+        const w = tint ? 0.28 * Math.sin(Math.PI * v) ** 2 : 0;
+        for (let c = 0; c < 3; c++) { const base = bg[c] + (ink[c] - bg[c]) * v; d[j + c] = base + (brass[c] - base) * w; }
         d[j + 3] = 255;
       }
     }
@@ -146,7 +159,7 @@ if (ftA && typeof createFourier === 'function') {
   let k = 0, timer = 0, onScreen = false;
   function show() {
     paint(ftA, frames[k].t);
-    paint(ftS, frames[k].I);
+    paint(ftS, frames[k].I, true);
     nameEl.textContent = isKo() ? SHAPES[k].ko : SHAPES[k].en;
   }
   function advance() {

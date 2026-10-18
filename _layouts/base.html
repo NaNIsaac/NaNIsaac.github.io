@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap">
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/style.css?v=detail1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   {% feed_meta %}
   <title>{% if page.title %}{{ page.title | escape }} — {% endif %}{{ site.title }}</title>
@@ -41,7 +41,7 @@
   <footer><div class="footer-line"><span data-ko="용이삭, 작업 노트">Isaac Yong, working notes</span><nav aria-label="Footer"><a href="/" data-ko="홈">Home</a><a href="/notes/" data-ko="노트">Notes</a><a href="/lab/" data-ko="랩">Lab</a><a href="/tools/" data-ko="도구">Tools</a><a href="/notes/feed.xml">RSS</a></nav><span class="tnum" data-ko="© {{ site.time | date: '%Y' }} · &lt;kbd&gt;`&lt;/kbd&gt; 키로 터미널 열기">© {{ site.time | date: '%Y' }} · press <kbd>`</kbd> for the terminal</span></div></footer>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.querySelector('main'), { delimiters: [{ left: '\\[', right: '\\]', display: true }, { left: '\\(', right: '\\)', display: false }] })"></script>
-  <script src="/script.js" defer></script>
+  <script src="/script.js?v=detail1" defer></script>
   <script src="/terminal.js" defer></script>
 </body>
 </html>

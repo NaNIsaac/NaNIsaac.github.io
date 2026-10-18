@@ -41,20 +41,30 @@ function createFourier(N) {
   // Signed coordinate of an unshifted index: 0..N/2-1, then -N/2..-1.
   const signed = (i) => (i < N / 2 ? i : i - N);
 
-  // Aperture transmission t(x,y) ∈ {0,1}, centered at the origin, sizes in samples.
+  // Aperture transmission t(x,y) ∈ [0,1], centered at the origin, sizes in samples: the fraction of
+  // each sample covered by the shape (4×4 sub-samples, placed symmetrically), so curved edges are
+  // not staircased. Interior samples are exactly 1 and outside ones exactly 0.
+  const SUB = 4, subs = Array.from({ length: SUB }, (_, i) => (i + 0.5) / SUB - 0.5);
+  function inside(kind, u, v, size, sep) {
+    const r = Math.hypot(u, v);
+    if (kind === 'circle') return r <= size;
+    if (kind === 'ring') return r <= size && r >= size * 0.7;
+    if (kind === 'slit') return Math.abs(u) <= size / 2 && Math.abs(v) <= N * 0.3;
+    if (kind === 'double') return Math.abs(Math.abs(u) - sep / 2) <= size / 2 && Math.abs(v) <= N * 0.3;
+    if (kind === 'square') return Math.abs(u) <= size && Math.abs(v) <= size;
+    return false;
+  }
   function aperture(kind, size, sep = 0) {
     const t = new Float64Array(N * N);
     for (let y = 0; y < N; y++) {
       const v = signed(y);
       for (let x = 0; x < N; x++) {
-        const u = signed(x), r = Math.hypot(u, v);
-        let on = false;
-        if (kind === 'circle') on = r <= size;
-        else if (kind === 'ring') on = r <= size && r >= size * 0.7;
-        else if (kind === 'slit') on = Math.abs(u) <= size / 2 && Math.abs(v) <= N * 0.3;
-        else if (kind === 'double') on = Math.abs(Math.abs(u) - sep / 2) <= size / 2 && Math.abs(v) <= N * 0.3;
-        else if (kind === 'square') on = Math.abs(u) <= size && Math.abs(v) <= size;
-        t[y * N + x] = on ? 1 : 0;
+        const u = signed(x);
+        const c = inside(kind, u - 0.5, v - 0.5, size, sep);
+        if (c === inside(kind, u + 0.5, v - 0.5, size, sep) && c === inside(kind, u - 0.5, v + 0.5, size, sep) && c === inside(kind, u + 0.5, v + 0.5, size, sep)) { t[y * N + x] = +c; continue; } // not on an edge
+        let n = 0;
+        for (const dv of subs) for (const du of subs) n += inside(kind, u + du, v + dv, size, sep);
+        t[y * N + x] = n / (SUB * SUB);
       }
     }
     return t;

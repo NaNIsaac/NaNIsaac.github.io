@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap">
-  <link rel="stylesheet" href="../style.css?v=tools2">
+  <link rel="stylesheet" href="../style.css?v=detail1">
   <title>X-ray Calculator: Energy ↔ Wavelength, Bragg Angle, q, Footprint, Scherrer · Isaac Yong</title>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"X-ray beamline calculator","url":"https://nanisaac.github.io/tools/","description":"Photon energy and wavelength, Bragg angle, momentum transfer q and d-spacing, beam footprint at grazing incidence, X-ray transmission, film thickness from Kiessig fringes and Scherrer crystallite size.","applicationCategory":"EducationalApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"inLanguage":["en","ko"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Photon energy to wavelength (keV to Å), with Cu, Mo, Ag, Co and Cr Kα1 presets","Bragg angle 2θ, momentum transfer q and d-spacing, linked both ways","Si and Ge reflection d-spacings","Grazing-incidence beam footprint and overfill angle","Transmission from thickness and attenuation length","Film thickness from Kiessig fringe spacing","Scherrer crystallite size from peak width"],"author":{"@type":"Person","name":"Isaac Yong","url":"https://nanisaac.github.io/"}}</script>
 </head>
@@ -68,7 +68,8 @@
           <label class="field"><span data-ko="시료 길이">Sample length</span><span class="in"><input id="f-s" type="number" step="any" min="0" value="10" inputmode="decimal"><i>mm</i></span></label>
         </div>
         <dl class="result" id="f-out" aria-live="polite"></dl>
-        <p class="tool-note" data-ko="L = h / sin α. sin α = h / 시료 길이가 되는 각도보다 낮으면 빔 일부가 시료를 비켜 가고 측정 세기가 줄어듭니다.">L = h / sin α. Below the angle where sin α = h / sample length, part of the beam misses the sample and the measured intensity drops.</p>
+        <svg class="foot-fig" id="f-fig" viewBox="0 0 320 64" aria-hidden="true"></svg>
+        <p class="tool-note" data-ko="L = h / sin α. sin α = h / 시료 길이가 되는 각도보다 낮으면 빔 일부가 시료를 비켜 가고 측정 세기가 줄어듭니다. 그림은 길이 비율만 맞추고 각도는 과장했습니다.">L = h / sin α. Below the angle where sin α = h / sample length, part of the beam misses the sample and the measured intensity drops. The sketch keeps the lengths to scale, not the angle.</p>
       </section>
 
       <section class="tool" aria-labelledby="transmission">
@@ -111,8 +112,8 @@
 
   <footer><div class="footer-line"><span data-ko="용이삭, 빔라인 도구">Isaac Yong, beamline tools</span><nav aria-label="Footer"><a href="../" data-ko="홈">Home</a><a href="../notes/" data-ko="노트">Notes</a><a href="../lab/" data-ko="랩">Lab</a><a href="../notes/feed.xml">RSS</a><a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">X-ray Toolkit</a></nav><span data-ko="&lt;kbd&gt;`&lt;/kbd&gt; 키로 터미널 열기">Press <kbd>`</kbd> for the terminal</span></div></footer>
   <script src="calc.js?v=2" defer></script>
-  <script src="tools.js?v=2" defer></script>
-  <script src="../script.js" defer></script>
+  <script src="tools.js?v=detail1" defer></script>
+  <script src="../script.js?v=detail1" defer></script>
   <script src="../terminal.js" defer></script>
 </body>
 </html>
