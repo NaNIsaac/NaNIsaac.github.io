@@ -7,7 +7,7 @@ Personal site of **Isaac Yong (용이삭) / NaNIsaac** — https://nanisaac.gith
 | `/` | Portfolio with the *Liquid Light* hero: a live 2D wave simulation (`wave.js`): a fixed double slit; clicks and moves ripple it, and a ghost hand shows how until you do |
 | `/lab/` | Fourier & Filtering sandbox (`fourier.js`, `lab/lab.js`) |
 | `/notes/` | Notes written as Markdown in `_posts/`, built by GitHub Pages' Jekyll |
-| `` ` `` key | Terminal: X-ray calculators, quick capture, shortcuts (`terminal.js`) |
+| `` ` `` key | Owner terminal, not linked anywhere on the site: quick capture, ideas, shortcuts (`terminal.js`) |
 
 No npm, no build step on your machine. GitHub Pages builds the site from `master`
 (Settings → Pages → *Deploy from a branch*, `master` / root) and runs Jekyll for the notes.
@@ -47,6 +47,8 @@ bar with days since the last note, waiting ideas and todos, and a *new note* but
 `localStorage`, so visitors never see it. `owner off` hides it.
 
 ## Terminal commands
+
+Nothing on the site points to the terminal; press `` ` `` on any page to open it.
 
 | Command | Does |
 |---|---|
