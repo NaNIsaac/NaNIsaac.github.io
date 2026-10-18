@@ -20,85 +20,86 @@
 <body class="sub">
   <script>let t; try { t = localStorage.getItem('isaac-theme'); } catch {} if ((t ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark') document.body.classList.add('dark');</script>
   <header class="site-header">
-    <a class="brand" href="../">Isaac Yong</a>
+    <a class="brand" href="../" data-ko="용이삭">Isaac Yong</a>
     <nav aria-label="Main">
-      <a href="../#work">Work</a>
-      <a href="../tools/">Tools</a>
-      <a href="../notes/">Notes</a>
+      <a href="../#work" data-ko="작업">Work</a>
+      <a href="../tools/" data-ko="도구">Tools</a>
+      <a href="../notes/" data-ko="노트">Notes</a>
+      <button class="toggle" id="lang" aria-label="Switch language">한</button>
       <button class="toggle" id="theme" aria-label="Toggle theme">Dark</button>
     </nav>
   </header>
 
   <main class="wrap page">
-    <h1 class="page-title">Touch the wave.<br>See the transform.</h1>
-    <p class="page-lead">Two small experiments built on two different models: a time-domain wave you can poke, and a Fourier-optics bench for apertures and filters. Nothing here is precomputed.</p>
+    <h1 class="page-title" data-ko="파동을 만지고,<br>변환을 보세요.">Touch the wave.<br>See the transform.</h1>
+    <p class="page-lead" data-ko="서로 다른 두 모델 위에 만든 작은 실험 두 개입니다. 직접 건드릴 수 있는 시간 영역의 파동, 그리고 조리개와 필터를 다루는 푸리에 광학 벤치. 미리 계산해 둔 것은 없습니다.">Two small experiments built on two different models: a time-domain wave you can poke, and a Fourier-optics bench for apertures and filters. Nothing here is precomputed.</p>
 
-    <h2 class="lab-h2" id="waves">Ripple tank</h2>
-    <p class="page-lead">A ripple tank for light: a 2D scalar wave equation on an optical table. The slit jaws absorb by default, like the tungsten blades of an X-ray slit; switch them to reflecting to see the standing waves an ideal mirror sends back. Click to ripple. Double-click to pin a source, double-click it again to remove it. Drag the barrier by its mount on the rail, a slit up or down by its opening, or a jaw's knife edge to change the gap. With the lattice in place, drag its middle to move it and its rim to rotate it, and watch for the angle where the detector lights up: that is the Bragg condition. At the right edge a film strip darkens where intensity arrives; click it for fresh film. Beside it, the thin line is the intensity arriving now and the heavy one its running average.</p>
+    <h2 class="lab-h2" id="waves" data-ko="물결 수조">Ripple tank</h2>
+    <p class="page-lead" data-ko="빛을 위한 물결 수조, 광학 테이블 위의 2D 스칼라 파동 방정식입니다. 슬릿 날은 기본적으로 X선 슬릿의 텅스텐 날처럼 흡수하고, 반사로 바꾸면 이상적인 거울이 되돌려 보내는 정상파가 보입니다. 클릭하면 물결, 더블클릭하면 광원을 고정하고 다시 더블클릭하면 지웁니다. 레일 위 마운트를 끌면 차단벽이, 열린 곳을 끌면 슬릿이 위아래로, 날 끝을 끌면 틈이 바뀝니다. 격자를 놓으면 가운데를 끌어 옮기고 테두리를 끌어 돌리면서, 검출기가 밝아지는 각도를 찾아보세요. 그게 Bragg 조건입니다. 오른쪽 끝 필름은 세기가 닿는 곳이 어두워지고, 클릭하면 새 필름으로 바뀝니다. 그 옆 얇은 선은 지금 도착하는 세기, 굵은 선은 그 이동 평균입니다.">A ripple tank for light: a 2D scalar wave equation on an optical table. The slit jaws absorb by default, like the tungsten blades of an X-ray slit; switch them to reflecting to see the standing waves an ideal mirror sends back. Click to ripple. Double-click to pin a source, double-click it again to remove it. Drag the barrier by its mount on the rail, a slit up or down by its opening, or a jaw's knife edge to change the gap. With the lattice in place, drag its middle to move it and its rim to rotate it, and watch for the angle where the detector lights up: that is the Bragg condition. At the right edge a film strip darkens where intensity arrives; click it for fresh film. Beside it, the thin line is the intensity arriving now and the heavy one its running average.</p>
     <div class="lab-controls" role="group" aria-label="Wave controls">
       <div class="seg" role="group" aria-label="Sources" id="w-sources">
-        <button data-v="1">1 source</button>
-        <button data-v="2" aria-pressed="true">2 sources</button>
+        <button data-v="1" data-ko="광원 1개">1 source</button>
+        <button data-v="2" aria-pressed="true" data-ko="광원 2개">2 sources</button>
       </div>
       <div class="seg" role="group" aria-label="Sample" id="w-sample">
-        <button data-v="none" aria-pressed="true">No sample</button>
-        <button data-v="lattice">Lattice</button>
+        <button data-v="none" aria-pressed="true" data-ko="시료 없음">No sample</button>
+        <button data-v="lattice" data-ko="격자">Lattice</button>
       </div>
       <div class="seg" role="group" aria-label="Barrier" id="w-barrier">
-        <button data-v="double" aria-pressed="true">Double slit</button>
-        <button data-v="single">Single slit</button>
-        <button data-v="none">Open</button>
+        <button data-v="double" aria-pressed="true" data-ko="이중 슬릿">Double slit</button>
+        <button data-v="single" data-ko="단일 슬릿">Single slit</button>
+        <button data-v="none" data-ko="열림">Open</button>
       </div>
       <div class="seg" role="group" aria-label="Slit jaws" id="w-jaws">
-        <button data-v="absorb" aria-pressed="true">Absorbing jaws</button>
-        <button data-v="reflect">Reflecting jaws</button>
+        <button data-v="absorb" aria-pressed="true" data-ko="흡수하는 날">Absorbing jaws</button>
+        <button data-v="reflect" data-ko="반사하는 날">Reflecting jaws</button>
       </div>
-      <label class="range">Wavelength <input type="range" id="w-period" min="12" max="40" step="2" value="24"><output id="w-period-out"></output></label>
-      <label class="range">Slit width <input type="range" id="w-slit" min="1" max="10" value="3"><output id="w-slit-out"></output></label>
+      <label class="range"><span data-ko="파장">Wavelength</span> <input type="range" id="w-period" min="12" max="40" step="2" value="24"><output id="w-period-out"></output></label>
+      <label class="range"><span data-ko="슬릿 폭">Slit width</span> <input type="range" id="w-slit" min="1" max="10" value="3"><output id="w-slit-out"></output></label>
       <button class="lab-wave-pause" id="w-pause">Pause</button>
     </div>
     <canvas id="lab-wave" class="lab-wave" role="img" aria-label="Wave simulation on an optical table. Click to ripple, double-click to pin or remove a source, drag the barrier, slits, gap grips or the lattice."></canvas>
 
-    <h2 class="lab-h2" id="fourier">Fourier bench</h2>
-    <p class="page-lead">A separate model: a monochromatic complex field and its 2D Fourier transform, not a time-domain wave. Pick an aperture, drag on the panels, and watch the far-field intensity and the filtered field respond.</p>
+    <h2 class="lab-h2" id="fourier" data-ko="푸리에 벤치">Fourier bench</h2>
+    <p class="page-lead" data-ko="별개의 모델입니다. 시간 영역의 파동이 아니라 단색 복소 장과 그 2D 푸리에 변환입니다. 조리개를 고르고 패널을 끌면서 원거리 세기와 필터를 거친 장이 어떻게 반응하는지 보세요.">A separate model: a monochromatic complex field and its 2D Fourier transform, not a time-domain wave. Pick an aperture, drag on the panels, and watch the far-field intensity and the filtered field respond.</p>
 
     <div class="lab-controls" role="group" aria-label="Controls">
       <div class="seg" role="group" aria-label="Aperture" id="aperture">
-        <button data-v="circle" aria-pressed="true">Circle</button>
-        <button data-v="ring">Ring</button>
-        <button data-v="slit">Slit</button>
-        <button data-v="double">Double slit</button>
-        <button data-v="square">Square</button>
-        <button data-v="letter">Letter λ</button>
+        <button data-v="circle" aria-pressed="true" data-ko="원">Circle</button>
+        <button data-v="ring" data-ko="고리">Ring</button>
+        <button data-v="slit" data-ko="슬릿">Slit</button>
+        <button data-v="double" data-ko="이중 슬릿">Double slit</button>
+        <button data-v="square" data-ko="정사각형">Square</button>
+        <button data-v="letter" data-ko="글자 λ">Letter λ</button>
       </div>
-      <label class="range">Size <input type="range" id="size" min="2" max="60" value="12"><output id="size-out"></output></label>
-      <label class="range" id="sep-wrap">Separation <input type="range" id="sep" min="8" max="120" value="40"><output id="sep-out"></output></label>
+      <label class="range"><span data-ko="크기">Size</span> <input type="range" id="size" min="2" max="60" value="12"><output id="size-out"></output></label>
+      <label class="range" id="sep-wrap"><span data-ko="간격">Separation</span> <input type="range" id="sep" min="8" max="120" value="40"><output id="sep-out"></output></label>
       <div class="seg" role="group" aria-label="Frequency filter" id="filter">
-        <button data-v="none" aria-pressed="true">No filter</button>
-        <button data-v="low">Low-pass</button>
-        <button data-v="high">High-pass</button>
+        <button data-v="none" aria-pressed="true" data-ko="필터 없음">No filter</button>
+        <button data-v="low" data-ko="저역 통과">Low-pass</button>
+        <button data-v="high" data-ko="고역 통과">High-pass</button>
       </div>
-      <label class="range">Cutoff <input type="range" id="cutoff" min="0.005" max="0.5" step="0.005" value="0.08"><output id="cutoff-out"></output></label>
+      <label class="range"><span data-ko="차단 주파수">Cutoff</span> <input type="range" id="cutoff" min="0.005" max="0.5" step="0.005" value="0.08"><output id="cutoff-out"></output></label>
     </div>
 
     <div class="lab-panels">
       <figure>
         <canvas id="c-aperture" width="256" height="256" aria-label="Aperture transmission. Drag to resize."></canvas>
-        <figcaption>APERTURE t(x,y) · drag to resize</figcaption>
+        <figcaption data-ko="조리개 t(x,y) · 끌어서 크기 조절">APERTURE t(x,y) · drag to resize</figcaption>
       </figure>
       <figure>
         <canvas id="c-spectrum" width="256" height="256" aria-label="Fourier intensity on a log scale. Drag to set the filter cutoff."></canvas>
-        <figcaption>|F|² · log display · drag = cutoff</figcaption>
+        <figcaption data-ko="|F|² · 로그 표시 · 끌기 = 차단 주파수">|F|² · log display · drag = cutoff</figcaption>
       </figure>
       <figure>
         <canvas id="c-output" width="256" height="256" aria-label="Intensity of the inverse transform of the filtered spectrum."></canvas>
-        <figcaption>|IFFT(H·F)|² · γ 0.5 display</figcaption>
+        <figcaption data-ko="|IFFT(H·F)|² · γ 0.5 표시">|IFFT(H·F)|² · γ 0.5 display</figcaption>
       </figure>
     </div>
     <p class="lab-readout" id="readout" aria-live="polite"></p>
 
     <details class="lab-notes">
-      <summary>How it works</summary>
+      <summary data-ko="어떻게 동작하나">How it works</summary>
       <div class="prose">
         <p>The aperture is a transmission function <code>t(x,y)</code> on a 256 × 256 grid, lit by a uniform coherent plane wave, so the exit wave is <code>U = t</code>. Under the scalar, paraxial, coherent Fraunhofer approximation the far-field amplitude is proportional to the 2D Fourier transform of <code>U</code>; the middle panel shows <code>log(1 + α|F|²)</code> purely for visibility.</p>
         <p>The filter multiplies the <em>complex</em> spectrum by a mask <code>H</code> — like a stop in the Fourier plane of a 4f lens system — and the right panel is the intensity of the inverse transform. Because the phase of <code>F</code> is kept, an unfiltered round trip returns the aperture exactly. Inverting the intensity <code>|F|²</code> alone would not: recovering the lost phase is the phase-retrieval problem, which this page does not solve.</p>
@@ -107,7 +108,7 @@
     </details>
   </main>
 
-  <footer><div class="footer-line"><span>Isaac Yong, the lab</span><nav aria-label="Footer"><a href="../">Home</a><a href="../tools/">Tools</a><a href="../notes/">Notes</a></nav><span>Press <kbd>`</kbd> for the terminal</span></div></footer>
+  <footer><div class="footer-line"><span data-ko="용이삭, 랩">Isaac Yong, the lab</span><nav aria-label="Footer"><a href="../" data-ko="홈">Home</a><a href="../notes/" data-ko="노트">Notes</a><a href="../tools/" data-ko="도구">Tools</a><a href="../notes/feed.xml">RSS</a></nav><span data-ko="&lt;kbd&gt;`&lt;/kbd&gt; 키로 터미널 열기">Press <kbd>`</kbd> for the terminal</span></div></footer>
   <script src="../wave.js" defer></script>
   <script src="../wave-view.js" defer></script>
   <script src="../fourier.js" defer></script>

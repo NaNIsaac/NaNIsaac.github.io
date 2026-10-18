@@ -1,8 +1,10 @@
 // Lab page. Scene 1 reuses the hero renderer (wave-view.js); scene 2 is the Fourier bench (fourier.js).
 (() => {
   const $ = (s) => document.querySelector(s);
+  const ko = () => typeof isKo === 'function' && isKo(); // script.js owns the language switch
   const view = mountWave($('#lab-wave'), {
     pauseButton: $('#w-pause'),
+    pauseLabel: (running) => (running ? (ko() ? '일시정지' : 'Pause') : (ko() ? '재생' : 'Play')),
     tools: true,
     onChange: showValues, // drags on the canvas (gap grips, double-click sources) keep the controls honest
     scene: { sources: [{ fx: 0.25, fy: 0.4 }, { fx: 0.25, fy: 0.6 }], barrier: 0.55, slits: [0.42, 0.58], detector: 0.92 },
@@ -23,8 +25,9 @@
   function pressed(id, v) { document.querySelectorAll(`${id} button`).forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.v === v))); }
   function showValues() {
     $('#w-slit').value = sc.slitHalf;
-    $('#w-period-out').textContent = `λ = ${sc.period / 2} cells`;
-    $('#w-slit-out').textContent = `${2 * sc.slitHalf + 1} cells`;
+    const cells = ko() ? '칸' : ' cells';
+    $('#w-period-out').textContent = `λ = ${sc.period / 2}${cells}`;
+    $('#w-slit-out').textContent = `${2 * sc.slitHalf + 1}${cells}`;
     const n = String(sc.sources.length);
     opts.sources = n;
     pressed('#w-sources', n);
@@ -55,11 +58,17 @@
   $('#w-period').addEventListener('input', applyWave);
   $('#w-slit').addEventListener('input', applyWave);
   applyWave();
+  window.addEventListener('langchange', () => {
+    showValues();
+    const p = $('#w-pause'), running = p.textContent === 'Pause' || p.textContent === '일시정지';
+    p.textContent = running ? (ko() ? '일시정지' : 'Pause') : (ko() ? '재생' : 'Play');
+  });
 })();
 
 (() => {
   const N = 256, F = createFourier(N);
   const $ = (s) => document.querySelector(s);
+  const ko = () => typeof isKo === 'function' && isKo();
   const state = { kind: 'circle', size: 12, sep: 40, filter: 'none', cutoff: 0.08 };
   const canvases = { a: $('#c-aperture'), s: $('#c-spectrum'), o: $('#c-output') };
 
@@ -132,7 +141,8 @@
       g.beginPath(); g.arc(N / 2, N / 2, state.cutoff * N, 0, Math.PI * 2); g.stroke();
       g.setLineDash([]);
     }
-    $('#readout').textContent = `open area ${t.reduce((s, v) => s + v, 0)} px² · retained spectral power ${((100 * kept) / (total || 1)).toFixed(2)}%`;
+    const area = t.reduce((s, v) => s + v, 0), power = ((100 * kept) / (total || 1)).toFixed(2);
+    $('#readout').textContent = ko() ? `열린 면적 ${area} px² · 남은 스펙트럼 세기 ${power}%` : `open area ${area} px² · retained spectral power ${power}%`;
   }
 
   // Controls
@@ -173,5 +183,6 @@
     state.cutoff = clamp(+(Math.hypot(dx, dy) / N).toFixed(3), 0.005, 0.5);
   });
   window.addEventListener('themechange', update);
+  window.addEventListener('langchange', update);
   sync();
 })();
