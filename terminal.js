@@ -54,7 +54,7 @@
   function newNoteUrl(title) {
     const slug = title.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '') || 'note';
     const body = `---\ntitle: ${JSON.stringify(title)}\ndescription: \ntags: []\n---\n\n<!-- A few lines is enough. Delete the headings you don't need. -->\n\n## Context\n\n\n## What I found\n\n\n## Next\n`;
-    return `https://github.com/${REPO}/new/master/_posts?filename=${encodeURIComponent(`${today()}-${slug}.md`)}&value=${encodeURIComponent(body)}`;
+    return `https://github.com/${REPO}/new/main/_posts?filename=${encodeURIComponent(`${today()}-${slug}.md`)}&value=${encodeURIComponent(body)}`;
   }
 
   // Local lists (this browser only): ideas to write up, small todos.

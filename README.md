@@ -9,8 +9,8 @@ Personal site of **Isaac Yong (용이삭) / NaNIsaac** — https://nanisaac.gith
 | `/notes/` | Notes written as Markdown in `_posts/`, built by GitHub Pages' Jekyll |
 | `` ` `` key | Owner terminal, not linked anywhere on the site: quick capture, ideas, shortcuts (`terminal.js`) |
 
-No npm, no build step on your machine. GitHub Pages builds the site from `master`
-(Settings → Pages → *Deploy from a branch*, `master` / root) and runs Jekyll for the notes.
+No npm, no build step on your machine. GitHub Pages builds the site from `main`
+(Settings → Pages → *Deploy from a branch*, `main` / root) and runs Jekyll for the notes.
 
 ## Write a note
 

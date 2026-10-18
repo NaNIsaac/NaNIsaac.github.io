@@ -5,7 +5,7 @@ layout: base
   <p class="note-meta"><a href="/notes/">Notes</a>, <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%-d %B %Y" }}</time>{% for tag in page.tags %}, {{ tag }}{% endfor %}</p>
   <h1>{{ page.title | escape }}</h1>
   <div class="prose">{{ content }}</div>
-  <p class="note-edit"><a href="https://github.com/NaNIsaac/NaNIsaac.github.io/edit/master/{{ page.path }}" target="_blank" rel="noopener noreferrer">Edit this note on GitHub</a></p>
+  <p class="note-edit"><a href="https://github.com/NaNIsaac/NaNIsaac.github.io/edit/main/{{ page.path }}" target="_blank" rel="noopener noreferrer">Edit this note on GitHub</a></p>
 </article>
 {%- comment -%} The author is the Person defined on the homepage (same @id), not a second copy of it. {%- endcomment -%}
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","@id":{{ page.url | absolute_url | append: "#post" | jsonify }},"headline":{{ page.title | jsonify }},"description":{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160 | jsonify }},"datePublished":{{ page.date | date_to_xmlschema | jsonify }},"dateModified":{{ page.last_modified_at | default: page.date | date_to_xmlschema | jsonify }},"url":{{ page.url | absolute_url | jsonify }},"mainEntityOfPage":{{ page.url | absolute_url | jsonify }},"image":"https://nanisaac.github.io/og-image.jpg","inLanguage":{{ page.lang | default: site.lang | jsonify }},"keywords":{{ page.tags | jsonify }},"author":{"@type":"Person","@id":"https://nanisaac.github.io/#person","name":"Isaac Yong","url":"https://nanisaac.github.io/"},"isPartOf":{"@type":"Blog","@id":"https://nanisaac.github.io/notes/#blog","name":"Notes","url":"https://nanisaac.github.io/notes/"}}</script>
