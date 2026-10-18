@@ -319,7 +319,7 @@ dialog::backdrop { background: #0f0f0dcc; }
 }
 @media (max-width: 760px) {
   :root { --margin: 20px; }
-  /* brand + Work, Notes, Contact + two 44px toggles must fit in 375px */
+  /* brand + Work, Tools, Contact + two 44px toggles must fit in 375px */
   .site-header { height: 56px; gap: 8px; padding: 0 12px; }
   .site-header nav { gap: 8px; }
   .site-header nav .wide { display: none; }
