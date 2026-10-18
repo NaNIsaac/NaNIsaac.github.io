@@ -91,7 +91,6 @@ if (labPreview && typeof mountWave === 'function') {
     tools: true,
     speed: 0.5, gain: 0.55, // half speed, softer contrast: it sits beside reading text
     demo: true, // a ghost hand turns and shifts the lattice until someone touches it
-    cellPx: (w) => (w < 600 ? 2 : 3), // phones: zoom out, so the crystal is small and the pattern dense
     scene: { sources: [{ fx: 0.1, fy: 0.5 }], barrier: null, slits: [], detector: 0.92, lattice: { fx: 0.48, fy: 0.5, theta: 0.35, d: 9, n: 3 } },
   });
 }

@@ -7,7 +7,7 @@
 // fixed: true draws the slit as a plain plate and makes nothing draggable; taps and moves only ripple.
 // Until the first touch a ghost hand alternates a tap and a swipe left of the slits, so people see what each does.
 // demo: true (with tools and a lattice) has the ghost hand turn the lattice by its rim, then shift it by its middle.
-// cellPx(cssW) sets the screen pixels per solver cell (default 3); fewer zooms the whole bench out.
+// cellPx(cssW) sets the screen pixels per solver cell (default 3, 1.5 on phones); fewer zooms the whole bench out.
 // onChange(scene) fires after a drag changes the scene.
 function mountWave(canvas, opts = {}) {
   const ctx = canvas.getContext('2d');
@@ -79,7 +79,7 @@ function mountWave(canvas, opts = {}) {
     dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     canvas.width = Math.round(cssW * dpr);
     canvas.height = Math.round(cssH * dpr);
-    const w = Math.min(420, Math.round(cssW / (opts.cellPx?.(cssW) ?? 3)));
+    const w = Math.min(420, Math.round(cssW / (opts.cellPx?.(cssW) ?? (cssW < 600 ? 1.5 : 3)))); // phones: same bench, zoomed out
     const h = Math.round((w * cssH) / cssW); // square cells: no anisotropic stretching
     cell = cssW / w;
     sim = createWave(w, h);
