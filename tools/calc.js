@@ -20,10 +20,6 @@ const calc = {
   fillAngle: (height, sampleLength) => deg(Math.asin(height / sampleLength)),
   // Transmission through thickness t of a material with attenuation length ℓ (same units)
   transmission: (t, attLength) => Math.exp(-t / attLength),
-  // Film thickness from the Kiessig fringe period Δq: t = 2π / Δq
-  kiessig: (dq) => (2 * Math.PI) / dq,
-  // Small-angle fringe period in q from a period in 2θ: Δq ≈ 2π Δ(2θ) / λ
-  dqFromTwoTheta: (dTwoTheta, lambda) => (2 * Math.PI * rad(dTwoTheta)) / lambda,
   // Scherrer: τ = K λ / (β cos θ), β the peak FWHM in 2θ (degrees). Same length unit as λ.
   scherrer: (twoTheta, fwhm, lambda, K = 0.9) => (K * lambda) / (rad(fwhm) * Math.cos(rad(twoTheta / 2))),
   // Unit cell {a, b, c in Å; al, be, ga in degrees}: volume, and d(hkl) from the general triclinic

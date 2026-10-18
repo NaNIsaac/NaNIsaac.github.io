@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#e8e8e3">
-  <meta name="description" content="Free X-ray calculator for the beamline and the lab diffractometer: photon energy ↔ wavelength, Bragg angle 2θ ↔ q ↔ d-spacing with Si and Ge reflections, grazing-incidence beam footprint, transmission, film thickness from Kiessig fringes, Scherrer crystallite size, and d-spacing for all 14 Bravais lattices with centring extinctions. Live results, works on phones.">
+  <meta name="description" content="Free X-ray calculator for the beamline and the lab diffractometer: photon energy ↔ wavelength, Bragg angle 2θ ↔ q ↔ d-spacing with Si and Ge reflections, grazing-incidence beam footprint, transmission, Scherrer crystallite size, and d-spacing for all 14 Bravais lattices with centring extinctions. Live results, works on phones.">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="X-ray Calculator: Energy, Bragg Angle, q, Footprint, Kiessig, Scherrer">
-  <meta property="og:description" content="Set the beam energy once; Bragg angle, q, d-spacing, footprint, film thickness and crystallite size follow. Live results as you type.">
+  <meta property="og:title" content="X-ray Calculator: Energy, Bragg Angle, q, Footprint, Scherrer, Lattice d-spacing">
+  <meta property="og:description" content="Set the beam energy once; Bragg angle, q, d-spacing, footprint, crystallite size and lattice reflections follow. Live results as you type.">
   <meta property="og:url" content="https://nanisaac.github.io/tools/">
   <meta property="og:image" content="https://nanisaac.github.io/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap">
   <link rel="stylesheet" href="../style.css?v=lattice1">
   <title>X-ray Calculator: Energy ↔ Wavelength, Bragg Angle, q, Footprint, Scherrer · Isaac Yong</title>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"X-ray beamline calculator","url":"https://nanisaac.github.io/tools/","description":"Photon energy and wavelength, Bragg angle, momentum transfer q and d-spacing, beam footprint at grazing incidence, X-ray transmission, film thickness from Kiessig fringes and Scherrer crystallite size.","applicationCategory":"EducationalApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"inLanguage":["en","ko"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Photon energy to wavelength (keV to Å), with Cu, Mo, Ag, Co and Cr Kα1 presets","Bragg angle 2θ, momentum transfer q and d-spacing, linked both ways","Si and Ge reflection d-spacings","Grazing-incidence beam footprint and overfill angle","Transmission from thickness and attenuation length","Film thickness from Kiessig fringe spacing","Scherrer crystallite size from peak width","d-spacing, 2θ and cell volume for all 14 Bravais lattices, with lattice-centring extinctions"],"author":{"@type":"Person","name":"Isaac Yong","url":"https://nanisaac.github.io/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"X-ray beamline calculator","url":"https://nanisaac.github.io/tools/","description":"Photon energy and wavelength, Bragg angle, momentum transfer q and d-spacing, beam footprint at grazing incidence, X-ray transmission, Scherrer crystallite size and d-spacing for the 14 Bravais lattices.","applicationCategory":"EducationalApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"inLanguage":["en","ko"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Photon energy to wavelength (keV to Å), with Cu, Mo, Ag, Co and Cr Kα1 presets","Bragg angle 2θ, momentum transfer q and d-spacing, linked both ways","Si and Ge reflection d-spacings","Grazing-incidence beam footprint and overfill angle","Transmission from thickness and attenuation length","Scherrer crystallite size from peak width","d-spacing, 2θ and cell volume for all 14 Bravais lattices, with lattice-centring extinctions"],"author":{"@type":"Person","name":"Isaac Yong","url":"https://nanisaac.github.io/"}}</script>
 </head>
 <body class="sub">
   <script>let t; try { t = localStorage.getItem('isaac-theme'); } catch {} if ((t ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark') document.body.classList.add('dark');</script>
@@ -83,16 +83,6 @@
         <p class="tool-note" data-ko="T = exp(−t / ℓ). 감쇠 길이는 물질과 에너지에 맞게 &lt;a href=&quot;https://henke.lbl.gov/optical_constants/atten2.html&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CXRO 표&lt;/a&gt;에서 찾을 수 있습니다.">T = exp(−t / ℓ). Look the attenuation length up for your material and energy in the <a href="https://henke.lbl.gov/optical_constants/atten2.html" target="_blank" rel="noopener noreferrer">CXRO tables</a>.</p>
       </section>
 
-      <section class="tool" aria-labelledby="film-thickness">
-        <h2 id="film-thickness" data-ko="키시그 무늬로 박막 두께">Film thickness from Kiessig fringes</h2>
-        <p class="tool-lead" data-ko="반사율 곡선에서 이웃한 무늬 사이의 간격을 넣으세요.">Enter the spacing between neighbouring fringes on a reflectivity curve.</p>
-        <div class="fields">
-          <label class="field"><span>Δq</span><span class="in"><input id="k-dq" type="number" step="any" min="0" value="0.0314" inputmode="decimal"><i>Å⁻¹</i></span></label>
-          <label class="field"><span>Δ2θ</span><span class="in"><input id="k-d2t" type="number" step="any" min="0" inputmode="decimal"><i>°</i></span></label>
-        </div>
-        <dl class="result" id="k-out" aria-live="polite"></dl>
-        <p class="tool-note" data-ko="t = 2π / Δq. Δ2θ는 작은 각 근사 Δq ≈ 2π Δ2θ / λ로 바꿉니다. 임계각 바로 위 무늬는 굴절 때문에 간격이 넓으니 높은 q 쪽 무늬를 쓰세요.">t = 2π / Δq. Δ2θ is converted with the small-angle form Δq ≈ 2π Δ2θ / λ. Fringes just above the critical angle are stretched by refraction, so read the spacing further out in q.</p>
-      </section>
 
       <section class="tool" aria-labelledby="crystallite-size">
         <h2 id="crystallite-size" data-ko="셰러 결정 크기">Crystallite size (Scherrer)</h2>
@@ -135,8 +125,8 @@
   </main>
 
   <footer><div class="footer-line"><span data-ko="용이삭, 빔라인 도구">Isaac Yong, beamline tools</span><nav aria-label="Footer"><a href="../" data-ko="홈">Home</a><a href="../notes/" data-ko="노트">Notes</a><a href="../lab/" data-ko="랩">Lab</a><a href="../notes/feed.xml">RSS</a><a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">X-ray Toolkit</a></nav><span data-ko="&lt;kbd&gt;`&lt;/kbd&gt; 키로 터미널 열기">Press <kbd>`</kbd> for the terminal</span></div></footer>
-  <script src="calc.js?v=lattice1" defer></script>
-  <script src="tools.js?v=lattice1" defer></script>
+  <script src="calc.js?v=lattice2" defer></script>
+  <script src="tools.js?v=lattice2" defer></script>
   <script src="../script.js?v=detail1" defer></script>
   <script src="../terminal.js" defer></script>
 </body>

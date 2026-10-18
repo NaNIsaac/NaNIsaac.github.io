@@ -14,8 +14,6 @@ near(calc.transmission(1, 1), Math.exp(-1), 1e-15, 'one attenuation length');
 near(calc.twoThetaFromQ(q, 1.5406), 28.44, 1e-9, 'q → 2θ round trip');
 near(calc.dCubic(5.43102, 1, 1, 1), 3.1356, 1e-4, 'Si(111) from a');
 near(calc.fillAngle(0.1, 11.459), 0.5, 1e-4, 'fill angle inverts footprint');
-near(calc.kiessig(0.0314159), 200, 0.01, 'Δq = 0.0314 Å⁻¹ is a 200 Å film');
-near(calc.kiessig(calc.dqFromTwoTheta(0.44, 1.5406)), 200.6, 0.5, 'Δ2θ = 0.44° at Cu Kα is ~20 nm');
 near(calc.scherrer(28.44, 0.2, 1.5406), 409.8, 0.5, 'Scherrer, 0.2° FWHM at Si(111)');
 
 // Lattices: the general form reduces to the cubic, hexagonal and orthorhombic textbook formulas

@@ -53,7 +53,7 @@
   // Beam: energy ↔ wavelength, then everything that depends on λ
   function beam() {
     press('e-presets', LINES.findIndex(([, e]) => Math.abs(e - num('e-kev')) < 5e-4));
-    angle(); kiessig(); scherrer(); lattice();
+    angle(); scherrer(); lattice();
   }
   $('e-kev').addEventListener('input', () => { $('e-ang').value = fmt(calc.wavelength(num('e-kev')), 6); beam(); });
   $('e-ang').addEventListener('input', () => { $('e-kev').value = fmt(calc.energy(num('e-ang')), 6); beam(); });
@@ -115,15 +115,6 @@
     show('a-out', [[tr('Transmitted', '투과'), fmt(100 * T, 3), '%'], [tr('Absorbed', '흡수'), fmt(100 * (1 - T), 3), '%']]);
   }
 
-  let fringeSource = 'k-dq';
-  function kiessig() {
-    const dq = fringeSource === 'k-dq' ? num('k-dq') : calc.dqFromTwoTheta(num('k-d2t'), lambda());
-    if (fringeSource === 'k-dq') $('k-d2t').value = fmt((dq * lambda() * 180) / (2 * Math.PI ** 2), 5);
-    else $('k-dq').value = fmt(dq, 5);
-    const t = calc.kiessig(dq);
-    show('k-out', [[tr('Thickness', '두께'), fmt(t / 10, 4), 'nm'], ['', fmt(t, 4), 'Å']]);
-  }
-  ['k-dq', 'k-d2t'].forEach((id) => $(id).addEventListener('input', () => { fringeSource = id; kiessig(); }));
 
   function scherrer() {
     const tau = calc.scherrer(num('s-tth'), num('s-w'), lambda(), num('s-k'));
@@ -201,11 +192,10 @@
   const params = new URLSearchParams(location.search);
   inputs.forEach((i) => { if (params.has(i.id)) i.value = params.get(i.id); });
   angleSource = ['b-tth', 'b-q'].find((id) => params.has(id)) ?? 'b-d';
-  if (params.has('k-d2t')) fringeSource = 'k-d2t';
   if (SYSTEMS.some((x) => x.id === params.get('l-sys'))) lat.sys = params.get('l-sys');
   lat.cen = system().cen.includes(params.get('l-cen')) ? params.get('l-cen') : (params.has('l-sys') ? system().cen[0] : lat.cen);
   const link = () => {
-    const derived = ['e-ang', 'b-tth', 'b-q', 'b-d', 'k-dq', 'k-d2t'].filter((id) => id !== angleSource && id !== fringeSource);
+    const derived = ['e-ang', 'b-tth', 'b-q', 'b-d'].filter((id) => id !== angleSource);
     const p = new URLSearchParams();
     inputs.forEach((i) => { if (!derived.includes(i.id) && i.value !== i.defaultValue) p.set(i.id, i.value); });
     if (lat.sys !== 'cubic' || lat.cen !== 'F') { p.set('l-sys', lat.sys); p.set('l-cen', lat.cen); }
@@ -218,5 +208,5 @@
   $('e-ang').value = fmt(calc.wavelength(num('e-kev')), 6);
   latticeChips();
   beam(); footprint(); transmission();
-  window.addEventListener('langchange', () => { angle(); footprint(); transmission(); kiessig(); scherrer(); latticeChips(); lattice(); });
+  window.addEventListener('langchange', () => { angle(); footprint(); transmission(); scherrer(); latticeChips(); lattice(); });
 })();
