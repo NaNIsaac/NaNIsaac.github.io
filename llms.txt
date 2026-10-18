@@ -2,7 +2,7 @@
 
 > Personal site of Isaac Yong (용이삭, GitHub NaNIsaac), M.S. in physics, Sogang University. Works on X-ray scattering and diffraction and the scientific software around it: XRR inverse problems, coherent and time-resolved diffraction, and experimental data systems.
 
-The site is static (GitHub Pages, Jekyll for the notes). The home page has an interactive 2D wave simulation, short explainers on diffraction, thin-film fringes and phase retrieval, a project list, and links to upstream pull requests. Pressing the backtick key opens an in-page terminal with X-ray calculators.
+The site is static (GitHub Pages, Jekyll for the notes). The home page has an interactive 2D wave simulation, a project list, three short sections that each show a real output of the code (dynamical diffraction with TraTT, phase retrieval with QoraPhase, thin-film reflectivity with XRefine; all on simulated data, and labelled so), and links to upstream pull requests.
 
 ## Pages
 

@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap">
-  <link rel="stylesheet" href="style.css?v=detail1">
+  <link rel="stylesheet" href="style.css?v=home1">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfilePage","@id":"https://nanisaac.github.io/#profile","url":"https://nanisaac.github.io/","mainEntity":{"@type":"Person","@id":"https://nanisaac.github.io/#person","name":"Isaac Yong","alternateName":["용이삭","NaNIsaac"],"url":"https://nanisaac.github.io/","sameAs":["https://github.com/NaNIsaac","https://blog.naver.com/sjbpepper"],"affiliation":{"@type":"CollegeOrUniversity","name":"Sogang University"},"knowsAbout":["X-ray reflectivity","X-ray diffraction","Coherent diffraction imaging","Phase retrieval","XFEL data analysis","Scientific Python"]}}</script>
   <title>Isaac Yong — from scattered waves to structure</title>
 </head>
@@ -54,10 +54,6 @@
           <button class="quiet" id="pause">Pause</button>
         </div>
         </div>
-        <figure class="film-note">
-          <img src="assets/img/young-1807-interference.jpg" width="1100" height="488" loading="lazy" decoding="async" alt="Thomas Young's 1807 drawing of interference: two sets of circular waves from points A and B crossing, with bands marked C to F at the right.">
-          <figcaption data-ko="토머스 영, 1807: 위 화면이 실시간으로 돌리는 그 실험.">Thomas Young, 1807: the experiment the panel above runs live.</figcaption>
-        </figure>
       </div>
     </section>
 
@@ -101,41 +97,37 @@
       </figure>
     </section>
 
-    <section class="section wrap lab-teaser" id="lab" aria-labelledby="lab-title">
-      <div class="lab-teaser-copy reveal">
-        <h2 id="lab-title" data-ko="검출기가 밝아질 때까지 결정을 돌려보세요.">Turn the crystal until the screen lights up.</h2>
-        <p data-ko="파동이 육각 결정 격자를 지나며 흩어집니다. 격자면이 파동을 한 방향으로 모아 보내는 각도를 찾아보세요. 그게 Bragg 조건입니다. 2D 단색 스칼라파와 점 산란체로 만든 장난감 모형이라 실제 3D 결정의 Laue 사진을 재현하지는 않지만, 원리는 같습니다. 랩에는 실험대 전체가 있습니다: 더블클릭으로 꽂는 파원, 열고 닫는 슬릿, 푸리에 실험대.">A wave crosses a hexagonal crystal and scatters. Find the angle where the lattice planes send it into one bright order: that is the Bragg condition. It is a 2D toy, one wavelength and point scatterers, so it does not reproduce a real 3D Laue pattern, but the principle is the same. The lab has the whole bench, with sources you pin by double-clicking, a slit you can open and close, and a Fourier bench.</p>
-        <a class="button" href="lab/" data-ko="랩 열기">Open the lab</a>
+    <section class="section wrap bench" id="tratt" aria-labelledby="tratt-title">
+      <div class="bench-copy reveal">
+        <h2 id="tratt-title" data-ko="위성 피크는 각자의 시계로 자랍니다.">Each satellite grows on its own clock.</h2>
+        <p data-ko="레이저 펄스가 결정에 음향파를 보내면 X선 rocking curve에 위성 피크가 생깁니다. 정상 상태는 교과서에 있지만, 파면이 결정을 지나는 동안 위성이 어떻게 자라는지는 아닙니다. TraTT는 그 과정을 2빔 Takagi–Taupin 동역학 회절로 풀고, n차 위성이 음향파가 채운 깊이를 시계로 삼는다는 것을 보였습니다. Laue에서는 sin², Bragg에서는 tanh², 맞춘 변수 없이. KPS 2026 가을 학술대회 포스터 P2.17.">When a laser pulse launches an acoustic wave into a crystal, the X-ray rocking curve grows satellite peaks. The steady state is textbook; how the satellites form while the wavefront crosses the crystal is not. <a href="https://github.com/NaNIsaac/TraTT" target="_blank" rel="noopener noreferrer">TraTT</a> solves it with two-beam Takagi–Taupin dynamical diffraction and finds that satellite n keeps time by the depth the wave has filled: sin² in Laue, tanh² in Bragg, with no fitted parameter. Poster P2.17 at the KPS 2026 Fall Meeting.</p>
       </div>
-      <figure class="lab-teaser-figure">
-        <canvas id="lab-preview" role="img" aria-label="Live preview of the lab: a wave meets a hexagonal crystal lattice. Drag the rim of the hexagon to rotate it, its middle to move it."></canvas>
-        <figcaption data-ko="실시간 미리보기. 육각형 테두리를 끌면 회전, 가운데를 끌면 이동.">Live preview. Drag the hexagon's rim to rotate it, its middle to move it.</figcaption>
+      <figure class="bench-figure">
+        <img class="plot" src="assets/img/tratt-collapse.png" width="1600" height="660" loading="lazy" decoding="async" alt="Two panels of satellite intensity against filled depth. Points from full Takagi–Taupin simulations for four drive settings fall on a sin squared curve in Laue geometry and a tanh squared curve in Bragg geometry.">
+        <figcaption data-ko="네 가지 구동 조건의 전체 Takagi–Taupin 계산(점)과 닫힌 식(선). 시뮬레이션이며, TraTT 포스터 그림 스크립트로 다시 그렸습니다.">Full Takagi–Taupin simulations for four drive settings (points) against the closed forms (line). Simulated; redrawn from TraTT's poster figure script.</figcaption>
       </figure>
     </section>
 
-    <section class="section wrap measure" id="measure" aria-labelledby="measure-title">
+    <section class="section wrap measure" id="phase" aria-labelledby="phase-title">
       <figure class="measure-figure">
-        <video class="fit-video" src="assets/xrefine-training.mp4" poster="assets/xrefine-training.png" muted loop playsinline preload="none" width="960" height="600" aria-label="XRefine on one simulated reflectivity curve: the network's curve over 266 training epochs, then the refinement fitting it onto the target."></video>
-        <figcaption class="fit-caption" data-ko="ReflectoLearn의 전신인 physics-informed 신경망 XRefine을 이 PC(GTX 1060)에서 실제로 돌려 녹화했습니다. 266 epoch 학습(early stopping) 뒤, XRefine의 단계별 refinement가 같은 Abeles 모델로 differential evolution 피팅을 합니다. 회색은 노이즈를 넣은 시뮬레이션 곡선, 검은 선은 모델 곡선입니다. 임계각 아래의 감소는 짧은 시료 위 빔 footprint 때문입니다. 측정 데이터가 아닙니다.">Recorded from a real run of XRefine, the physics-informed network before ReflectoLearn, on a GTX 1060: 266 training epochs (early stopping), then its own staged refinement, differential evolution through the same Abeles model. Grey is one simulated curve with noise; ink is the model curve. The drop below the critical edge is the beam footprint on a short sample. Simulated, not measured.</figcaption>
+        <img class="plot" src="assets/img/qoraphase-recon.png" width="1142" height="625" loading="lazy" decoding="async" alt="Left: a diffraction intensity pattern on a log scale, the only input. Right: the true amplitude and phase of a triangular object above the amplitude and phase QoraPhase recovered, which match.">
+        <figcaption data-ko="시뮬레이션한 물체와 노이즈 없는 세기, QoraPhase README 예제를 다시 그렸습니다. 실제 데이터에는 노이즈, beamstop, 빠진 프레임이 더해집니다.">A simulated object and its noiseless intensity, QoraPhase's README example redrawn. Real data adds noise, a beamstop and missing frames.</figcaption>
       </figure>
       <div class="measure-copy reveal">
+        <h2 id="phase-title" data-ko="검출기는 세기만 남기고 위상을 잃습니다.">The detector keeps |F|² and loses the phase.</h2>
+        <p data-ko="coherent 회절은 원거리 장의 세기만 기록합니다. JAX로 만든 CDI·Bragg CDI 위상 복원 프레임워크 QoraPhase는 그 세기만으로 복소 물체를 되찾습니다. 여기서는 무작위 시작 8번 중 가장 좋은 결과이고, support도 데이터에서 찾았습니다. Bragg CDI에서 되찾은 위상은 나노 결정 안의 격자 변위를 보여 줍니다.">Coherent diffraction records only the intensity of the far field. <a href="https://github.com/NaNIsaac/QoraPhase" target="_blank" rel="noopener noreferrer">QoraPhase</a>, a JAX phase-retrieval framework for CDI and Bragg CDI, recovers the complex object from that intensity alone: here the best of eight random starts, with the support found from the data. In Bragg CDI the recovered phase maps the lattice displacement inside a nanocrystal.</p>
+        <p><a class="text-link" href="lab/#fourier" data-ko="랩의 푸리에 벤치에서 직접 해 보기">Try it on the Fourier bench in the lab</a></p>
+      </div>
+    </section>
+
+    <section class="section wrap bench" id="measure" aria-labelledby="measure-title">
+      <div class="bench-copy reveal">
         <h2 id="measure-title" data-ko="박막은 두께를 무늬로 남깁니다.">A film writes its thickness into fringes.</h2>
         <p data-ko="박막의 X선 반사율에는 두께가 Kiessig 무늬로(Δq ≈ 2π/t), 계면 거칠기가 곡선이 떨어지는 속도로 남습니다. 측정된 곡선에서 거꾸로 박막을 읽어내는 역문제를 신경망에 맡긴 것이 ReflectoLearn과 그 전신 XRefine입니다. 왼쪽은 XRefine이 실제로 학습하고, 그 추정에서 피팅을 마무리하는 과정입니다.">A thin film writes its thickness into the X-ray reflectivity as Kiessig fringes, Δq ≈ 2π/t, and its interface roughness into how fast the curve falls away. Reading the film back out of a measured curve is the inverse problem <a href="https://github.com/NaNIsaac/ReflectoLearn" target="_blank" rel="noopener noreferrer">ReflectoLearn</a> and its predecessor XRefine hand to a neural network. Here XRefine learns, then refines its own guess into a fit.</p>
       </div>
-    </section>
-
-    <section class="section wrap reconstruct" id="reconstruct" aria-labelledby="reconstruct-title">
-      <div class="reconstruct-copy reveal">
-        <h2 id="reconstruct-title" data-ko="검출기는 세기만 남기고 위상을 잃습니다.">The detector keeps |F|² and loses the phase.</h2>
-        <p data-ko="왼쪽은 조리개, 오른쪽은 그 원거리 세기입니다. coherent 회절 패턴이 측정하는 바로 그 2D 푸리에 변환이죠. 검출기는 크기만 기록하고 위상은 잃습니다. 세기만으로는 물체가 하나로 정해지지 않아서, support 같은 추가 제약과 충분한 oversampling을 걸어 위상을, 그리고 그것과 함께 이미지를 되찾습니다. 그게 위상 복원이고, QoraPhase가 CDI에서 하는 일입니다.">An aperture on the left, its far-field intensity on the right: the 2D Fourier transform a coherent diffraction pattern measures. The detector keeps the magnitudes and loses the phases, and intensity alone does not pin the object down. Recovering the phases, and with them the image, takes extra constraints such as a support and enough oversampling: that is phase retrieval, which is what <a href="https://github.com/NaNIsaac/QoraPhase" target="_blank" rel="noopener noreferrer">QoraPhase</a> does for CDI.</p>
-        <p><a class="text-link" href="lab/#fourier" data-ko="랩에서 직접 조리개 바꾸고 필터링하기">Change the aperture and filter it in the lab</a></p>
-      </div>
-      <figure class="ft-figure">
-        <div class="ft-panels" id="ft-panels">
-          <canvas id="ft-a" width="128" height="128" role="img" aria-label="Aperture, cycling through circle, ring, double slit and square."></canvas>
-          <canvas id="ft-s" width="128" height="128" role="img" aria-label="Far-field intensity of the aperture on a log scale."></canvas>
-        </div>
-        <figcaption><span class="ft-arrow"><span data-ko="물체">Object</span> → <span data-ko="검출기, log |F|²">detector, log |F|²</span></span><span class="ft-name" id="ft-name" aria-live="off"></span></figcaption>
+      <figure class="bench-figure">
+        <video class="fit-video" src="assets/xrefine-training.mp4" poster="assets/xrefine-training.png" muted loop playsinline preload="none" width="960" height="600" aria-label="XRefine on one simulated reflectivity curve: the network's curve over 266 training epochs, then the refinement fitting it onto the target."></video>
+        <figcaption class="fit-caption" data-ko="ReflectoLearn의 전신인 physics-informed 신경망 XRefine을 이 PC(GTX 1060)에서 실제로 돌려 녹화했습니다. 266 epoch 학습(early stopping) 뒤, XRefine의 단계별 refinement가 같은 Abeles 모델로 differential evolution 피팅을 합니다. 회색은 노이즈를 넣은 시뮬레이션 곡선, 검은 선은 모델 곡선입니다. 임계각 아래의 감소는 짧은 시료 위 빔 footprint 때문입니다. 측정 데이터가 아닙니다.">Recorded from a real run of XRefine, the physics-informed network before ReflectoLearn, on a GTX 1060: 266 training epochs (early stopping), then its own staged refinement, differential evolution through the same Abeles model. Grey is one simulated curve with noise; ink is the model curve. The drop below the critical edge is the beam footprint on a short sample. Simulated, not measured.</figcaption>
       </figure>
     </section>
 
@@ -182,13 +174,11 @@
       <nav aria-label="Footer"><a href="notes/" data-ko="노트">Notes</a><a href="lab/" data-ko="랩">Lab</a><a href="tools/" data-ko="도구">Tools</a><a href="notes/feed.xml">RSS</a><a href="#top" data-ko="맨 위로">Top</a></nav>
       <span class="tnum">© <span id="year">2026</span> Isaac Yong</span>
     </div>
-    <p class="credits" data-ko="그림: 토머스 영의 간섭 그림(1807, 퍼블릭 도메인, Wikimedia Commons).">Pictures: Thomas Young's drawing of interference (1807, public domain, via Wikimedia Commons).</p>
   </footer>
 
   <script src="wave.js" defer></script>
   <script src="wave-view.js?v=phone" defer></script>
-  <script src="fourier.js?v=detail1" defer></script>
-  <script src="script.js?v=detail1" defer></script>
+  <script src="script.js?v=home1" defer></script>
   <script src="terminal.js" defer></script>
 </body>
 </html>

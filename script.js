@@ -84,17 +84,6 @@ if (ghList) {
   }).catch(() => {});
 }
 
-// Lab preview on the home page: the optical-table renderer with a lattice in place, no slit
-const labPreview = document.querySelector('#lab-preview');
-if (labPreview && typeof mountWave === 'function') {
-  mountWave(labPreview, {
-    tools: true,
-    speed: 0.5, gain: 0.55, // half speed, softer contrast: it sits beside reading text
-    demo: true, // a ghost hand turns and shifts the lattice until someone touches it
-    scene: { sources: [{ fx: 0.1, fy: 0.5 }], barrier: null, slits: [], detector: 0.92, lattice: { fx: 0.48, fy: 0.5, theta: 0.35, d: 9, n: 3 } },
-  });
-}
-
 // Liquid Light hero (renderer in wave-view.js, solver in wave.js)
 const waveCanvas = document.querySelector('#wave');
 if (waveCanvas && typeof mountWave === 'function') {
@@ -109,70 +98,9 @@ if (waveCanvas && typeof mountWave === 'function') {
   });
 }
 
-// Shared canvas helpers
-const cssVar = (name) => getComputedStyle(document.body).getPropertyValue(name).trim();
-const hexRgb = (v) => [1, 3, 5].map((i) => parseInt(v.slice(i, i + 2), 16));
-
 // XRefine video: plays only while on screen; with reduced motion it stays on the poster (the final fit) with controls
 const fitVideo = document.querySelector('.fit-video');
 if (fitVideo) {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) fitVideo.controls = true;
   else new IntersectionObserver(([e]) => { e.isIntersecting ? fitVideo.play().catch(() => {}) : fitVideo.pause(); }).observe(fitVideo);
-}
-
-// Reconstruct: an aperture and its far-field intensity (fourier.js), cycling through four shapes on its own.
-// Nothing to operate here; the lab has the controls. Pauses offscreen, stays on the circle with reduced motion.
-const ftA = document.querySelector('#ft-a'), ftS = document.querySelector('#ft-s');
-if (ftA && typeof createFourier === 'function') {
-  const N = 128, F = createFourier(N);
-  const SHAPES = [
-    { kind: 'circle', size: 10, en: 'circle', ko: '원' },
-    { kind: 'ring', size: 12, en: 'ring', ko: '고리' },
-    { kind: 'double', size: 2.5, sep: 20, en: 'double slit', ko: '이중 슬릿' },
-    { kind: 'square', size: 8, en: 'square', ko: '정사각형' },
-  ];
-  // Each shape is transformed once; a cycle only repaints.
-  const frames = SHAPES.map((sh) => {
-    const t = F.aperture(sh.kind, sh.size, sh.sep ?? 0);
-    const re = t.slice(), im = new Float64Array(N * N);
-    F.fft2(re, im);
-    let max = 0;
-    const I = re.map((v, i) => { const p = v * v + im[i] * im[i]; max = Math.max(max, p); return p; });
-    return { t, I: I.map((v) => Math.log10(1 + (v / (max || 1)) * 1e4) / 4) };
-  });
-  // tint: a faint brass wash on the mid-to-bright levels (the detector panel), the hero's detector colour
-  function paint(canvas, val, tint = false) {
-    const g = canvas.getContext('2d'), img = g.createImageData(N, N), d = img.data;
-    const bg = hexRgb(cssVar('--surface')), ink = hexRgb(cssVar('--ink')), brass = hexRgb(cssVar('--accent'));
-    for (let y = 0; y < N; y++) {
-      for (let x = 0; x < N; x++) {
-        const v = Math.min(1, val[((y + N / 2) % N) * N + ((x + N / 2) % N)]), j = (y * N + x) * 4; // draw centred
-        const w = tint ? 0.28 * Math.sin(Math.PI * v) ** 2 : 0;
-        for (let c = 0; c < 3; c++) { const base = bg[c] + (ink[c] - bg[c]) * v; d[j + c] = base + (brass[c] - base) * w; }
-        d[j + 3] = 255;
-      }
-    }
-    g.putImageData(img, 0, 0);
-  }
-  const panels = document.querySelector('#ft-panels'), nameEl = document.querySelector('#ft-name');
-  let k = 0, timer = 0, onScreen = false;
-  function show() {
-    paint(ftA, frames[k].t);
-    paint(ftS, frames[k].I, true);
-    nameEl.textContent = isKo() ? SHAPES[k].ko : SHAPES[k].en;
-  }
-  function advance() {
-    panels.classList.add('fading');
-    setTimeout(() => { k = (k + 1) % SHAPES.length; show(); panels.classList.remove('fading'); }, 350);
-  }
-  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function schedule() {
-    clearInterval(timer); timer = 0;
-    if (!still && onScreen && !document.hidden) timer = setInterval(advance, 3200);
-  }
-  new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; schedule(); }).observe(panels);
-  document.addEventListener('visibilitychange', schedule);
-  window.addEventListener('themechange', show);
-  window.addEventListener('langchange', show);
-  show();
 }

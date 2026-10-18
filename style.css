@@ -86,9 +86,6 @@ img { display: block; max-width: 100%; height: auto; }
 .hero-lead { grid-column: 1 / span 6; }
 .hero-text { margin: 0 0 24px; max-width: 34em; }
 .hero-actions { display: flex; align-items: center; gap: 28px; }
-.film-note { grid-column: 8 / -1; align-self: start; margin: 0; }
-.film-note img { mix-blend-mode: multiply; }
-body.dark .film-note img { filter: invert(1); mix-blend-mode: screen; }
 .button { display: inline-block; background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: var(--step-small); padding: 13px 20px; transition: transform .15s var(--ease), background-color .2s; }
 .button:hover { background: color-mix(in srgb, var(--accent) 85%, var(--ink)); }
 .button:active { transform: translateY(1px); }
@@ -98,7 +95,7 @@ body.dark .film-note img { filter: invert(1); mix-blend-mode: screen; }
 /* Sections are separated only by space */
 .section { padding-top: clamp(96px, 12vw, 180px); scroll-margin-top: 24px; }
 /* The three benches read as one sequence: keep the big gap only before the first */
-.lab-teaser + .measure, .measure + .reconstruct { padding-top: clamp(64px, 7vw, 104px); }
+.bench + .measure, .measure + .bench { padding-top: clamp(64px, 7vw, 104px); }
 .section h2 { font-size: var(--step-head); font-weight: 600; letter-spacing: -.02em; line-height: 1.1; margin: 0 0 32px; }
 
 /* Intro: lead line over a four-column text block with the one large picture */
@@ -113,34 +110,25 @@ figure { margin: 0; }
 figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 10px; }
 .shutter { overflow: hidden; }
 
-/* Lab teaser: the argument on the left, a live bench on the right */
-.lab-teaser { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: center; }
-.lab-teaser-copy { grid-column: 1 / span 5; }
-.lab-teaser-copy p { margin: 0 0 28px; max-width: 34em; }
-.lab-teaser-figure { grid-column: 7 / -1; }
-#lab-preview { display: block; width: 100%; height: clamp(300px, 32vw, 460px); background: var(--surface); touch-action: pan-y; cursor: crosshair; }
-#lab-preview.grab { cursor: grab; }
-#lab-preview.grabbing { cursor: grabbing; }
+/* Benches: the argument on one side, a real output of the code on the other */
+.bench { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: center; }
+.bench-copy { grid-column: 1 / span 5; }
+.bench-copy p { margin: 0 0 28px; max-width: 34em; }
+.bench-copy p a { text-decoration: underline; text-underline-offset: 3px; }
+.bench-figure { grid-column: 7 / -1; }
+.plot { display: block; width: 100%; height: auto; }
+body.dark .plot { filter: invert(1) hue-rotate(180deg); } /* drawn on paper; flip it to ink, as the video */
 
 /* Measure: the curve wide on the left, the argument on the right */
 .measure { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: center; }
 .measure-figure { grid-column: 1 / span 7; }
 .measure-copy { grid-column: 9 / -1; }
-.measure-copy p a, .reconstruct-copy p a { text-decoration: underline; text-underline-offset: 3px; }
+.measure-copy p a { text-decoration: underline; text-underline-offset: 3px; }
 .fit-caption { font-size: var(--step-small); color: var(--muted); margin: 10px 0 0; }
 .fit-video { display: block; width: 100%; height: auto; background: var(--bg); }
 body.dark .fit-video { filter: invert(1) hue-rotate(180deg); } /* the video is rendered on paper; flip it to ink */
 
 /* Reconstruct: the argument on the left, a small self-running figure on the right */
-.reconstruct { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: center; }
-.reconstruct-copy { grid-column: 1 / span 6; }
-.reconstruct-copy p { margin: 0 0 24px; max-width: 34em; }
-.ft-figure { grid-column: 8 / -1; }
-.ft-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; transition: opacity .35s var(--ease); }
-.ft-panels.fading { opacity: 0; }
-.ft-panels canvas { display: block; width: 100%; aspect-ratio: 1; }
-.ft-figure figcaption { display: flex; justify-content: space-between; gap: 12px; }
-.ft-name { color: var(--ink); }
 
 /* Work: a quiet ledger with the engraving held beside it */
 .work { position: relative; }
@@ -190,8 +178,6 @@ footer { padding: 96px var(--margin) 30px; font-size: var(--step-small); color: 
 .footer-line nav a { color: var(--ink); }
 .footer-line nav a:hover { color: var(--muted); }
 .footer-line > :last-child { text-align: right; }
-.credits { margin: 20px 0 0; max-width: 60ch; }
-.credits a { text-decoration: underline; text-underline-offset: 3px; }
 
 /* Entrances: content is visible without script; script adds .reveal then .in */
 .js .reveal > * { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
@@ -327,10 +313,9 @@ dialog::backdrop { background: #0f0f0dcc; }
 @media (max-width: 960px) {
   .work-figure, .lately-figure { position: static; width: auto; max-width: 420px; margin: 56px var(--margin) 0; }
   .col { margin-left: var(--margin); }
-  .measure { display: block; }
+  .measure, .bench { display: block; }
+  .bench-figure { margin-top: 40px; max-width: 640px; }
   .measure-copy { margin-top: 40px; max-width: 40em; }
-  .reconstruct { display: block; }
-  .ft-figure { margin-top: 40px; max-width: 520px; }
   .contact-line { grid-column: 1 / span 7; }
   .contact-figure { grid-column: 8 / span 2; }
   .contact-links { grid-column: 10 / -1; }
@@ -347,12 +332,11 @@ dialog::backdrop { background: #0f0f0dcc; }
   .hero-copy { padding: 0 12px; display: block; }
   .hero h1 { margin: 28px 0 24px; }
   .hero-actions { margin-bottom: 20px; }
-  .intro, .contact, .lab-teaser, .measure, .reconstruct { display: block; }
-  .ft-figure { margin-top: 32px; }
+  .intro, .contact, .bench, .measure { display: block; }
   /* small film: the button is enough, the ghost tap shows what to do */
   .film-bar .hint { display: none; }
   .measure-copy { margin-top: 40px; }
-  .lab-teaser-figure { margin-top: 40px; }
+  .bench-figure { margin-top: 40px; }
   .intro-lead { margin-bottom: 40px; }
   .intro-cols { grid-template-columns: 1fr; gap: 24px; }
   .intro-figure { margin-top: 48px; }
