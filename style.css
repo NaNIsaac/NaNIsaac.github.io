@@ -307,6 +307,7 @@ dialog::backdrop { background: #0f0f0dcc; }
 .lab-notes summary { cursor: pointer; font-weight: 600; }
 .lab-wave { width: 100%; height: min(62vh, 520px); display: block; background: var(--surface); touch-action: pan-y; cursor: crosshair; }
 .lab-wave-pause { font-weight: 600; color: var(--ink); }
+.lab-xrr { width: 100%; height: min(52vh, 420px); display: block; background: var(--surface); }
 
 /* Between 960 and 1320px the side photos would sit on the text column; drop them under it */
 @media (max-width: 1320px) { .work-figure, .lately-figure { position: static; width: auto; max-width: 420px; margin: 56px 0 0 var(--col); } }
@@ -351,6 +352,7 @@ dialog::backdrop { background: #0f0f0dcc; }
   .lab-panels figcaption { font-size: .8125rem; }
   .lab-controls { gap: 10px 16px; margin-bottom: 14px; }
   .lab-wave { height: min(46vh, 380px); }
+  .lab-xrr { height: min(44vh, 320px); }
 }
 @media (hover: hover) { .on-touch { display: none; } }
 @media (hover: none) { .on-hover { display: none; } }
