@@ -134,7 +134,8 @@
     if (modelAvailable === false) note.textContent = tr('No trained model is published on this page yet, so the CNN estimate is off.', '이 페이지에는 아직 학습된 모델이 올라와 있지 않아 CNN 추정은 꺼져 있습니다.');
     else if (model) {
       const { points } = model.contract.input.q_grid;
-      note.textContent = tr(`ReflectoLearn CNN, ${points}-point q grid, one film on a substrate. The estimate is the network alone, before any fit.`, `ReflectoLearn CNN, q 격자 ${points}점, 기판 위 막 하나. 추정값은 피팅 전 네트워크만의 결과입니다.`);
+      const what = model.contract.model?.note; // written by export-onnx --note: which run, how far validated
+      note.textContent = tr(`ReflectoLearn CNN${what ? ` (${what})` : ''}, ${points}-point q grid, one film on a substrate. The estimate is the network alone, before any fit.`, `ReflectoLearn CNN${what ? ` (${what})` : ''}, q 격자 ${points}점, 기판 위 막 하나. 추정값은 피팅 전 네트워크만의 결과입니다.`);
     }
     else note.textContent = '';
   }
