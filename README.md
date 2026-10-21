@@ -87,6 +87,7 @@ push and check the live site (build status: `gh api repos/NaNIsaac/NaNIsaac.gith
 ```powershell
 node tests/wave.test.cjs      # wave solver: stability, edge absorption, barrier blocks transmission
 node tests/fourier.test.cjs   # FFT round trip, Parseval, sign, symmetry, fringe scaling, masks
+node tests/seo.test.cjs       # JSON-LD parses, one Person @id everywhere, canonical URL per page
 ```
 
 ## Physics honesty
