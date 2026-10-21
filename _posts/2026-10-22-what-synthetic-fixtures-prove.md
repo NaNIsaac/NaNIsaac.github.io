@@ -8,7 +8,7 @@ published: false
 <!--
 Draft for Isaac. Not published: `published: false` keeps Jekyll from building it.
 Every number below is taken from the linked PR or issue; none was re-run for this note.
-Items marked [source pending] need a citable PR before publishing.
+All sources are linked; several are open PRs, not merged.
 -->
 
 A synthetic fixture runs an analysis package on data whose answer is known: a sample is
@@ -91,12 +91,16 @@ test knew the answer.
 - **One seed, one sample.** Each regression snapshot is one draw. Where a seed sweep was run, this
   note says so; elsewhere the tolerance is an estimate.
 - **A floor is not always noise.** In phase retrieval, the error a reconstruction reaches is easy to
-  read as "not converged yet". On a benchmark where the true object is known, starting the default
-  recipe from the truth itself still ends at a Fourier error of 0.051, and the truth cut to its own
-  support fits only to 0.051, 0.034 or 0.025 depending on the support threshold. The object in
-  detector frame is band-limited, not compact, so a support constraint cannot represent it exactly.
-  That floor belongs to the problem, not to the algorithm, and a longer run will not lower it.
-  [source pending: the F13d write-up]
+  read as "not converged yet". On a simulated Bragg CDI benchmark where the true object is known,
+  the default recipe stops at a Fourier error of about 0.05 on noiseless data. Started from the
+  truth itself it ends at the same 0.051, and 2000 more iterations change nothing. The truth cut to
+  the voxels above 5 %, 2 % or 1 % of its maximum fits the data only to 0.052, 0.034 or 0.025. The
+  object in detector frame is band-limited, not compact, so any support cuts off part of it; the
+  floor belongs to the support constraint, not to the algorithm, and a longer run will not lower
+  it. This analysis is proposed in
+  [QoraPhase#21](https://github.com/NaNIsaac/QoraPhase/pull/21) (`docs/bcdi-support.md`), with
+  the related consensus-run averaging in [QoraPhase#20](https://github.com/NaNIsaac/QoraPhase/pull/20);
+  both are open.
 - **A fixture covers one path.** CXD's fixture deliberately leaves out its quick regridding
   function, because that function ignores parts of the diffractometer geometry and a test through it
   would pin physically wrong values.
