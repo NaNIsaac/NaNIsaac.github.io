@@ -87,6 +87,7 @@ push and check the live site (build status: `gh api repos/NaNIsaac/NaNIsaac.gith
 ```powershell
 node tests/wave.test.cjs      # wave solver: stability, edge absorption, barrier blocks transmission
 node tests/fourier.test.cjs   # FFT round trip, Parseval, sign, symmetry, fringe scaling, masks
+node tests/xrr.test.cjs       # xrr.js vs ReflectoLearn's golden curves (1e-10 in log10 R), Fresnel limits
 ```
 
 ## Physics honesty
