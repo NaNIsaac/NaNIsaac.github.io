@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#e8e8e3">
-  <meta name="description" content="Fourier optics sandbox: draw an aperture, see its far-field intensity, filter the spectrum, and inverse-transform the complex field.">
+  <meta name="description" content="Fourier optics sandbox: draw an aperture, see its far-field intensity, filter the spectrum, and inverse-transform the complex field. Plus X-ray reflectivity of a thin film.">
   <meta property="og:title" content="Lab — Fourier & Filtering · Isaac Yong">
   <meta property="og:url" content="https://nanisaac.github.io/lab/">
   <meta property="og:image" content="https://nanisaac.github.io/og-image.jpg">
@@ -128,6 +128,36 @@
         <p>Frequencies are in cycles per sample; the edge of the panel is 0.5. Propagation distance is not modeled here (that needs a Fresnel transfer function, not a bigger FFT).</p>
       </div>
     </details>
+
+    <h2 class="lab-h2" id="xrr" data-ko="X선 반사율">X-ray reflectivity</h2>
+    <p class="page-lead" data-ko="세 번째 모델은 X선이 얇은 막에 아주 낮은 각으로 닿을 때의 정반사입니다. 임계각 아래에서는 전부 반사되고, 그 위에서는 막 윗면과 아랫면에서 반사된 빛이 간섭해 Kiessig 무늬를 만듭니다. 무늬 간격은 두께를, 임계각은 밀도(SLD)를, 무늬가 꺼지는 속도는 거칠기를 알려 줍니다. 막을 바꾸면서 곡선이 어떻게 움직이는지 보세요.">A third model: specular reflection of X-rays from a thin film at grazing angles. Below the critical edge everything is reflected; above it, the waves reflected at the film's top and bottom interfere into Kiessig fringes. The fringe spacing gives the thickness, the edge the density (SLD), and how fast the fringes die away the roughness. Change the film and watch the curve move.</p>
+    <div class="lab-controls" role="group" aria-label="Film">
+      <label class="range"><span data-ko="두께">Thickness</span> <input type="range" id="xrr-d" min="20" max="600" step="5" value="250"><output id="xrr-d-out"></output></label>
+      <label class="range"><span data-ko="거칠기">Roughness</span> <input type="range" id="xrr-sigma" min="0" max="15" step="0.5" value="5"><output id="xrr-sigma-out"></output></label>
+      <label class="range"><span data-ko="막 SLD (10⁻⁶/Å²)">Film SLD (10⁻⁶/Å²)</span> <input type="range" id="xrr-sld" min="5" max="100" step="1" value="45"><output id="xrr-sld-out"></output></label>
+      <div class="seg" role="group" aria-label="Substrate" id="xrr-sub">
+        <button data-v="si" aria-pressed="true" data-ko="Si 기판">Si substrate</button>
+        <button data-v="glass" data-ko="유리 기판">Glass substrate</button>
+      </div>
+      <div class="seg" role="group" aria-label="Measurement" id="xrr-noise">
+        <button data-v="ideal" aria-pressed="true" data-ko="이상적 곡선">Ideal curve</button>
+        <button data-v="counts" data-ko="계수 잡음">Counting noise</button>
+      </div>
+      <button class="lab-clear" id="xrr-reroll" data-ko="잡음 다시 뽑기">New noise</button>
+      <button class="lab-clear" id="xrr-estimate" hidden data-ko="CNN으로 추정">Estimate with the CNN</button>
+    </div>
+    <canvas id="c-xrr" class="lab-xrr" role="img" aria-label="Reflectivity on a log scale against q, with the critical edges of film and substrate marked."></canvas>
+    <p class="lab-readout" id="xrr-readout" aria-live="polite"></p>
+    <p class="lab-readout lab-hover" id="xrr-model-note"></p>
+
+    <details class="lab-notes">
+      <summary data-ko="어떻게 동작하나">How it works</summary>
+      <div class="prose">
+        <p>The curve is the Parratt recursion with Névot–Croce roughness (<code>xrr.js</code>), for one film between air and the substrate at Cu Kα (λ = 1.54 Å). Its numbers match ReflectoLearn's reference engine to 1e-10 in log<sub>10</sub> R on seven test stacks. The dashed lines mark the critical edges q<sub>c</sub> = 4√(π·SLD) of film and substrate. Fringes are spaced by about 2π/d once q is well above the edges.</p>
+        <p><em>Counting noise</em> samples the scan a diffractometer would take, 2θ = 0.2° to 6° in 0.02° steps, as Poisson counts with 10<sup>7</sup> in the plateau and a background of 10<sup>−7</sup>. The ideal curve has neither noise nor instrument resolution.</p>
+        <p>When a trained ReflectoLearn network is published next to this page, <em>Estimate with the CNN</em> runs it in the browser (ONNX Runtime, WebAssembly) on exactly that scan. The input is built as ReflectoLearn's own preprocessing builds it (<code>xrr-input.js</code>, checked against its reference to the bit). The dashed accent curve is the film the network reports, before any fitting. The network has never seen these curves; how far off it is, is the point.</p>
+      </div>
+    </details>
   </main>
 
   <footer><div class="footer-line"><span data-ko="용이삭, 랩">Isaac Yong, the lab</span><nav aria-label="Footer"><a href="../" data-ko="홈">Home</a><a href="../notes/" data-ko="노트">Notes</a><a href="../tools/" data-ko="도구">Tools</a><a href="../notes/feed.xml">RSS</a></nav><span class="tnum">© <span id="year">2026</span> Isaac Yong</span></div></footer>
@@ -137,5 +167,8 @@
   <script src="../script.js?v=detail1" defer></script>
   <script src="../terminal.js" defer></script>
   <script src="lab.js?v=bench1" defer></script>
+  <script src="../xrr.js" defer></script>
+  <script src="../xrr-input.js" defer></script>
+  <script src="xrr-lab.js" defer></script>
 </body>
 </html>
