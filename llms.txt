@@ -10,6 +10,7 @@ The site is static (GitHub Pages, Jekyll for the notes). The home page has an in
 - [Lab](https://nanisaac.github.io/lab/): ripple tank and Fourier bench; draw an aperture, see its far field, filter the spectrum
 - [Tools](https://nanisaac.github.io/tools/): beamline arithmetic: energy and wavelength, Bragg angle, q and d-spacing, beam footprint, transmission
 - [Notes](https://nanisaac.github.io/notes/): short notes on X-ray physics and scientific software
+- [GitHub stats](https://nanisaac.github.io/stats/): activity, repositories, pull requests, traffic, CI and a to-do list of what needs attention; plain-text version at [summary.md](https://nanisaac.github.io/stats/data/summary.md), index at [llms.txt](https://nanisaac.github.io/stats/llms.txt)
 - [How the homepage wave works](https://nanisaac.github.io/notes/2026/10/how-the-hero-wave-works/): the 2D scalar wave model, double slit and detector line behind the hero
 
 ## Software
