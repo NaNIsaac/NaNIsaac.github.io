@@ -19,7 +19,14 @@ const langButton = document.querySelector('#lang');
 const translatable = [...document.querySelectorAll('[data-ko]')];
 translatable.forEach((el) => { el.dataset.en = el.innerHTML; });
 const isKo = () => document.documentElement.lang === 'ko';
+// Linked on the first switch so English pages never fetch it; unicode-range subsets download only the glyphs in use
+const KO_FONT = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
+function linkKoFont() {
+  if (document.querySelector(`link[href="${KO_FONT}"]`)) return;
+  document.head.append(Object.assign(document.createElement('link'), { rel: 'stylesheet', href: KO_FONT }));
+}
 function setLang(lang) {
+  if (lang === 'ko') linkKoFont();
   document.documentElement.lang = lang;
   translatable.forEach((el) => { el.innerHTML = lang === 'ko' ? el.dataset.ko : el.dataset.en; });
   langButton.textContent = lang === 'ko' ? 'EN' : '한';

@@ -73,7 +73,7 @@
     const X = (q) => pad.l + ((w - pad.l - pad.r) * q) / Q_MAX;
     const Y = (lg) => pad.t + ((h - pad.t - pad.b) * (0.3 - lg)) / (0.3 - LOG_MIN);
     const ink = color('--ink'), muted = color('--muted'), accent = color('--accent');
-    g.font = '12px Archivo, sans-serif';
+    g.font = ko() ? '12px "Pretendard Variable", sans-serif' : '12px Archivo, sans-serif'; // Korean labels in the face the page switched to
     g.fillStyle = muted;
     g.strokeStyle = muted;
     g.lineWidth = 1;

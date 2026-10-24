@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap">
-  <link rel="stylesheet" href="../style.css?v=bench2">
+  <link rel="stylesheet" href="../style.css?v=ko1">
   <title>Lab — Fourier &amp; Filtering · Isaac Yong</title>
 </head>
 <body class="sub">
@@ -23,7 +23,7 @@
     <a class="brand" href="../" data-ko="용이삭">Isaac Yong</a>
     <nav aria-label="Main">
       <a href="../#work" data-ko="작업">Work</a>
-      <a href="../tools/" data-ko="도구">Tools</a>
+      <a href="../tools/" data-ko="계산기">Tools</a>
       <a href="../notes/" data-ko="노트">Notes</a>
       <button class="toggle" id="lang" aria-label="Switch language">한</button>
       <button class="toggle" id="theme" aria-label="Toggle theme">Dark</button>
@@ -31,11 +31,11 @@
   </header>
 
   <main class="wrap page">
-    <h1 class="page-title" data-ko="파동을 만지고,<br>변환을 보세요.">Touch the wave.<br>See the transform.</h1>
-    <p class="page-lead" data-ko="서로 다른 두 모델 위에 만든 작은 실험 두 개입니다. 직접 건드릴 수 있는 시간 영역의 파동, 그리고 조리개와 필터를 다루는 푸리에 광학 벤치. 미리 계산해 둔 것은 없습니다.">Two small experiments built on two different models: a time-domain wave you can poke, and a Fourier-optics bench for apertures and filters. Nothing here is precomputed.</p>
+    <h1 class="page-title" data-ko="직접 만져 보는<br>파동과 푸리에 변환">Touch the wave.<br>See the transform.</h1>
+    <p class="page-lead" data-ko="서로 다른 두 모델로 만든 작은 실험 두 개입니다. 하나는 직접 건드리는 시간 영역의 파동이고, 하나는 조리개와 필터를 다루는 푸리에 광학 벤치입니다. 미리 계산해 둔 결과는 없고, 전부 브라우저에서 바로 계산합니다.">Two small experiments built on two different models: a time-domain wave you can poke, and a Fourier-optics bench for apertures and filters. Nothing here is precomputed.</p>
 
     <h2 class="lab-h2" id="waves" data-ko="물결 수조">Ripple tank</h2>
-    <p class="page-lead" data-ko="빛을 위한 물결 수조, 광학 테이블 위의 2D 스칼라 파동 방정식입니다. 슬릿 날은 기본적으로 X선 슬릿의 텅스텐 날처럼 흡수하고, 반사로 바꾸면 이상적인 거울이 되돌려 보내는 정상파가 보입니다. 클릭하면 물결, 더블클릭하면 광원을 고정하고 다시 더블클릭하면 지웁니다. 레일 위 마운트를 끌면 차단벽이, 열린 곳을 끌면 슬릿이 위아래로, 날 끝을 끌면 틈이 바뀝니다. 격자를 놓으면 가운데를 끌어 옮기고 테두리를 끌어 돌리면서, 검출기가 밝아지는 각도를 찾아보세요. 그게 Bragg 조건입니다. 오른쪽 끝 필름은 세기가 닿는 곳이 어두워지고, 클릭하면 새 필름으로 바뀝니다. 그 옆 얇은 선은 지금 도착하는 세기, 굵은 선은 그 이동 평균입니다.">A ripple tank for light: a 2D scalar wave equation on an optical table. The slit jaws absorb by default, like the tungsten blades of an X-ray slit; switch them to reflecting to see the standing waves an ideal mirror sends back. Click to ripple. Double-click to pin a source, double-click it again to remove it. Drag the barrier by its mount on the rail, a slit up or down by its opening, or a jaw's knife edge to change the gap. With the lattice in place, drag its middle to move it and its rim to rotate it, and watch for the angle where the detector lights up: that is the Bragg condition. At the right edge a film strip darkens where intensity arrives; click it for fresh film. Beside it, the thin line is the intensity arriving now and the heavy one its running average.</p>
+    <p class="page-lead" data-ko="빛을 위한 물결 수조입니다. 광학 테이블 위에서 2D 스칼라 파동 방정식을 풉니다. 슬릿 날은 처음에 X선 슬릿의 텅스텐 날처럼 빛을 흡수합니다. 반사로 바꾸면 이상적인 거울이 되돌려 보낸 정상파가 보입니다. 클릭하면 물결이 생깁니다. 더블클릭하면 그 자리에 광원이 고정되고, 한 번 더 더블클릭하면 사라집니다. 차단벽은 레일 위 마운트를, 슬릿은 열린 곳을 잡고 위아래로 끕니다. 날 끝을 끌면 틈 너비가 바뀝니다. 격자를 놓았다면 가운데를 끌어 옮기고 테두리를 끌어 돌려 보세요. 검출기가 밝아지는 각도가 Bragg 조건입니다. 오른쪽 끝 필름은 빛이 닿은 곳이 검게 변하고, 클릭하면 새 필름으로 바뀝니다. 그 옆의 가는 선은 지금 도착하는 세기, 굵은 선은 그 이동 평균입니다.">A ripple tank for light: a 2D scalar wave equation on an optical table. The slit jaws absorb by default, like the tungsten blades of an X-ray slit; switch them to reflecting to see the standing waves an ideal mirror sends back. Click to ripple. Double-click to pin a source, double-click it again to remove it. Drag the barrier by its mount on the rail, a slit up or down by its opening, or a jaw's knife edge to change the gap. With the lattice in place, drag its middle to move it and its rim to rotate it, and watch for the angle where the detector lights up: that is the Bragg condition. At the right edge a film strip darkens where intensity arrives; click it for fresh film. Beside it, the thin line is the intensity arriving now and the heavy one its running average.</p>
     <div class="lab-controls" role="group" aria-label="Wave controls">
       <div class="seg" role="group" aria-label="Sources" id="w-sources">
         <button data-v="1" data-ko="광원 1개">1 source</button>
@@ -61,7 +61,7 @@
     <canvas id="lab-wave" class="lab-wave" role="img" aria-label="Wave simulation on an optical table. Click to ripple, double-click to pin or remove a source, drag the barrier, slits, gap grips or the lattice."></canvas>
 
     <h2 class="lab-h2" id="fourier" data-ko="푸리에 벤치">Fourier bench</h2>
-    <p class="page-lead" data-ko="별개의 모델입니다. 시간 영역의 파동이 아니라 단색 복소 장과 그 2D 푸리에 변환입니다. 조리개를 고르거나 직접 그리고, 가운데 원거리 패턴에서 주파수를 막아 보고, 오른쪽에서 위상을 버리면 무엇이 남는지 보세요.">A separate model: a monochromatic complex field and its 2D Fourier transform, not a time-domain wave. Pick an aperture or draw one, block frequencies in the far field in the middle, and on the right see what survives when the phase is thrown away.</p>
+    <p class="page-lead" data-ko="앞의 수조와는 다른 모델입니다. 시간에 따라 움직이는 파동이 아니라 단색 복소 장과 그 2D 푸리에 변환을 다룹니다. 조리개를 고르거나 직접 그려 보세요. 가운데 원거리 패턴에서는 주파수를 막을 수 있고, 오른쪽에서는 위상을 버렸을 때 무엇이 남는지 볼 수 있습니다.">A separate model: a monochromatic complex field and its 2D Fourier transform, not a time-domain wave. Pick an aperture or draw one, block frequencies in the far field in the middle, and on the right see what survives when the phase is thrown away.</p>
 
     <div class="lab-controls" role="group" aria-label="Aperture controls">
       <div class="seg" role="group" aria-label="Aperture" id="aperture">
@@ -120,7 +120,7 @@
     <p class="lab-readout lab-hover" id="hover"></p>
 
     <details class="lab-notes">
-      <summary data-ko="어떻게 동작하나">How it works</summary>
+      <summary data-ko="작동 원리">How it works</summary>
       <div class="prose">
         <p>The aperture is a transmission function <code>t(x,y)</code> on a 256 × 256 grid, lit by a uniform coherent plane wave, so the exit wave is <code>U = t</code>. Under the scalar, paraxial, coherent Fraunhofer approximation the far-field amplitude is proportional to the 2D Fourier transform of <code>U</code>; the middle panel shows <code>log(1 + α|F|²)</code> purely for visibility.</p>
         <p>The filter multiplies the <em>complex</em> spectrum by a mask <code>H</code> — like a stop in the Fourier plane of a 4f lens system — and the right panel is the intensity of the inverse transform. Because the phase of <code>F</code> is kept, an unfiltered round trip returns the aperture exactly. Inverting the intensity <code>|F|²</code> alone would not: recovering the lost phase is the phase-retrieval problem, which this page does not solve.</p>
@@ -130,7 +130,7 @@
     </details>
 
     <h2 class="lab-h2" id="xrr" data-ko="X선 반사율">X-ray reflectivity</h2>
-    <p class="page-lead" data-ko="세 번째 모델은 X선이 얇은 막에 아주 낮은 각으로 닿을 때의 정반사입니다. 임계각 아래에서는 전부 반사되고, 그 위에서는 막 윗면과 아랫면에서 반사된 빛이 간섭해 Kiessig 무늬를 만듭니다. 무늬 간격은 두께를, 임계각은 밀도(SLD)를, 무늬가 꺼지는 속도는 거칠기를 알려 줍니다. 막을 바꾸면서 곡선이 어떻게 움직이는지 보세요.">A third model: specular reflection of X-rays from a thin film at grazing angles. Below the critical edge everything is reflected; above it, the waves reflected at the film's top and bottom interfere into Kiessig fringes. The fringe spacing gives the thickness, the edge the density (SLD), and how fast the fringes die away the roughness. Change the film and watch the curve move.</p>
+    <p class="page-lead" data-ko="세 번째 모델은 얇은 막에 아주 낮은 각도로 닿은 X선의 정반사입니다. 임계각 아래에서는 전부 반사됩니다. 그 위에서는 막의 윗면과 아랫면에서 반사된 빛이 간섭해 Kiessig 무늬를 만듭니다. 무늬 간격은 두께를, 임계각은 밀도(SLD)를, 무늬가 사라지는 속도는 거칠기를 알려 줍니다. 막을 바꾸면서 곡선이 어떻게 움직이는지 보세요.">A third model: specular reflection of X-rays from a thin film at grazing angles. Below the critical edge everything is reflected; above it, the waves reflected at the film's top and bottom interfere into Kiessig fringes. The fringe spacing gives the thickness, the edge the density (SLD), and how fast the fringes die away the roughness. Change the film and watch the curve move.</p>
     <div class="lab-controls" role="group" aria-label="Film">
       <label class="range"><span data-ko="두께">Thickness</span> <input type="range" id="xrr-d" min="20" max="600" step="5" value="250"><output id="xrr-d-out"></output></label>
       <label class="range"><span data-ko="거칠기">Roughness</span> <input type="range" id="xrr-sigma" min="0" max="15" step="0.5" value="5"><output id="xrr-sigma-out"></output></label>
@@ -151,7 +151,7 @@
     <p class="lab-readout lab-hover" id="xrr-model-note"></p>
 
     <details class="lab-notes">
-      <summary data-ko="어떻게 동작하나">How it works</summary>
+      <summary data-ko="작동 원리">How it works</summary>
       <div class="prose">
         <p>The curve is the Parratt recursion with Névot–Croce roughness (<code>xrr.js</code>), for one film between air and the substrate at Cu Kα (λ = 1.54 Å). Its numbers match ReflectoLearn's reference engine to 1e-10 in log<sub>10</sub> R on seven test stacks. The dashed lines mark the critical edges q<sub>c</sub> = 4√(π·SLD) of film and substrate. Fringes are spaced by about 2π/d once q is well above the edges.</p>
         <p><em>Counting noise</em> samples the scan a diffractometer would take, 2θ = 0.2° to 6° in 0.02° steps, as Poisson counts with 10<sup>7</sup> in the plateau and a background of 10<sup>−7</sup>. The ideal curve has neither noise nor instrument resolution.</p>
@@ -160,15 +160,15 @@
     </details>
   </main>
 
-  <footer><div class="footer-line"><span data-ko="용이삭, 랩">Isaac Yong, the lab</span><nav aria-label="Footer"><a href="../" data-ko="홈">Home</a><a href="../notes/" data-ko="노트">Notes</a><a href="../tools/" data-ko="도구">Tools</a><a href="../notes/feed.xml">RSS</a></nav><span class="tnum">© <span id="year">2026</span> Isaac Yong</span></div></footer>
+  <footer><div class="footer-line"><span data-ko="용이삭의 실험 페이지">Isaac Yong, the lab</span><nav aria-label="Footer"><a href="../" data-ko="홈">Home</a><a href="../notes/" data-ko="노트">Notes</a><a href="../tools/" data-ko="계산기">Tools</a><a href="../notes/feed.xml">RSS</a></nav><span class="tnum">© <span id="year">2026</span> Isaac Yong</span></div></footer>
   <script src="../wave.js" defer></script>
   <script src="../wave-view.js?v=phone" defer></script>
   <script src="../fourier.js?v=detail1" defer></script>
-  <script src="../script.js?v=detail1" defer></script>
+  <script src="../script.js?v=ko1" defer></script>
   <script src="../terminal.js" defer></script>
-  <script src="lab.js?v=bench1" defer></script>
+  <script src="lab.js?v=ko1" defer></script>
   <script src="../xrr.js" defer></script>
   <script src="../xrr-input.js" defer></script>
-  <script src="xrr-lab.js" defer></script>
+  <script src="xrr-lab.js?v=ko1" defer></script>
 </body>
 </html>
