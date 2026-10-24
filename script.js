@@ -98,9 +98,9 @@ if (waveCanvas && typeof mountWave === 'function') {
   });
 }
 
-// XRefine video: plays only while on screen; with reduced motion it stays on the poster (the final fit) with controls
-const fitVideo = document.querySelector('.fit-video');
-if (fitVideo) {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) fitVideo.controls = true;
-  else new IntersectionObserver(([e]) => { e.isIntersecting ? fitVideo.play().catch(() => {}) : fitVideo.pause(); }).observe(fitVideo);
+// Videos play only while on screen; with reduced motion they stay on the poster (the final frame) with controls
+const stillVideos = matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window);
+for (const video of document.querySelectorAll('.fit-video')) {
+  if (stillVideos) video.controls = true;
+  else new IntersectionObserver(([e]) => { e.isIntersecting ? video.play().catch(() => {}) : video.pause(); }).observe(video);
 }
