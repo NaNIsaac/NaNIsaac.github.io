@@ -10,6 +10,7 @@ The site is static (GitHub Pages, Jekyll for the notes). The home page has an in
 - [Lab](https://nanisaac.github.io/lab/): ripple tank and Fourier bench; draw an aperture, see its far field, filter the spectrum
 - [Tools](https://nanisaac.github.io/tools/): beamline arithmetic: energy and wavelength, Bragg angle, q and d-spacing, beam footprint, transmission
 - [Notes](https://nanisaac.github.io/notes/): short notes on X-ray physics and scientific software
+- [GitHub stats](https://nanisaac.github.io/stats/): activity, repositories, pull requests, traffic, CI and a to-do list of what needs attention; plain-text version at [summary.md](https://nanisaac.github.io/stats/data/summary.md), index at [llms.txt](https://nanisaac.github.io/stats/llms.txt)
 - [How the homepage wave works](https://nanisaac.github.io/notes/2026/10/how-the-hero-wave-works/): the 2D scalar wave model, double slit and detector line behind the hero
 
 ## Software
@@ -20,7 +21,7 @@ The site is static (GitHub Pages, Jekyll for the notes). The home page has an in
 - [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM): dark-field X-ray microscopy image analysis; Python engine, CLI and PySide6 app
 - [CXD](https://github.com/NaNIsaac/CXD): coherent X-ray diffraction analysis: SPEC parsing, Timepix frames, q-space regridding
 - [ReflectoLearn](https://github.com/NaNIsaac/ReflectoLearn): XRR inverse modeling with a differentiable Abeles simulator and a 1D CNN
-- [TraTT](https://github.com/NaNIsaac/TraTT): time-dependent Takagi-Taupin solver for transient acoustic Bragg satellites (PyPI: tratt; KPS 2026 Fall poster)
+- [TraTT](https://github.com/NaNIsaac-Research/TraTT): time-dependent Takagi-Taupin solver for transient acoustic Bragg satellites (PyPI: tratt; KPS 2026 Fall poster)
 - [codigest](https://github.com/NaNIsaac/codigest): turns a codebase, diffs and terminal output into LLM-ready context; MCP server for coding agents (PyPI: codigest, MCP: io.github.NaNIsaac/codigest)
 - [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle): Lightweight rectangular ROI handling for images (PyPI: roi-rectangle)
 - [hanfix](https://github.com/NaNIsaac/hanfix): re-runs a shell command typed with the Korean keyboard layout on, converted back to QWERTY

@@ -12,7 +12,7 @@
     qoraflow: 'https://github.com/NaNIsaac/QoraFlow',
     qoraphase: 'https://github.com/NaNIsaac/QoraPhase',
     qoradfxm: 'https://github.com/NaNIsaac/QoraDFXM',
-    tratt: 'https://github.com/NaNIsaac/TraTT',
+    tratt: 'https://github.com/NaNIsaac-Research/TraTT',
     site: `https://github.com/${REPO}`,
   };
 
