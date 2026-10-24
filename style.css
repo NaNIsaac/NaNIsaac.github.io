@@ -44,7 +44,16 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
-html[lang="ko"] { word-break: keep-all; }
+/* Korean: Pretendard (linked by script.js on the switch) sets both scripts, so Hangul never falls back to a system face beside Archivo.
+   Hangul wants looser leading and less negative tracking than the Latin display sizes; every rule is scoped so English renders as before. */
+html[lang="ko"] { word-break: keep-all; overflow-wrap: break-word; } /* not anywhere: it would let grid and flex items shrink to one syllable */
+html[lang="ko"] body { font-family: "Pretendard Variable", Pretendard, "Noto Sans KR", Archivo, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; line-height: 1.6; }
+html[lang="ko"] .hero h1, html[lang="ko"] .page-title { letter-spacing: -.025em; line-height: 1.15; }
+html[lang="ko"] .section h2, html[lang="ko"] .lab-h2, html[lang="ko"] .tool h2 { letter-spacing: -.01em; line-height: 1.35; }
+html[lang="ko"] .intro-lead { line-height: 1.45; letter-spacing: -.01em; }
+html[lang="ko"] .intro-cols p { line-height: 1.6; }
+html[lang="ko"] .intro-cols b { display: block; margin-bottom: 4px; } /* a label on its own line instead of "Title." run-in */
+html[lang="ko"] .contact-line { line-height: 1.4; letter-spacing: -.01em; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; padding: 0; }
 img { display: block; max-width: 100%; height: auto; }
