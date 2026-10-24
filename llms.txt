@@ -21,7 +21,7 @@ The site is static (GitHub Pages, Jekyll for the notes). The home page has an in
 - [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM): dark-field X-ray microscopy image analysis; Python engine, CLI and PySide6 app
 - [CXD](https://github.com/NaNIsaac/CXD): coherent X-ray diffraction analysis: SPEC parsing, Timepix frames, q-space regridding
 - [ReflectoLearn](https://github.com/NaNIsaac/ReflectoLearn): XRR inverse modeling with a differentiable Abeles simulator and a 1D CNN
-- [TraTT](https://github.com/NaNIsaac/TraTT): time-dependent Takagi-Taupin solver for transient acoustic Bragg satellites (PyPI: tratt; KPS 2026 Fall poster)
+- [TraTT](https://github.com/NaNIsaac-Research/TraTT): time-dependent Takagi-Taupin solver for transient acoustic Bragg satellites (PyPI: tratt; KPS 2026 Fall poster)
 - [codigest](https://github.com/NaNIsaac/codigest): turns a codebase, diffs and terminal output into LLM-ready context; MCP server for coding agents (PyPI: codigest, MCP: io.github.NaNIsaac/codigest)
 - [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle): Lightweight rectangular ROI handling for images (PyPI: roi-rectangle)
 - [hanfix](https://github.com/NaNIsaac/hanfix): re-runs a shell command typed with the Korean keyboard layout on, converted back to QWERTY

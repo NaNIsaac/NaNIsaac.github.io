@@ -26,7 +26,7 @@ registered this way. Seven ended falsified or as a table of conditions instead o
 ### Three predictions that lost
 
 **One number for a crossover.** In the time-resolved diffraction work in
-[TraTT#16](https://github.com/NaNIsaac/TraTT/pull/16) (an open draft; the physics is not published
+[TraTT#16](https://github.com/NaNIsaac-Research/TraTT/pull/16) (an open draft; the physics is not published
 yet, so only the test is described here), the candidate central claim was that a single
 dimensionless amplitude decides when a linear estimate stops working, whatever the packet length,
 absorption or position. The rule, written into the script before the run: if, at equal amplitude,
