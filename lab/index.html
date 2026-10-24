@@ -22,7 +22,7 @@
   <header class="site-header">
     <a class="brand" href="../" data-ko="용이삭">Isaac Yong</a>
     <nav aria-label="Main">
-      <a href="../#work" data-ko="작업">Work</a>
+      <a href="../#work" data-ko="프로젝트">Work</a>
       <a href="../tools/" data-ko="계산기">Tools</a>
       <a href="../notes/" data-ko="노트">Notes</a>
       <button class="toggle" id="lang" aria-label="Switch language">한</button>
@@ -31,11 +31,11 @@
   </header>
 
   <main class="wrap page">
-    <h1 class="page-title" data-ko="직접 만져 보는<br>파동과 푸리에 변환">Touch the wave.<br>See the transform.</h1>
-    <p class="page-lead" data-ko="서로 다른 두 모델로 만든 작은 실험 두 개입니다. 하나는 직접 건드리는 시간 영역의 파동이고, 하나는 조리개와 필터를 다루는 푸리에 광학 벤치입니다. 미리 계산해 둔 결과는 없고, 전부 브라우저에서 바로 계산합니다.">Two small experiments built on two different models: a time-domain wave you can poke, and a Fourier-optics bench for apertures and filters. Nothing here is precomputed.</p>
+    <h1 class="page-title" data-ko="파동과 푸리에 광학 체험">Touch the wave.<br>See the transform.</h1>
+    <p class="page-lead" data-ko="두 가지 모델로 만든 작은 실험입니다. 하나는 직접 건드리는 시간 영역 파동입니다. 다른 하나는 조리개와 필터를 다루는 푸리에 광학입니다. 모든 결과는 브라우저에서 바로 계산합니다.">Two small experiments built on two different models: a time-domain wave you can poke, and a Fourier-optics bench for apertures and filters. Nothing here is precomputed.</p>
 
     <h2 class="lab-h2" id="waves" data-ko="물결 수조">Ripple tank</h2>
-    <p class="page-lead" data-ko="빛을 위한 물결 수조입니다. 광학 테이블 위에서 2D 스칼라 파동 방정식을 풉니다. 슬릿 날은 처음에 X선 슬릿의 텅스텐 날처럼 빛을 흡수합니다. 반사로 바꾸면 이상적인 거울이 되돌려 보낸 정상파가 보입니다. 클릭하면 물결이 생깁니다. 더블클릭하면 그 자리에 광원이 고정되고, 한 번 더 더블클릭하면 사라집니다. 차단벽은 레일 위 마운트를, 슬릿은 열린 곳을 잡고 위아래로 끕니다. 날 끝을 끌면 틈 너비가 바뀝니다. 격자를 놓았다면 가운데를 끌어 옮기고 테두리를 끌어 돌려 보세요. 검출기가 밝아지는 각도가 Bragg 조건입니다. 오른쪽 끝 필름은 빛이 닿은 곳이 검게 변하고, 클릭하면 새 필름으로 바뀝니다. 그 옆의 가는 선은 지금 도착하는 세기, 굵은 선은 그 이동 평균입니다.">A ripple tank for light: a 2D scalar wave equation on an optical table. The slit jaws absorb by default, like the tungsten blades of an X-ray slit; switch them to reflecting to see the standing waves an ideal mirror sends back. Click to ripple. Double-click to pin a source, double-click it again to remove it. Drag the barrier by its mount on the rail, a slit up or down by its opening, or a jaw's knife edge to change the gap. With the lattice in place, drag its middle to move it and its rim to rotate it, and watch for the angle where the detector lights up: that is the Bragg condition. At the right edge a film strip darkens where intensity arrives; click it for fresh film. Beside it, the thin line is the intensity arriving now and the heavy one its running average.</p>
+    <p class="page-lead" data-ko="광학 테이블 위의 2D 스칼라 파동 방정식입니다. 슬릿 날은 기본적으로 텅스텐 날처럼 빛을 흡수합니다. 반사로 바꾸면 거울이 만드는 정상파가 보입니다. 클릭하면 파동이 생깁니다. 더블클릭하면 광원을 고정하고, 다시 하면 지웁니다. 차단벽은 레일 위 마운트를 끌어 옮깁니다. 슬릿은 열린 곳을, 틈 너비는 날 끝을 끌어 바꿉니다. 격자는 가운데를 끌어 옮기고 테두리로 돌립니다. 검출기가 밝아지는 각도가 Bragg 조건입니다. 오른쪽 필름은 빛이 닿은 곳이 어두워집니다. 필름을 클릭하면 새 필름으로 바뀝니다. 가는 선은 현재 세기, 굵은 선은 이동 평균입니다.">A ripple tank for light: a 2D scalar wave equation on an optical table. The slit jaws absorb by default, like the tungsten blades of an X-ray slit; switch them to reflecting to see the standing waves an ideal mirror sends back. Click to ripple. Double-click to pin a source, double-click it again to remove it. Drag the barrier by its mount on the rail, a slit up or down by its opening, or a jaw's knife edge to change the gap. With the lattice in place, drag its middle to move it and its rim to rotate it, and watch for the angle where the detector lights up: that is the Bragg condition. At the right edge a film strip darkens where intensity arrives; click it for fresh film. Beside it, the thin line is the intensity arriving now and the heavy one its running average.</p>
     <div class="lab-controls" role="group" aria-label="Wave controls">
       <div class="seg" role="group" aria-label="Sources" id="w-sources">
         <button data-v="1" data-ko="광원 1개">1 source</button>
@@ -51,8 +51,8 @@
         <button data-v="none" data-ko="열림">Open</button>
       </div>
       <div class="seg" role="group" aria-label="Slit jaws" id="w-jaws">
-        <button data-v="absorb" aria-pressed="true" data-ko="흡수하는 날">Absorbing jaws</button>
-        <button data-v="reflect" data-ko="반사하는 날">Reflecting jaws</button>
+        <button data-v="absorb" aria-pressed="true" data-ko="흡수형 날">Absorbing jaws</button>
+        <button data-v="reflect" data-ko="반사형 날">Reflecting jaws</button>
       </div>
       <label class="range"><span data-ko="파장">Wavelength</span> <input type="range" id="w-period" min="12" max="40" step="2" value="24"><output id="w-period-out"></output></label>
       <label class="range"><span data-ko="슬릿 폭">Slit width</span> <input type="range" id="w-slit" min="1" max="10" value="3"><output id="w-slit-out"></output></label>
@@ -61,7 +61,7 @@
     <canvas id="lab-wave" class="lab-wave" role="img" aria-label="Wave simulation on an optical table. Click to ripple, double-click to pin or remove a source, drag the barrier, slits, gap grips or the lattice."></canvas>
 
     <h2 class="lab-h2" id="fourier" data-ko="푸리에 벤치">Fourier bench</h2>
-    <p class="page-lead" data-ko="앞의 수조와는 다른 모델입니다. 시간에 따라 움직이는 파동이 아니라 단색 복소 장과 그 2D 푸리에 변환을 다룹니다. 조리개를 고르거나 직접 그려 보세요. 가운데 원거리 패턴에서는 주파수를 막을 수 있고, 오른쪽에서는 위상을 버렸을 때 무엇이 남는지 볼 수 있습니다.">A separate model: a monochromatic complex field and its 2D Fourier transform, not a time-domain wave. Pick an aperture or draw one, block frequencies in the far field in the middle, and on the right see what survives when the phase is thrown away.</p>
+    <p class="page-lead" data-ko="물결 수조와는 다른 모델입니다. 단색 복소 장과 그 2D 푸리에 변환을 계산합니다. 조리개는 고르거나 직접 그립니다. 가운데 원거리 패턴에서 주파수를 막습니다. 오른쪽에서는 위상을 버린 결과를 봅니다.">A separate model: a monochromatic complex field and its 2D Fourier transform, not a time-domain wave. Pick an aperture or draw one, block frequencies in the far field in the middle, and on the right see what survives when the phase is thrown away.</p>
 
     <div class="lab-controls" role="group" aria-label="Aperture controls">
       <div class="seg" role="group" aria-label="Aperture" id="aperture">
@@ -70,7 +70,7 @@
         <button data-v="slit" data-ko="슬릿">Slit</button>
         <button data-v="double" data-ko="이중 슬릿">Double slit</button>
         <button data-v="square" data-ko="정사각형">Square</button>
-        <button data-v="grating" data-ko="격자 무늬">Grating</button>
+        <button data-v="grating" data-ko="회절격자">Grating</button>
         <button data-v="lattice" data-ko="구멍 격자">Hole lattice</button>
         <button data-v="speckle" data-ko="무작위 구멍">Random holes</button>
         <button data-v="letter" data-ko="글자 λ">Letter λ</button>
@@ -94,10 +94,10 @@
         <button data-v="paint" data-ko="직접 막기">Paint stops</button>
       </div>
       <label class="range" id="cutoff-wrap"><span data-ko="차단 주파수">Cutoff</span> <input type="range" id="cutoff" min="0.005" max="0.5" step="0.005" value="0.08"><output id="cutoff-out"></output></label>
-      <button class="lab-clear" id="clear-stops" hidden data-ko="막은 곳 지우기">Clear stops</button>
+      <button class="lab-clear" id="clear-stops" hidden data-ko="막기 해제">Clear stops</button>
       <div class="seg" role="group" aria-label="Right panel" id="view">
-        <button data-v="image" aria-pressed="true" data-ko="필터 거친 상">Filtered image</button>
-        <button data-v="nophase" data-ko="위상 버림">Phase discarded</button>
+        <button data-v="image" aria-pressed="true" data-ko="필터 결과">Filtered image</button>
+        <button data-v="nophase" data-ko="위상 제거">Phase discarded</button>
         <button data-v="phaseonly" data-ko="위상만">Phase only</button>
       </div>
     </div>
@@ -130,7 +130,7 @@
     </details>
 
     <h2 class="lab-h2" id="xrr" data-ko="X선 반사율">X-ray reflectivity</h2>
-    <p class="page-lead" data-ko="세 번째 모델은 얇은 막에 아주 낮은 각도로 닿은 X선의 정반사입니다. 임계각 아래에서는 전부 반사됩니다. 그 위에서는 막의 윗면과 아랫면에서 반사된 빛이 간섭해 Kiessig 무늬를 만듭니다. 무늬 간격은 두께를, 임계각은 밀도(SLD)를, 무늬가 사라지는 속도는 거칠기를 알려 줍니다. 막을 바꾸면서 곡선이 어떻게 움직이는지 보세요.">A third model: specular reflection of X-rays from a thin film at grazing angles. Below the critical edge everything is reflected; above it, the waves reflected at the film's top and bottom interfere into Kiessig fringes. The fringe spacing gives the thickness, the edge the density (SLD), and how fast the fringes die away the roughness. Change the film and watch the curve move.</p>
+    <p class="page-lead" data-ko="세 번째 모델은 박막의 X선 정반사입니다. 임계각 아래에서는 전부 반사됩니다. 그 위에서는 윗면과 아랫면의 반사가 간섭합니다. 이 간섭이 Kiessig fringe를 만듭니다. fringe 간격은 두께, 임계각은 밀도(SLD)를 알려 줍니다. fringe가 줄어드는 속도는 거칠기를 나타냅니다. 막 조건을 바꾸면 곡선이 바로 바뀝니다.">A third model: specular reflection of X-rays from a thin film at grazing angles. Below the critical edge everything is reflected; above it, the waves reflected at the film's top and bottom interfere into Kiessig fringes. The fringe spacing gives the thickness, the edge the density (SLD), and how fast the fringes die away the roughness. Change the film and watch the curve move.</p>
     <div class="lab-controls" role="group" aria-label="Film">
       <label class="range"><span data-ko="두께">Thickness</span> <input type="range" id="xrr-d" min="20" max="600" step="5" value="250"><output id="xrr-d-out"></output></label>
       <label class="range"><span data-ko="거칠기">Roughness</span> <input type="range" id="xrr-sigma" min="0" max="15" step="0.5" value="5"><output id="xrr-sigma-out"></output></label>
@@ -140,11 +140,11 @@
         <button data-v="glass" data-ko="유리 기판">Glass substrate</button>
       </div>
       <div class="seg" role="group" aria-label="Measurement" id="xrr-noise">
-        <button data-v="ideal" aria-pressed="true" data-ko="이상적 곡선">Ideal curve</button>
+        <button data-v="ideal" aria-pressed="true" data-ko="잡음 없음">Ideal curve</button>
         <button data-v="counts" data-ko="계수 잡음">Counting noise</button>
       </div>
-      <button class="lab-clear" id="xrr-reroll" data-ko="잡음 다시 뽑기">New noise</button>
-      <button class="lab-clear" id="xrr-estimate" hidden data-ko="CNN으로 추정">Estimate with the CNN</button>
+      <button class="lab-clear" id="xrr-reroll" data-ko="잡음 새로">New noise</button>
+      <button class="lab-clear" id="xrr-estimate" hidden data-ko="CNN 추정">Estimate with the CNN</button>
     </div>
     <canvas id="c-xrr" class="lab-xrr" role="img" aria-label="Reflectivity on a log scale against q, with the critical edges of film and substrate marked."></canvas>
     <p class="lab-readout" id="xrr-readout" aria-live="polite"></p>
@@ -160,15 +160,15 @@
     </details>
   </main>
 
-  <footer><div class="footer-line"><span data-ko="용이삭의 실험 페이지">Isaac Yong, the lab</span><nav aria-label="Footer"><a href="../" data-ko="홈">Home</a><a href="../notes/" data-ko="노트">Notes</a><a href="../tools/" data-ko="계산기">Tools</a><a href="../notes/feed.xml">RSS</a></nav><span class="tnum">© <span id="year">2026</span> Isaac Yong</span></div></footer>
+  <footer><div class="footer-line"><span data-ko="용이삭 · 체험">Isaac Yong, the lab</span><nav aria-label="Footer"><a href="../" data-ko="홈">Home</a><a href="../notes/" data-ko="노트">Notes</a><a href="../tools/" data-ko="계산기">Tools</a><a href="../notes/feed.xml">RSS</a></nav><span class="tnum">© <span id="year">2026</span> Isaac Yong</span></div></footer>
   <script src="../wave.js" defer></script>
   <script src="../wave-view.js?v=phone" defer></script>
   <script src="../fourier.js?v=detail1" defer></script>
-  <script src="../script.js?v=ko1" defer></script>
+  <script src="../script.js?v=ko2" defer></script>
   <script src="../terminal.js" defer></script>
-  <script src="lab.js?v=ko1" defer></script>
+  <script src="lab.js?v=ko2" defer></script>
   <script src="../xrr.js" defer></script>
   <script src="../xrr-input.js" defer></script>
-  <script src="xrr-lab.js?v=ko1" defer></script>
+  <script src="xrr-lab.js?v=ko2" defer></script>
 </body>
 </html>

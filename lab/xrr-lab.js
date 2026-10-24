@@ -131,7 +131,7 @@
     }
     $('#xrr-readout').textContent = parts.join(' · ');
     const note = $('#xrr-model-note');
-    if (modelAvailable === false) note.textContent = tr('No trained model is published on this page yet, so the CNN estimate is off.', '이 페이지에는 아직 학습된 모델이 올라와 있지 않아 CNN 추정은 꺼져 있습니다.');
+    if (modelAvailable === false) note.textContent = tr('No trained model is published on this page yet, so the CNN estimate is off.', '학습된 모델이 아직 없어 CNN 추정은 꺼 두었습니다.');
     else if (model) {
       const { points } = model.contract.input.q_grid;
       const what = model.contract.model?.note; // written by export-onnx --note: which run, how far validated

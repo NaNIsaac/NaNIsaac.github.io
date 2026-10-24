@@ -26,8 +26,8 @@
     <a class="brand" href="../" data-ko="용이삭">Isaac Yong</a>
     <nav aria-label="Main">
       <a href="../" data-ko="홈">Home</a>
-      <a class="wide" href="../#work" data-ko="작업">Work</a>
-      <a class="wide" href="../lab/" data-ko="실험">Lab</a>
+      <a class="wide" href="../#work" data-ko="프로젝트">Work</a>
+      <a class="wide" href="../lab/" data-ko="체험">Lab</a>
       <a href="../notes/" data-ko="노트">Notes</a>
       <button class="toggle" id="lang" aria-label="Switch language">한</button>
       <button class="toggle" id="theme" aria-label="Toggle theme">Dark</button>
@@ -36,7 +36,7 @@
 
   <main class="wrap page tools">
     <h1 class="page-title" data-ko="X선 계산기">X-ray calculator.</h1>
-    <p class="page-lead" data-ko="빔 에너지를 한 번 정하면 아래 계산기가 모두 그 값을 씁니다. 입력하는 대로 바로 계산하고, 결과 숫자를 누르면 복사됩니다. 빔타임 기록장까지 들어 있는 오프라인 전체판은 &lt;a href=&quot;https://xray.ooguy.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;xray.ooguy.com&lt;/a&gt;에 있습니다.">Set the beam energy once and every calculator below follows it. Results update as you type; tap a result to copy it. The full offline set, with a beamtime logbook, is at <a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">xray.ooguy.com</a>.</p>
+    <p class="page-lead" data-ko="빔 에너지를 한 번 정하면 모든 계산기에 적용됩니다. 입력하는 즉시 다시 계산합니다. 결과 숫자를 누르면 복사합니다. 오프라인 전체판과 빔타임 기록장은 &lt;a href=&quot;https://xray.ooguy.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;xray.ooguy.com&lt;/a&gt;에 있습니다.">Set the beam energy once and every calculator below follows it. Results update as you type; tap a result to copy it. The full offline set, with a beamtime logbook, is at <a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">xray.ooguy.com</a>.</p>
 
     <section class="beam" id="energy-wavelength" aria-labelledby="beam-title">
       <h2 id="beam-title" class="beam-title" data-ko="빔">Beam</h2>
@@ -47,8 +47,8 @@
 
     <div class="tool-grid">
       <section class="tool" id="momentum-transfer" aria-labelledby="bragg-angle">
-        <h2 id="bragg-angle" data-ko="브래그 각, q, d-간격">Bragg angle, q and d-spacing</h2>
-        <p class="tool-lead" data-ko="셋 중 하나를 입력하면 나머지가 따라옵니다. 에너지를 바꾸면 d는 그대로 두고 2θ가 바뀝니다.">Type any one of the three; the others follow. Change the energy and d stays put while 2θ moves.</p>
+        <h2 id="bragg-angle" data-ko="Bragg 각, q, d 간격">Bragg angle, q and d-spacing</h2>
+        <p class="tool-lead" data-ko="셋 중 하나를 넣으면 나머지를 계산합니다. 에너지를 바꾸면 d는 고정, 2θ가 바뀝니다.">Type any one of the three; the others follow. Change the energy and d stays put while 2θ moves.</p>
         <div class="fields">
           <label class="field"><span>2θ</span><span class="in"><input id="b-tth" type="number" step="any" inputmode="decimal"><i>°</i></span></label>
           <label class="field"><span>q</span><span class="in"><input id="b-q" type="number" step="any" inputmode="decimal"><i>Å⁻¹</i></span></label>
@@ -60,7 +60,7 @@
       </section>
 
       <section class="tool" aria-labelledby="beam-footprint">
-        <h2 id="beam-footprint" data-ko="빔 풋프린트">Beam footprint</h2>
+        <h2 id="beam-footprint" data-ko="빔 footprint">Beam footprint</h2>
         <p class="tool-lead" data-ko="낮은 각도에서 빔이 시료 밖으로 넘치는지 확인합니다.">Check whether the beam spills past the sample at low angle.</p>
         <div class="fields">
           <label class="field"><span data-ko="빔 높이">Beam height</span><span class="in"><input id="f-h" type="number" step="any" min="0" value="0.1" inputmode="decimal"><i>mm</i></span></label>
@@ -69,7 +69,7 @@
         </div>
         <dl class="result" id="f-out" aria-live="polite"></dl>
         <svg class="foot-fig" id="f-fig" viewBox="0 0 320 64" aria-hidden="true"></svg>
-        <p class="tool-note" data-ko="L = h / sin α. sin α = h / 시료 길이가 되는 각도보다 낮으면 빔 일부가 시료를 비켜 가고 측정 세기가 줄어듭니다. 그림은 길이 비율만 맞추고 각도는 과장했습니다.">L = h / sin α. Below the angle where sin α = h / sample length, part of the beam misses the sample and the measured intensity drops. The sketch keeps the lengths to scale, not the angle.</p>
+        <p class="tool-note" data-ko="L = h / sin α. sin α가 h / 시료 길이보다 작으면 빔 일부가 시료를 벗어납니다. 그만큼 측정 세기가 줄어듭니다. 그림은 길이 비율만 맞추고 각도는 과장했습니다.">L = h / sin α. Below the angle where sin α = h / sample length, part of the beam misses the sample and the measured intensity drops. The sketch keeps the lengths to scale, not the angle.</p>
       </section>
 
       <section class="tool" aria-labelledby="transmission">
@@ -80,25 +80,25 @@
           <label class="field"><span data-ko="감쇠 길이">Attenuation length</span><span class="in"><input id="a-l" type="number" step="any" min="0" value="70" inputmode="decimal"><i>µm</i></span></label>
         </div>
         <dl class="result" id="a-out" aria-live="polite"></dl>
-        <p class="tool-note" data-ko="T = exp(−t / ℓ). 감쇠 길이는 물질과 에너지에 맞게 &lt;a href=&quot;https://henke.lbl.gov/optical_constants/atten2.html&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CXRO 표&lt;/a&gt;에서 찾을 수 있습니다.">T = exp(−t / ℓ). Look the attenuation length up for your material and energy in the <a href="https://henke.lbl.gov/optical_constants/atten2.html" target="_blank" rel="noopener noreferrer">CXRO tables</a>.</p>
+        <p class="tool-note" data-ko="T = exp(−t / ℓ). 감쇠 길이는 &lt;a href=&quot;https://henke.lbl.gov/optical_constants/atten2.html&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CXRO 표&lt;/a&gt;에서 물질과 에너지별로 찾습니다.">T = exp(−t / ℓ). Look the attenuation length up for your material and energy in the <a href="https://henke.lbl.gov/optical_constants/atten2.html" target="_blank" rel="noopener noreferrer">CXRO tables</a>.</p>
       </section>
 
 
       <section class="tool" aria-labelledby="crystallite-size">
-        <h2 id="crystallite-size" data-ko="셰러 결정 크기">Crystallite size (Scherrer)</h2>
-        <p class="tool-lead" data-ko="회절 피크의 폭으로 결정 크기를 어림합니다.">Estimate crystallite size from the width of a diffraction peak.</p>
+        <h2 id="crystallite-size" data-ko="Scherrer 결정 크기">Crystallite size (Scherrer)</h2>
+        <p class="tool-lead" data-ko="회절 피크 폭으로 결정 크기를 추정합니다.">Estimate crystallite size from the width of a diffraction peak.</p>
         <div class="fields">
           <label class="field"><span data-ko="피크 2θ">Peak 2θ</span><span class="in"><input id="s-tth" type="number" step="any" value="28.44" inputmode="decimal"><i>°</i></span></label>
           <label class="field"><span data-ko="반치폭 β">FWHM β</span><span class="in"><input id="s-w" type="number" step="any" min="0" value="0.2" inputmode="decimal"><i>°</i></span></label>
           <label class="field"><span data-ko="형상 인자 K">Shape factor K</span><span class="in"><input id="s-k" type="number" step="any" min="0" value="0.9" inputmode="decimal"></span></label>
         </div>
         <dl class="result" id="s-out" aria-live="polite"></dl>
-        <p class="tool-note" data-ko="τ = K λ / (β cos θ), β는 라디안. 장비 폭을 먼저 빼세요. 변형에 의한 폭이 섞이면 실제보다 작게 나옵니다.">τ = K λ / (β cos θ), with β in radians. Subtract the instrument width first; strain broadening makes the size come out too small.</p>
+        <p class="tool-note" data-ko="τ = K λ / (β cos θ), β는 라디안입니다. 장비 폭은 먼저 빼야 합니다. 변형에 의한 폭이 섞이면 크기가 작게 나옵니다.">τ = K λ / (β cos θ), with β in radians. Subtract the instrument width first; strain broadening makes the size come out too small.</p>
       </section>
 
       <section class="tool tool-wide" id="bravais-lattice" aria-labelledby="lattice-title">
-        <h2 id="lattice-title" data-ko="브라베 격자와 d-간격">Bravais lattice and d-spacing</h2>
-        <p class="tool-lead" data-ko="결정계와 중심화를 고르고 격자 상수와 hkl을 넣으세요. 중심화 때문에 사라지는 반사는 따로 알려 줍니다.">Pick the crystal system and centring, then the cell and hkl. Reflections the centring forbids are flagged.</p>
+        <h2 id="lattice-title" data-ko="Bravais 격자와 d 간격">Bravais lattice and d-spacing</h2>
+        <p class="tool-lead" data-ko="결정계와 중심화를 고르고 격자 상수와 hkl을 넣습니다. 중심화로 사라지는 반사는 따로 표시합니다.">Pick the crystal system and centring, then the cell and hkl. Reflections the centring forbids are flagged.</p>
         <div class="chips" role="group" aria-label="Crystal system" id="l-systems"></div>
         <div class="chips" role="group" aria-label="Centring" id="l-centrings"></div>
         <div class="fields lattice-fields">
@@ -115,19 +115,19 @@
           <label class="field"><span>l</span><span class="in"><input id="l-l" type="number" step="1" value="1" inputmode="numeric"></span></label>
         </div>
         <dl class="result" id="l-out" aria-live="polite"></dl>
-        <p class="tool-sub" data-ko="허용되는 첫 반사(누르면 hkl에 입력)">First allowed reflections (tap to use)</p>
+        <p class="tool-sub" data-ko="허용 반사 (누르면 입력)">First allowed reflections (tap to use)</p>
         <div class="chips" role="group" aria-label="First allowed reflections" id="l-peaks"></div>
-        <p class="tool-note" data-ko="1/d² = h·G*·h, 삼사정계 일반식을 모든 격자에 그대로 씁니다. 소멸 규칙은 격자 중심화만 봅니다(I: h+k+l 홀수, F: 홀짝 섞임, C: h+k 홀수, R: −h+k+l ≠ 3n, 육방 축). 공간군의 나사축·미끄럼면 소멸과 구조 인자 0은 따지지 않습니다. 예: 다이아몬드 Si (200)은 F로는 허용이지만 실제로는 0입니다.">1/d² = h·G*·h, the general triclinic form, used for every lattice. Extinctions here come from the lattice centring only (I: h+k+l odd; F: mixed parity; C: h+k odd; R: −h+k+l ≠ 3n, hexagonal axes). Screw axes, glide planes and zero structure factors are not checked: diamond Si (200) is allowed by F but is zero in practice.</p>
+        <p class="tool-note" data-ko="1/d² = h·G*·h, 삼사정계 일반식을 모든 격자에 씁니다. 소멸 규칙은 격자 중심화만 따집니다(I: h+k+l 홀수, F: 홀짝 섞임, C: h+k 홀수, R: −h+k+l ≠ 3n, 육방 축). 나사축·미끄럼면 소멸과 구조 인자 0은 보지 않습니다. 예를 들어 다이아몬드 Si (200)은 F로는 허용이지만 실제로는 0입니다.">1/d² = h·G*·h, the general triclinic form, used for every lattice. Extinctions here come from the lattice centring only (I: h+k+l odd; F: mixed parity; C: h+k odd; R: −h+k+l ≠ 3n, hexagonal axes). Screw axes, glide planes and zero structure factors are not checked: diamond Si (200) is allowed by F but is zero in practice.</p>
       </section>
     </div>
 
-    <p class="tool-share"><button type="button" id="share" data-ko="이 값들로 링크 복사">Copy a link with these values</button></p>
+    <p class="tool-share"><button type="button" id="share" data-ko="링크 복사">Copy a link with these values</button></p>
   </main>
 
-  <footer><div class="footer-line"><span data-ko="용이삭의 빔라인 계산기">Isaac Yong, beamline tools</span><nav aria-label="Footer"><a href="../" data-ko="홈">Home</a><a href="../notes/" data-ko="노트">Notes</a><a href="../lab/" data-ko="실험">Lab</a><a href="../notes/feed.xml">RSS</a><a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">X-ray Toolkit</a></nav><span class="tnum">© <span id="year">2026</span> Isaac Yong</span></div></footer>
+  <footer><div class="footer-line"><span data-ko="용이삭 · X선 계산기">Isaac Yong, beamline tools</span><nav aria-label="Footer"><a href="../" data-ko="홈">Home</a><a href="../notes/" data-ko="노트">Notes</a><a href="../lab/" data-ko="체험">Lab</a><a href="../notes/feed.xml">RSS</a><a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">X-ray Toolkit</a></nav><span class="tnum">© <span id="year">2026</span> Isaac Yong</span></div></footer>
   <script src="calc.js?v=lattice2" defer></script>
-  <script src="tools.js?v=lattice2" defer></script>
-  <script src="../script.js?v=ko1" defer></script>
+  <script src="tools.js?v=ko2" defer></script>
+  <script src="../script.js?v=ko2" defer></script>
   <script src="../terminal.js" defer></script>
 </body>
 </html>

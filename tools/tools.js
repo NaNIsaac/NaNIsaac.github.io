@@ -90,7 +90,7 @@
     const h = num('f-h'), a = num('f-a'), s = num('f-s');
     const L = calc.footprint(h, a), fill = calc.fillAngle(h, s);
     show('f-out', [
-      [tr('Footprint', '풋프린트'), fmt(L, 4), 'mm'],
+      [tr('Footprint', 'footprint'), fmt(L, 4), 'mm'],
       [tr('Beam on sample', '시료에 닿는 빔'), fmt(100 * Math.min(1, s / L), 3), '%'],
       [tr('Full beam above', '전체 빔이 닿는 각도'), fmt(fill, 4), '°'],
     ]);

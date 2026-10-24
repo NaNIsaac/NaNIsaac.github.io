@@ -4,7 +4,7 @@
   const ko = () => typeof isKo === 'function' && isKo(); // script.js owns the language switch
   const view = mountWave($('#lab-wave'), {
     pauseButton: $('#w-pause'),
-    pauseLabel: (running) => (running ? (ko() ? '일시정지' : 'Pause') : (ko() ? '재생' : 'Play')),
+    pauseLabel: (running) => (running ? (ko() ? '정지' : 'Pause') : (ko() ? '재생' : 'Play')),
     tools: true,
     onChange: showValues, // drags on the canvas (gap grips, double-click sources) keep the controls honest
     scene: { sources: [{ fx: 0.25, fy: 0.4 }, { fx: 0.25, fy: 0.6 }], barrier: 0.55, slits: [0.42, 0.58], detector: 0.92 },
@@ -60,8 +60,8 @@
   applyWave();
   window.addEventListener('langchange', () => {
     showValues();
-    const p = $('#w-pause'), running = p.textContent === 'Pause' || p.textContent === '일시정지';
-    p.textContent = running ? (ko() ? '일시정지' : 'Pause') : (ko() ? '재생' : 'Play');
+    const p = $('#w-pause'), running = p.textContent === 'Pause' || p.textContent === '정지';
+    p.textContent = running ? (ko() ? '정지' : 'Pause') : (ko() ? '재생' : 'Play');
   });
 })();
 
@@ -203,7 +203,7 @@
     $('#cap-a').textContent = draw ? tr('Aperture: draw with the pointer', '조리개: 포인터로 그리기') : resizable ? tr('Aperture: drag to resize', '조리개: 끌어서 크기 조절') : tr('Aperture', '조리개');
     $('#cap-s').textContent = paintStops ? tr('Far field (log): paint to block, hover to read', '원거리 세기(로그): 칠하면 막고, 마우스를 올리면 값 표시')
       : tr('Far field (log): drag to set a cutoff, hover to read', '원거리 세기(로그): 끌어서 차단, 마우스를 올리면 값 표시');
-    $('#cap-o').textContent = { image: tr('What gets through, transformed back', '통과한 것을 다시 변환한 상'), nophase: tr('Same magnitudes, phase thrown away', '크기는 그대로, 위상은 버림'), phaseonly: tr('Phase kept, every magnitude set to one', '위상만 두고 크기는 모두 1') }[state.view];
+    $('#cap-o').textContent = { image: tr('What gets through, transformed back', '통과한 성분의 역변환'), nophase: tr('Same magnitudes, phase thrown away', '크기 유지, 위상 제거'), phaseonly: tr('Phase kept, every magnitude set to one', '위상 유지, 크기는 모두 1') }[state.view];
     canvases.a.classList.toggle('paintable', draw);
     canvases.a.classList.toggle('draggable', resizable);
     canvases.s.classList.toggle('paintable', paintStops);
