@@ -349,10 +349,32 @@ dialog::backdrop { background: #0f0f0dcc; }
   .footer-line > :last-child { text-align: left; }
   /* keep the three panels side by side: input, spectrum and result must be seen together */
   .lab-panels { gap: 12px 8px; grid-template-columns: 1fr 1fr; } /* phones: two to a row, so there is room to draw */
-  .lab-panels figcaption { font-size: .8125rem; }
+  .lab-panels figcaption { font-size: .875rem; }
   .lab-controls { gap: 10px 16px; margin-bottom: 14px; }
   .lab-wave { height: min(46vh, 380px); }
   .lab-xrr { height: min(44vh, 320px); }
+}
+/* Phones: the desktop gaps (96-180px between sections) cost several screens; keep them proportionate and the controls at 40px */
+@media (max-width: 760px) {
+  .section { padding-top: 64px; }
+  .bench + .measure, .measure + .bench { padding-top: 48px; }
+  .section h2 { margin-bottom: 20px; }
+  .lab-h2 { margin-top: 72px; }
+  .ledger-group { margin: 36px 0 12px; }
+  .ledger-more { margin-top: 28px; }
+  .rows-group { margin: 28px 0 4px; }
+  .contact { margin-top: 80px; padding-top: 64px; padding-bottom: 64px; }
+  footer { padding-top: 56px; }
+  .tool-grid { gap: 48px; }
+  .tool-share { margin-top: 56px; }
+  .fields { gap: 12px 16px; }
+  .result { gap: 8px 18px; margin-top: 18px; }
+  .chips button, .seg button, .rows a, .rows .row { min-height: 40px; }
+  .result dd button small { font-size: max(.6em, 14px); }
+  .result dd button { padding-block: 8px; margin-block: -8px; }
+  .range input { height: 40px; margin-block: -12px; }
+  .site-header nav a, .brand { padding-block: 10px; }
+  .footer-line a { display: inline-block; padding-block: 10px; }
 }
 @media (hover: hover) { .on-touch { display: none; } }
 @media (hover: none) { .on-hover { display: none; } }
