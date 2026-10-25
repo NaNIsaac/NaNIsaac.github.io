@@ -81,13 +81,27 @@ if (notesList) {
     if (posts[0]) stamp(document.querySelector('#notes-age'), posts[0].date, 'last');
   }).catch(() => {});
 }
-const OWN_WORK = /^(Push|PullRequest|Create|Release|Issues|PullRequestReview)Event$/; // not stars/forks of other people's repos
+// GitHub rows come from the stats collector's snapshot on this origin (NaNIsaac/stats, every six hours):
+// no api.github.com call per visitor, no rate limit, and the same definition of "upstream" as the stats page and the README.
+function prRow(pr) {
+  const a = document.createElement('a');
+  a.href = pr.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+  const strong = document.createElement('strong'); strong.textContent = pr.repo;
+  const span = document.createElement('span'); span.textContent = pr.title;
+  strong.append(span);
+  const em = document.createElement('em'); em.textContent = pr.state; em.title = pr.created.slice(0, 10);
+  a.append(strong, em);
+  return a;
+}
 const ghList = document.querySelector('#gh-list');
-if (ghList) {
-  fetch('https://api.github.com/users/NaNIsaac/events/public?per_page=50').then((r) => (r.ok ? r.json() : [])).then((events) => {
-    const latest = new Map();
-    for (const e of events) if (OWN_WORK.test(e.type) && !latest.has(e.repo.name) && latest.size < 5) latest.set(e.repo.name, e.created_at);
-    ghList.prepend(...[...latest].map(([name, at]) => logRow(`https://github.com/${name}`, name.replace(/^NaNIsaac\//, ''), at, true)));
+const prList = document.querySelector('#pr-list');
+if (ghList || prList) {
+  fetch('stats/data/latest.json').then((r) => (r.ok ? r.json() : null)).then((s) => {
+    if (!s) return;
+    const pushed = (s.repos ?? []).filter((r) => r.pushed && !r.fork && !r.archived).sort((a, b) => b.pushed.localeCompare(a.pushed)).slice(0, 5);
+    ghList?.prepend(...pushed.map((r) => logRow(r.url, r.name, r.pushed, true)));
+    const prs = (s.pulls?.elsewhere ?? []).filter((pr) => pr.state !== 'closed').slice(0, 4);
+    prList?.prepend(...prs.map(prRow));
   }).catch(() => {});
 }
 

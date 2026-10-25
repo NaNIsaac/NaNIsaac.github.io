@@ -150,6 +150,8 @@ body.dark .fit-video { filter: invert(1) hue-rotate(180deg); } /* the video is r
 .ledger-more { margin-top: 48px; }
 .ledger .kind { font-size: var(--step-small); color: var(--muted); text-align: right; white-space: nowrap; }
 .ledger p { grid-column: 1 / -1; margin: 4px 0 0; max-width: 38em; transition: color .2s; }
+.ledger a.ledger-docs { display: inline-block; margin-top: 8px; font-size: var(--step-small); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; transition: text-underline-offset .2s, color .2s; }
+.ledger a.ledger-docs:hover { text-underline-offset: 7px; }
 .ledger:hover a, .ledger:focus-within a { color: var(--muted); }
 .ledger a:hover, .ledger a:focus-visible { color: var(--ink); }
 .ledger-group { font-size: var(--step-small); color: var(--muted); margin: 56px 0 20px; font-weight: 400; }
@@ -159,7 +161,7 @@ body.dark .fit-video { filter: invert(1) hue-rotate(180deg); } /* the video is r
 .rows { list-style: none; margin: 0; padding: 0; }
 .rows a, .rows .row { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; min-height: 38px; padding: 6px 0; transition: color .2s; }
 .rows a:hover { color: var(--muted); }
-.rows strong { font-weight: 400; }
+.rows strong { font-weight: 400; min-width: 0; overflow-wrap: anywhere; }
 .rows em { font-style: normal; font-size: var(--step-small); color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .rows span { display: block; color: var(--muted); }
 .rows-group { font-size: var(--step-small); color: var(--muted); margin: 40px 0 8px; font-weight: 400; }
@@ -184,7 +186,7 @@ kbd { font: inherit; font-size: .9em; }
 /* Footer: one quiet line */
 footer { padding: 96px var(--margin) 30px; font-size: var(--step-small); color: var(--muted); }
 .footer-line { display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: baseline; }
-.footer-line nav { display: flex; gap: 24px; }
+.footer-line nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
 .footer-line nav a { color: var(--ink); }
 .footer-line nav a:hover { color: var(--muted); }
 .footer-line > :last-child { text-align: right; }
