@@ -111,3 +111,18 @@ for (const video of document.querySelectorAll('.fit-video')) {
   if (stillVideos) video.controls = true;
   else new IntersectionObserver(([e]) => { e.isIntersecting ? video.play().catch(() => {}) : video.pause(); }).observe(video);
 }
+
+// One caption line per shot, kept out of the video so it follows the page language.
+// Until a video first plays, its poster (the last shot) is on screen, so the last line is.
+for (const cue of document.querySelectorAll('.video-cue')) {
+  const video = cue.closest('figure').querySelector('video');
+  const lines = JSON.parse(cue.dataset.cues);
+  const show = () => {
+    const line = video.played.length ? lines.findLast((l) => l.t <= video.currentTime) ?? lines[0] : lines.at(-1);
+    const text = isKo() ? line.ko : line.en;
+    if (cue.textContent !== text) cue.textContent = text;
+  };
+  video.addEventListener('timeupdate', show);
+  window.addEventListener('langchange', show);
+  show();
+}

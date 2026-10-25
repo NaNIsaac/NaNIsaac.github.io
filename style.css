@@ -134,6 +134,7 @@ body.dark .plot { filter: invert(1) hue-rotate(180deg); } /* drawn on paper; fli
 .measure-copy { grid-column: 9 / -1; }
 .measure-copy p a { text-decoration: underline; text-underline-offset: 3px; }
 .fit-caption { font-size: var(--step-small); color: var(--muted); margin: 10px 0 0; }
+.video-cue { min-height: 3em; line-height: 1.5; margin: 10px 0 0; } /* two lines kept, so a shorter line does not move the page */
 .fit-video { display: block; width: 100%; height: auto; background: var(--bg); }
 body.dark .fit-video { filter: invert(1) hue-rotate(180deg); } /* the video is rendered on paper; flip it to ink */
 
