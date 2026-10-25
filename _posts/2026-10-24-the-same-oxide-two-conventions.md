@@ -16,7 +16,7 @@ the guess. I never wrote down which order each one used.
 ## What I found
 
 An audit of where the XRR code came from turned it up
-([ReflectoLearn#32](https://github.com/NaNIsaac/ReflectoLearn/issues/32),
+([ReflectoLearn#32](https://github.com/NaNIsaac-Research/ReflectoLearn/issues/32),
 [ReflectoExp#9](https://github.com/NaNIsaac/ReflectoExp/issues/9),
 [Reflecto#3](https://github.com/NaNIsaac/Reflecto/issues/3), all open). GenX stacks layers from the
 substrate up, so `Stack(Layers=[Film, SiO2])` means Si / film / SiO₂, oxide on top. A cross-review

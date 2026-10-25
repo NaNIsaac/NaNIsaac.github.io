@@ -8,7 +8,7 @@
     notes: '/notes/',
     lab: '/lab/',
     toolkit: 'https://xray.ooguy.com/',
-    reflectolearn: 'https://github.com/NaNIsaac/ReflectoLearn',
+    reflectolearn: 'https://github.com/NaNIsaac-Research/ReflectoLearn',
     qoraflow: 'https://github.com/NaNIsaac/QoraFlow',
     qoraphase: 'https://github.com/NaNIsaac/QoraPhase',
     qoradfxm: 'https://github.com/NaNIsaac/QoraDFXM',
