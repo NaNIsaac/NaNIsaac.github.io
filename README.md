@@ -7,10 +7,13 @@ Personal site of **Isaac Yong (용이삭) / NaNIsaac** — https://nanisaac.gith
 | `/` | Portfolio with the *Liquid Light* hero: a live 2D wave simulation (`wave.js`): a fixed double slit; clicks and moves ripple it, and a ghost hand shows how until you do |
 | `/lab/` | Fourier & Filtering sandbox (`fourier.js`, `lab/lab.js`) and X-ray reflectivity (`xrr.js`, `xrr-input.js`, `lab/xrr-lab.js`) |
 | `/notes/` | Notes written as Markdown in `_posts/`, built by GitHub Pages' Jekyll |
+| `/tools/` | X-ray calculators (`tools/tools.js`, `tools/calc.js`): energy and wavelength, Bragg angle, q and d-spacing, footprint, transmission, Scherrer, lattice d-spacing |
 | `` ` `` key | Owner terminal, not linked anywhere on the site: quick capture, ideas, shortcuts (`terminal.js`) |
 
 No npm, no build step on your machine. GitHub Pages builds the site from `main`
 (Settings → Pages → *Deploy from a branch*, `main` / root) and runs Jekyll for the notes.
+`/docs/` and `/stats/` on the same domain are the project sites of the
+[docs](https://github.com/NaNIsaac/docs) and [stats](https://github.com/NaNIsaac/stats) repositories.
 
 ## Write a note
 
@@ -69,6 +72,8 @@ Nothing on the site points to the terminal; press `` ` `` on any page to open it
   attribute, shown by the 한/EN button.
 - Projects and research axes are plain HTML cards in `index.html`. Verify a repository's README before
   describing it.
+- "Lately" reads `notes/feed.json` (Jekyll) and `/stats/data/latest.json` (the stats collector) at load time;
+  nothing on the site calls `api.github.com` except the owner terminal's `gh` command.
 - Colors are CSS variables at the top of `style.css` (`body.light` for the light theme).
 
 ## Preview locally
