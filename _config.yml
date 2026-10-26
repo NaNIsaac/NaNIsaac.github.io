@@ -15,4 +15,7 @@ feed:
 defaults:
   - scope: { path: "", type: posts }
     values: { layout: note }
+  # The Search Console ownership file must stay published but is not a page to index.
+  - scope: { path: "google7cc93ec66256fd8b.html" }
+    values: { sitemap: false }
 exclude: [README.md, tests, docs, "*.cjs"]
