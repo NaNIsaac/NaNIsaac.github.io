@@ -41,6 +41,17 @@ assert.ok(profile, 'index.html: ProfilePage');
 assert.strictEqual(profile.mainEntity['@id'], personId, 'ProfilePage.mainEntity');
 assert.deepStrictEqual(profile.mainEntity.alternateName, ['용이삭', 'NaNIsaac'], 'Isaac Yong = 용이삭 = NaNIsaac');
 
+// People search for the GitHub handle, so the homepage title and the site name carry it.
+const home = read('index.html');
+assert.match(home.match(/<title>([^<]*)<\/title>/)[1], /^Isaac Yong \(NaNIsaac\)/, 'index.html: title');
+const [website] = jsonLd(home).filter((d) => d['@type'] === 'WebSite');
+assert.ok(website, 'index.html: WebSite');
+assert.strictEqual(website.url, `${site}/`, 'WebSite.url is the homepage');
+assert.deepStrictEqual(website.alternateName, ['NaNIsaac', '용이삭'], 'WebSite.alternateName');
+assert.strictEqual(website.publisher['@id'], personId, 'WebSite.publisher');
+assert.ok(read('_layouts/base.html').includes('<meta property="og:site_name" content="Isaac Yong (NaNIsaac)">'), 'base og:site_name');
+assert.ok(/path: "google[0-9a-f]+\.html" \}\n\s+values: \{ sitemap: false \}/.test(read('_config.yml')), 'verification file kept out of the sitemap');
+
 // The note layout is Liquid, so check its author reference and canonical tag as text.
 assert.ok(read('_layouts/note.html').includes(`"author":{"@type":"Person","@id":"${personId}"`), 'note author @id');
 assert.ok(read('_layouts/base.html').includes('<link rel="canonical" href="{{ page.url | absolute_url }}">'), 'base canonical');
