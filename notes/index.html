@@ -5,7 +5,7 @@ description: Working notes on X-ray physics, scientific software, and the tools 
 ---
 <div data-owner-bar></div>
 <h1 class="page-title" data-ko="작업 노트">Working notes</h1>
-<p class="page-lead" data-ko="실험, 코드, 읽은 글에서 나온 짧은 메모입니다. 다듬지 않고 올립니다. 글은 영어로 씁니다. &lt;a href=&quot;/notes/feed.xml&quot;&gt;RSS 피드&lt;/a&gt;도 있습니다.">Short write-ups from experiments, code and reading. Unpolished on purpose. There is an <a href="/notes/feed.xml">RSS feed</a>.</p>
+<p class="page-lead" data-ko="실험, 코드, 읽은 글에서 나온 짧은 메모입니다. 다듬지 않고 올립니다. 글은 영어로 씁니다. &lt;a href=&quot;/notes/feed.xml&quot;&gt;RSS 피드&lt;/a&gt;도 있습니다. 연구 코드의 결과는 &lt;a href=&quot;/reports/&quot;&gt;연구 보고서&lt;/a&gt;에 있습니다.">Short write-ups from experiments, code and reading. Unpolished on purpose. There is an <a href="/notes/feed.xml">RSS feed</a>. Results from the research code are in the <a href="/reports/">research reports</a>.</p>
 {% assign years = site.posts | group_by_exp: "p", "p.date | date: '%Y'" %}
 {% for y in years %}
 <h2 class="year">{{ y.name }}</h2>

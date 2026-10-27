@@ -1,0 +1,64 @@
+{
+ "repos": [
+  {
+   "name": "QoraPhase",
+   "url": "https://github.com/NaNIsaac/QoraPhase",
+   "description": "JAX-native, composable phase retrieval for coherent diffraction imaging (CDI, BCDI)",
+   "index": "https://github.com/NaNIsaac/QoraPhase/blob/main/docs/reports/README.md",
+   "latest": [
+    {
+     "date": "2026-10-27",
+     "title": "Public measured data (CXIDB)",
+     "url": "https://github.com/NaNIsaac/QoraPhase/blob/main/docs/benchmarks/cxidb.md",
+     "result": "Neither published reconstruction (CXIDB 3, CXIDB 28) is reproduced yet. Physics check needed."
+    },
+    {
+     "date": "2026-10-27",
+     "title": "Measured data",
+     "url": "https://github.com/NaNIsaac/QoraPhase/blob/main/docs/benchmarks/measured.md",
+     "result": "On one measured 3D dataset, Fourier residual 0.310 for the best of 10 starts against 0.315 for the lab MATLAB reconstruction; mutual error 0.235. Physics check needed."
+    }
+   ]
+  },
+  {
+   "name": "ReflectoLearn",
+   "url": "https://github.com/NaNIsaac-Research/ReflectoLearn",
+   "description": "X-ray reflectivity of thin films: differentiable modeling, neural inference and fitting, with registered experiments on identifiability and fit policy",
+   "index": "https://github.com/NaNIsaac-Research/ReflectoLearn/blob/main/docs/reports/README.md",
+   "latest": [
+    {
+     "date": "2026-10-25",
+     "title": "Research note: are returned XRR fit endpoints basin minima?",
+     "url": "https://github.com/NaNIsaac-Research/ReflectoLearn/blob/main/docs/fisher_global/reports/BASIN-NOTE.md",
+     "result": "Returned fit endpoints stand for their basins (supported); a few wrong basins need ≥ 10⁴ counts."
+    },
+    {
+     "date": "2026-10-25",
+     "title": "Basin minimum validation: full run, results and verdicts",
+     "url": "https://github.com/NaNIsaac-Research/ReflectoLearn/blob/main/docs/fisher_global/reports/RESULTS-BASIN.md",
+     "result": "Endpoint S₁ represents its basin (supported); 5 R2a and 1 X2e wrong basins need ≥ 10⁴ counts."
+    }
+   ]
+  },
+  {
+   "name": "TraTT",
+   "url": "https://github.com/NaNIsaac-Research/TraTT",
+   "description": "Time-dependent dynamical X-ray diffraction (Takagi-Taupin) for transient acoustic Bragg satellites",
+   "index": "https://github.com/NaNIsaac-Research/TraTT/blob/main/docs/reports/README.md",
+   "latest": [
+    {
+     "date": "2026-10-27",
+     "title": "Solver checks",
+     "url": "https://github.com/NaNIsaac-Research/TraTT/blob/main/verify/checks.py",
+     "result": "Convergence, limit and boundary-flux checks of the solver as one table and one figure."
+    },
+    {
+     "date": "2026-10-19",
+     "title": "Overshoot map under a linear turn-on",
+     "url": "https://github.com/NaNIsaac-Research/TraTT/blob/main/docs/research/README.md#8-overshoot-map-under-a-linear-turn-on-entry-67",
+     "result": "Largest excess 0.603 at S = 3.8, on the rise-time boundary of the scan; full TT agrees to 8.65×10⁻⁵ at selected conditions."
+    }
+   ]
+  }
+ ]
+}
