@@ -1,0 +1,21 @@
+name: Ewald lab
+on:
+  pull_request:
+    paths:
+      - 'lab/ewald/**'
+      - '.github/workflows/ewald-lab.yml'
+  push:
+    paths:
+      - 'lab/ewald/**'
+      - '.github/workflows/ewald-lab.yml'
+jobs:
+  physics-and-syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test lab/ewald/physics.test.mjs
+      - run: node --check lab/ewald/scene.js
+      - run: node --check lab/ewald/physics.mjs
