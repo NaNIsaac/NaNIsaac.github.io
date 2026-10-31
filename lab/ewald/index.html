@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#e8e8e3">
+<meta name="description" content="Rotate a crystal in real space and watch reciprocal-lattice points cross the Ewald sphere. Interactive diffraction geometry with Three.js.">
+<link rel="canonical" href="https://nanisaac.github.io/lab/ewald/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../diffraction-3d/style.css?v=1">
+<link rel="stylesheet" href="./ewald.css?v=1">
+<title>Ewald construction · reciprocal space — Isaac Yong</title>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+<script>try{if((localStorage.getItem('isaac-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark')document.body.classList.add('dark')}catch{}</script>
+<header class="site-header"><a class="brand" href="../../" data-ko="용이삭">Isaac Yong</a><nav aria-label="Main"><a href="../diffraction-3d/" data-ko="결정 회절 실험">Crystal lab</a><a href="../" data-ko="2D 실험실">2D lab</a><button id="lang" class="toggle" aria-label="한국어로 보기">한</button><button id="theme" class="toggle" aria-label="Change color theme">Dark</button></nav></header>
+<main>
+<div class="eyebrow" data-ko="인터랙티브 실험 · 02 / 역공간">INTERACTIVE LAB · 02 / RECIPROCAL SPACE</div>
+<div class="heading">
+<h1 data-ko="회절 피크는<br>어디서 생길까?">Where does the<br>peak come from?</h1>
+<div class="opening">
+<p data-ko="결정을 돌리면 원자 배열은 실공간에서 회전하지만, 회절 조건은 역공간에서 더 쉽게 볼 수 있습니다. 역격자점이 Ewald 구 표면에 닿으면 입사파와 산란파의 운동량 차이가 그 역격자 벡터와 일치합니다.">As the crystal turns in real space, its reciprocal lattice turns with it. Diffraction occurs when a reciprocal-lattice point reaches the Ewald sphere: an outgoing wave can then satisfy both momentum transfer and elastic scattering.</p>
+<p class="muted" data-ko="아래 두 장면은 같은 회전각을 공유합니다. 슬라이더를 움직여 (001)점이 구 표면에 닿는 순간을 찾아보세요.">Both views share one rotation angle. Move the slider until the highlighted (001) point touches the sphere.</p>
+</div></div>
+<section class="ewald-views" aria-label="Linked real-space and reciprocal-space views">
+<figure class="card ewald-view"><div class="card-head"><span data-ko="실공간 · 원자 배열">REAL SPACE · ATOMS</span><span>01</span></div>
+<div class="ewald-canvas-wrap"><canvas id="real-canvas" tabindex="0" aria-label="A cubic atomic lattice that rotates with the control. Drag to orbit the view."></canvas><span class="ewald-view-label" data-ko="실제 결정의 방향">CRYSTAL ORIENTATION</span></div>
+<figcaption data-ko="동일한 원자 간격을 가진 단순입방 격자입니다. 화면을 드래그하면 관찰 시점만 바뀝니다.">A simple-cubic array with equal atomic spacing. Dragging changes only the camera view.</figcaption></figure>
+<figure class="card ewald-view"><div class="card-head"><span data-ko="역공간 · Ewald 구">RECIPROCAL SPACE · EWALD SPHERE</span><span>02</span></div>
+<div class="ewald-canvas-wrap"><canvas id="recip-canvas" tabindex="0" aria-label="Reciprocal lattice points, the Ewald sphere, incident wavevector, and highlighted 001 point. Drag to orbit."></canvas><span class="ewald-view-label" data-ko="노란 점: (001) · 파란 선: 입사파">GOLD: (001) · CYAN: INCIDENT k</span></div>
+<figcaption data-ko="구의 반지름은 |k|=1/(λ/d), 중심은 −k입니다. 노란 점 (001)이 구에 닿으면 브래그 조건입니다.">Sphere radius |k| = 1/(λ/d), centered at −k. The gold (001) reciprocal point reaches it at Bragg.</figcaption></figure>
+</section>
+<div class="ewald-panels">
+<section class="controls card" aria-label="Experiment controls">
+<div class="card-head"><span data-ko="두 장면을 함께 조절">LINKED CONTROLS</span><span>01 / 02</span></div>
+<div class="control-body">
+<div class="control-row"><label for="angle" data-ko="결정 회전각">Crystal rotation</label><output id="angle-value" for="angle">−16.9°</output></div><input id="angle" type="range" min="-55" max="20" step="0.1" value="-16.9"><div class="range-ends"><span>−55°</span><span>20°</span></div>
+<div class="control-row second"><label for="ratio" data-ko="파장 / 격자 간격">Wavelength / lattice spacing</label><output id="ratio-value" for="ratio">0.58</output></div><input id="ratio" type="range" min="0.36" max="0.9" step="0.01" value="0.58"><div class="range-ends"><span>0.36</span><span>0.90</span></div>
+<div class="buttons"><button id="bragg" class="primary" type="button" data-ko="브래그 조건 찾기">Find Bragg</button><button id="scan" class="secondary" aria-pressed="false" type="button" data-ko="결정 자동 회전">Rock crystal</button></div>
+</div>
+<div class="readout"><div><small data-ko="브래그 각도">BRAGG ANGLE</small><strong id="theta-value">16.9°</strong></div><div><small data-ko="Ewald 구와의 거리">EWALD MISMATCH</small><strong id="mismatch-value">0.000</strong></div></div>
+<p class="readout-note" id="state" role="status" data-ko="(001)점이 구 표면에 닿았습니다. 회절 조건입니다.">The (001) point lies on the Ewald sphere: Bragg condition met.</p>
+</section>
+<section class="card ewald-plot" aria-label="Ewald mismatch graph">
+<div class="card-head"><span data-ko="각도에 따른 Ewald 불일치">EWALD MISMATCH vs ROTATION</span><span>Δ|k|</span></div><canvas id="mismatch-plot" width="640" height="350" role="img" aria-label="Ewald mismatch of the 001 point against the crystal rotation angle; the zero line is the elastic diffraction condition."></canvas>
+<p class="ewald-plot-note" data-ko="실선은 |k입사 + G₀₀₁| − |k입사|입니다. 영점에서 역격자점이 구 표면과 만납니다.">The curve is |k<sub>in</sub> + G<sub>001</sub>| − |k<sub>in</sub>|. Zero means the point lies on the sphere.</p>
+</section>
+</div>
+<section class="explain" aria-label="How to interpret this model"><div class="explain-title"><span>02 / 02</span><h2 data-ko="왜 구 하나로<br>설명될까?">Why a sphere?</h2></div>
+<div class="explain-body">
+<p data-ko="X선을 시료에 비추면 입사 파동벡터 k입사와 산란 파동벡터 k산란의 차이가 운동량 전달 q입니다. 결정의 주기적인 배열은 특정 역격자 벡터 G에서만 산란을 강하게 만듭니다. 탄성 산란에서는 입사와 산란 파동벡터의 길이가 같습니다.">The momentum transfer is q = k<sub>out</sub> − k<sub>in</sub>. A periodic crystal reinforces scattering when q equals a reciprocal-lattice vector G. Elastic scattering also requires |k<sub>out</sub>| = |k<sub>in</sub>|. The Ewald sphere collects the outgoing wavevectors allowed by that last condition.</p>
+<div class="equation">q = G &nbsp; and &nbsp; |k<sub>in</sub> + G| = |k<sub>in</sub>|</div>
+<p data-ko="격자 간격 d를 단위로 써서 역격자 벡터는 2π/d, 입사파의 길이는 2π/λ입니다. 화면에서는 둘을 2π/d 단위로 나눠 표현하므로 구의 반지름은 d/λ = 1/(λ/d)입니다.">The diagram is scaled by 2π/d. The reciprocal vectors have integer coordinates, and the incident wavevector length is d/λ = 1/(λ/d). Moving the wavelength slider therefore changes the sphere's radius.</p>
+<p data-ko="이 예제는 단순입방 결정과 단색 탄성 산란의 기하학을 보여줍니다. 점은 이상적 역격자점이며, 가까운 점을 강조하는 허용 범위는 시각화용입니다. 결정 크기 효과, 구조인자, 다중 산란, 실제 회절 강도와 검출기 분해능은 계산하지 않습니다.">This is an ideal geometric construction for a simple-cubic lattice and monochromatic elastic scattering. Points are exact reciprocal-lattice points; the visual proximity band is not a physical peak width. We do not calculate structure factors, finite-crystal peak shapes, dynamical scattering, measured intensities or detector resolution.</p>
+<div class="links"><a href="../diffraction-3d/" data-ko="앞 실험: 결정 회전과 검출기">Previous: crystal rotation and detector</a><a href="https://github.com/NaNIsaac-Research/TraTT" data-ko="관련 연구: 시간 의존 회절 · TraTT">Related research: time-dependent diffraction · TraTT</a></div>
+</div></section>
+</main><footer><span data-ko="용이삭 · 물리와 소프트웨어">Isaac Yong · Physics &amp; software</span><span>© 2026</span></footer>
+<script src="../diffraction-3d/ui.js" defer></script>
+<script type="module" src="./scene.js"></script>
+</body></html>
