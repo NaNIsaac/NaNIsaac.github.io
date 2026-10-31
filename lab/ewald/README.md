@@ -4,6 +4,28 @@ An interactive companion to [Rotate the crystal](../diffraction-3d/), at
 /lab/ewald/. It explains **why** rotating a crystal produces a diffraction
 condition using two synchronized Three.js views.
 
+## Three short chapters, not an unexplained instrument panel
+
+On entry the crystal starts **away from Bragg**, rather than already at the
+answer. The guided story then moves through three ideas:
+
+1. **Observe:** an ordered crystal does not produce a strong Bragg reflection
+   at every angle.
+2. **Interpret:** reciprocal-lattice points are momentum-transfer vectors,
+   **not atoms**. The Ewald sphere represents elastic scattering geometry.
+3. **Discover:** rotate the lattice until the (001) point reaches the sphere,
+   then change the angle to see the condition fail again.
+
+The **Show me / Find the coincidence** controls move the actual model
+state, not a prerecorded video. The original independent angle/wavelength
+controls remain available for exploration. Reduced-motion preferences
+disable the optional automatic rocking animation on preference change.
+
+Design direction: illustrated science field guide, with warm paper,
+ink-colored diagrams, and one highlight color. This is an original
+implementation informed by [Every Joule](https://iamtechartist.com/every-joule/)'s
+predict/observe/discover teaching structure, not a copy of its code or art.
+
 ## What the visitor sees
 
 - **Real space:** a schematic 7 × 7 × 7 simple-cubic atomic lattice.
@@ -43,7 +65,7 @@ Eight tests cover coordinate rotation, origin, Bragg geometry for several
 wavelengths, expected 2θ, and the finite reciprocal grid. GitHub Actions
 runs the tests and syntax checks on changes.
 
-**Not verified by math tests:** 3D rendering, mobile gesture interactions,
+**Not verified by math tests:** the new chapter transitions, 3D rendering, mobile gesture interactions,
 CDN availability, camera framing or screen-reader usability. Verify these
 in an actual browser before highlighting on the main portfolio.
 
