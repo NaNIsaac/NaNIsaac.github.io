@@ -46,7 +46,7 @@
       <section class="stage card" aria-label="Three-dimensional diffraction demonstration">
         <div class="card-head"><span data-ko="결정 · 입사 X선 · 검출기">CRYSTAL / INCIDENT BEAM / DETECTOR</span><span class="stage-tag">THREE.JS</span></div>
         <div class="canvas-wrap" id="scene-wrap">
-          <canvas id="scene-3d" role="img" aria-label="A finite three-dimensional crystal with an incoming beam and a detector plane. Drag to orbit the camera."></canvas>
+          <canvas id="scene-3d" tabindex="0" role="img" aria-label="A finite three-dimensional crystal with an incoming beam and a detector plane. Drag to orbit the camera; arrow keys also rotate the view."></canvas>
           <div id="scene-fallback" role="status"><span data-ko="3D 장면을 불러오는 중입니다. WebGL이나 외부 모듈에 접근할 수 없다면 2D 실험실을 이용하세요.">Loading the 3D scene. If WebGL or the external module is unavailable, the <a href="../">2D lab</a> remains available.</span></div>
           <div class="scene-label label-beam" data-ko="입사 파동">INCOMING WAVE</div>
           <div class="scene-label label-detector" data-ko="검출기">DETECTOR</div>
@@ -67,13 +67,17 @@
           <div class="buttons">
             <button type="button" id="find-peak" class="primary" data-ko="브래그 각도로 이동">Find Bragg angle</button>
             <button type="button" id="rock" class="secondary" aria-pressed="false" data-ko="결정 스캔">Rock crystal</button>
+            <button type="button" id="reset-view" class="secondary" data-ko="시점 초기화">Reset camera</button>
+            <button type="button" id="save-map" class="secondary" data-ko="검출기 이미지 저장">Save detector PNG</button>
           </div>
+          <p class="experiment-tip" id="experiment-tip" data-ko="① 브래그 각도를 찾은 뒤 ② 결정을 스캔해 보세요.">1. Find the Bragg angle, then 2. rock the crystal to see the peak appear.</p>
         </div>
         <div class="readout">
           <div><small data-ko="1차 브래그 각도">FIRST-ORDER BRAGG ANGLE</small><strong id="bragg-value">16.9°</strong></div>
           <div><small data-ko="해당 방향의 강도 · 정규화">INTENSITY AT BRAGG DIRECTION</small><strong id="signal-value">1.000</strong></div>
         </div>
         <p class="readout-note" data-ko="정규화 값은 모형의 이상적인 회절 조건에서 1입니다. 실제 실험의 검출 광자 수가 아닙니다.">The normalized value is 1 at the model's ideal Bragg condition. It is not a measured photon count.</p>
+        <p class="signal-explanation" id="signal-explanation" aria-live="off"></p>
       </section>
     </div>
     <section class="analysis" aria-label="Calculated detector and rocking curve">
@@ -106,6 +110,6 @@
   </main>
   <footer><span data-ko="용이삭 · 물리와 소프트웨어">Isaac Yong · Physics &amp; software</span><span>© 2026</span></footer>
   <script src="./ui.js" defer></script>
-  <script type="module" src="./scene.js"></script>
+  <script type="module" src="./scene.js" onerror="document.getElementById('scene-fallback').textContent = document.documentElement.lang === 'ko' ? '3D 모듈을 불러오지 못했습니다. 네트워크 연결을 확인하거나 기존 2D 실험실을 이용하세요.' : 'Could not load the 3D module. Check the network or use the 2D lab.'"></script>
 </body>
 </html>
