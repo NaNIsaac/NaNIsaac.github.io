@@ -1,0 +1,254 @@
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {braggAngle, reciprocalGrid, reciprocalPoint, targetMismatch, ewaldMismatch, toDegrees, toRadians} from './physics.mjs';
+
+const $ = id => document.getElementById(id);
+const angleSlider = $('angle'), ratioSlider = $('ratio');
+const plot = $('mismatch-plot'), plotCtx = plot.getContext('2d');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+const SCALE = .75;
+const VIEW_BG = 0x101d27;
+let ratio = Number(ratioSlider.value);
+let phi = -braggAngle(ratio);
+let scanning = false, scanStart = 0, visible = true;
+const views = [];
+let reciprocalGroup, targetBall, ewaldShell, ewaldWire, incident, outgoing, qLine;
+let recipRenderer, realCrystal, drawFrame = 0;
+
+function makeLine(scene, a, b, color, opacity = 1) {
+  const geometry = new THREE.BufferGeometry().setFromPoints([a, b]);
+  const material = new THREE.LineBasicMaterial({color, transparent:opacity<1, opacity});
+  const line = new THREE.Line(geometry, material);
+  scene.add(line); return line;
+}
+function setLine(line, a, b) {
+  const arr = line.geometry.attributes.position;
+  arr.setXYZ(0,a.x,a.y,a.z); arr.setXYZ(1,b.x,b.y,b.z);
+  arr.needsUpdate = true; line.geometry.computeBoundingSphere();
+}
+
+function makeView(canvasId, cameraPos, target) {
+  const canvas = $(canvasId), wrap = canvas.parentElement;
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({canvas, alpha:false, antialias:true, powerPreference:'low-power'});
+  } catch(error) {
+    const warning = document.createElement('div');
+    warning.className='ewald-webgl-warning';
+    warning.textContent='WebGL unavailable — the numerical mismatch graph below still describes the Bragg condition.';
+    warning.style.cssText='color:#dfe8e4;font:13px/1.6 sans-serif;padding:20px;position:absolute;inset:25% 4%;text-align:center';
+    wrap.append(warning); return null;
+  }
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+  renderer.outputColorSpace=THREE.SRGBColorSpace;
+  const scene=new THREE.Scene();scene.background=new THREE.Color(VIEW_BG);
+  const camera=new THREE.PerspectiveCamera(47,1,.1,60);
+  camera.position.set(...cameraPos);
+  const controls=new OrbitControls(camera,canvas);
+  controls.target.set(...target);
+  controls.enableDamping=!reduce.matches;
+  controls.enablePan=false;
+  controls.minDistance=3;controls.maxDistance=20;
+  controls.update();
+  scene.add(new THREE.HemisphereLight(0xc6d6e5,0x243340,2.3));
+  const sun=new THREE.DirectionalLight(0xf7dc9e,2);
+  sun.position.set(-3,5,4);scene.add(sun);
+  function resize(){
+    const r=wrap.getBoundingClientRect();
+    if(r.width===0||r.height===0)return;
+    renderer.setSize(Math.round(r.width),Math.round(r.height),false);
+    camera.aspect=r.width/r.height;camera.updateProjectionMatrix();
+  }
+  if('ResizeObserver' in window)new ResizeObserver(resize).observe(wrap);
+  else addEventListener('resize',resize,{passive:true});
+  resize();
+  // Keyboard-only users can rotate the camera with the arrow keys.
+  canvas.addEventListener('keydown',e=>{
+    if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;
+    e.preventDefault();
+    const offset=camera.position.clone().sub(controls.target);
+    const spherical=new THREE.Spherical().setFromVector3(offset);
+    if(e.key==='ArrowLeft')spherical.theta-=.12;
+    if(e.key==='ArrowRight')spherical.theta+=.12;
+    if(e.key==='ArrowUp')spherical.phi=Math.max(.12,spherical.phi-.12);
+    if(e.key==='ArrowDown')spherical.phi=Math.min(Math.PI-.12,spherical.phi+.12);
+    camera.position.copy(controls.target).add(new THREE.Vector3().setFromSpherical(spherical));
+    controls.update();
+  });
+  const view={scene,camera,renderer,controls,resize};
+  views.push(view);return view;
+}
+
+function addAtoms(scene) {
+  realCrystal=new THREE.Group();scene.add(realCrystal);
+  const n=7,total=n*n*n;
+  const inst=new THREE.InstancedMesh(
+    new THREE.SphereGeometry(.058,8,6),
+    new THREE.MeshStandardMaterial({color:0xe0c17f,metalness:.28,roughness:.42}),
+    total
+  );
+  const mat=new THREE.Matrix4();let i=0;
+  for(let x=0;x<n;x++)for(let y=0;y<n;y++)for(let z=0;z<n;z++){
+    mat.makeTranslation((x-3)*.32,(y-3)*.32,(z-3)*.32);
+    inst.setMatrixAt(i++,mat);
+  }
+  inst.instanceMatrix.needsUpdate=true;realCrystal.add(inst);
+  realCrystal.add(new THREE.LineSegments(
+    new THREE.EdgesGeometry(new THREE.BoxGeometry(2.06,2.06,2.06)),
+    new THREE.LineBasicMaterial({color:0xa3adbd,transparent:true,opacity:.28})
+  ));
+  makeLine(scene,new THREE.Vector3(-3.3,0,0),new THREE.Vector3(-1.15,0,0),0x86cbd6);
+  const tip=new THREE.Mesh(new THREE.ConeGeometry(.11,.25,10),new THREE.MeshBasicMaterial({color:0xa1e2e8}));
+  tip.rotation.z=-Math.PI/2;tip.position.set(-1.15,0,0);scene.add(tip);
+  const grid=new THREE.GridHelper(7,14,0x42505a,0x2f404d);
+  grid.position.y=-1.3;grid.material.transparent=true;grid.material.opacity=.34;scene.add(grid);
+}
+
+function buildEwald(view) {
+  const scene=view.scene;
+  reciprocalGroup=new THREE.Group();scene.add(reciprocalGroup);
+  const points=reciprocalGrid(0,2);
+  const neutralMat=new THREE.MeshBasicMaterial({color:0x7e9eaa,transparent:true,opacity:.63});
+  const geom=new THREE.SphereGeometry(.041,7,6);
+  const inst=new THREE.InstancedMesh(geom,neutralMat,points.length);
+  const matrix=new THREE.Matrix4();
+  points.forEach((p,i)=>{matrix.makeTranslation(p.h*SCALE,p.k*SCALE,p.l*SCALE);inst.setMatrixAt(i,matrix)});
+  inst.instanceMatrix.needsUpdate=true;reciprocalGroup.add(inst);
+  targetBall=new THREE.Mesh(new THREE.SphereGeometry(.092,14,10),
+    new THREE.MeshBasicMaterial({color:0xf3c464}));
+  reciprocalGroup.add(targetBall);targetBall.position.set(0,0,SCALE);
+  const axisMat=new THREE.LineBasicMaterial({color:0x547283,transparent:true,opacity:.35});
+  const axisPoints=[[[ -2.4,0,0],[2.4,0,0]],[[0,-2.4,0],[0,2.4,0]],[[0,0,-2.4],[0,0,2.4]]];
+  for(const [a,b] of axisPoints)scene.add(new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...a),new THREE.Vector3(...b)]),axisMat));
+  const origin=new THREE.Mesh(new THREE.SphereGeometry(.066,12,10),
+    new THREE.MeshBasicMaterial({color:0xffffff}));scene.add(origin);
+
+  const sphereMaterial=new THREE.MeshBasicMaterial({
+    color:0x6cb8ca,transparent:true,opacity:.10,side:THREE.DoubleSide,depthWrite:false
+  });
+  const wireMaterial=new THREE.MeshBasicMaterial({
+    color:0x8bc6d4,transparent:true,opacity:.17,wireframe:true,depthWrite:false
+  });
+  ewaldShell=new THREE.Mesh(new THREE.SphereGeometry(1,36,22),sphereMaterial);
+  ewaldWire=new THREE.Mesh(new THREE.SphereGeometry(1,16,10),wireMaterial);
+  scene.add(ewaldShell,ewaldWire);
+  incident=makeLine(scene,new THREE.Vector3(-2,0,0),new THREE.Vector3(),0x9cdeeb,.94);
+  outgoing=makeLine(scene,new THREE.Vector3(-2,0,0),new THREE.Vector3(0,0,.75),0xe8c76b,.9);
+  qLine=makeLine(scene,new THREE.Vector3(),new THREE.Vector3(0,0,.75),0xffe5a0,.9);
+  const grid=new THREE.GridHelper(8,16,0x314c5c,0x233845);
+  grid.position.y=-2.55;grid.material.transparent=true;grid.material.opacity=.26;
+  scene.add(grid);
+}
+
+function updateGeometry() {
+  if(realCrystal)realCrystal.rotation.y=phi;
+  if(!reciprocalGroup)return;
+  reciprocalGroup.rotation.y=phi;
+  const k=1/ratio;
+  const center=new THREE.Vector3(-k*SCALE,0,0);
+  for(const obj of [ewaldShell,ewaldWire]){
+    obj.position.copy(center);obj.scale.setScalar(k*SCALE);
+  }
+  const p=reciprocalPoint(0,0,1,phi);
+  const g=new THREE.Vector3(p.x*SCALE,p.y*SCALE,p.z*SCALE);
+  setLine(incident,center,new THREE.Vector3());
+  setLine(outgoing,center,g);
+  setLine(qLine,new THREE.Vector3(),g);
+  const gap=Math.abs(targetMismatch(phi,ratio));
+  const hit=gap<.022;
+  targetBall.material.color.setHex(hit?0xffefad:0xf1b55b);
+  targetBall.scale.setScalar(hit?1.5:1);
+  outgoing.material.opacity=hit?.95:.30;
+  qLine.material.opacity=hit?.95:.55;
+}
+
+function plotMismatch() {
+  const ctx=plotCtx,w=plot.width,h=plot.height;
+  const left=68,right=w-28,top=23,bottom=h-56;
+  const lo=-55,hi=20,ymin=-.45,ymax=.45;
+  const xx=x=>left+(x-lo)/(hi-lo)*(right-left);
+  const yy=y=>bottom-(y-ymin)/(ymax-ymin)*(bottom-top);
+  ctx.fillStyle='#0e1c27';ctx.fillRect(0,0,w,h);
+  ctx.font='12px Archivo, sans-serif';ctx.textAlign='right';
+  for(const val of [-.4,-.2,0,.2,.4]){
+    const y=yy(val);ctx.strokeStyle=val===0?'#afc7c5':'#2b4250';
+    ctx.lineWidth=val===0?1.8:1;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();
+    ctx.fillStyle='#9eb2b7';ctx.fillText(val.toFixed(1),left-9,y+4);
+  }
+  ctx.textAlign='center';
+  for(const deg of [-50,-40,-30,-20,-10,0,10,20]){
+    ctx.fillStyle='#9eb2b7';ctx.fillText(deg+'°',xx(deg),bottom+21);
+  }
+  ctx.beginPath();ctx.lineWidth=2.8;ctx.strokeStyle='#e7c66c';
+  for(let i=0;i<=420;i++){
+    const x=lo+(hi-lo)*i/420;
+    const y=Math.max(ymin,Math.min(ymax,targetMismatch(toRadians(x),ratio)));
+    if(i===0)ctx.moveTo(xx(x),yy(y));else ctx.lineTo(xx(x),yy(y));
+  }
+  ctx.stroke();
+  const theta=-toDegrees(braggAngle(ratio));
+  ctx.setLineDash([5,5]);ctx.strokeStyle='#86bac3';ctx.beginPath();
+  ctx.moveTo(xx(theta),top);ctx.lineTo(xx(theta),bottom);ctx.stroke();ctx.setLineDash([]);
+  const current=targetMismatch(phi,ratio);
+  ctx.strokeStyle='#edf0e7';ctx.lineWidth=1.2;ctx.beginPath();
+  ctx.moveTo(xx(toDegrees(phi)),top);ctx.lineTo(xx(toDegrees(phi)),bottom);ctx.stroke();
+  ctx.fillStyle='#f9d987';ctx.beginPath();
+  ctx.arc(xx(toDegrees(phi)),yy(Math.max(ymin,Math.min(ymax,current))),5,0,Math.PI*2);ctx.fill();
+  ctx.font='12px Archivo, sans-serif';ctx.fillStyle='#b1c0c5';ctx.textAlign='left';
+  ctx.fillText(document.documentElement.lang==='ko'?'결정 회전각':'Crystal rotation',left,bottom+43);
+}
+
+function updateState() {
+  angleSlider.value=toDegrees(phi).toFixed(1);
+  $('angle-value').textContent=toDegrees(phi).toFixed(1)+'°';
+  $('ratio-value').textContent=ratio.toFixed(2);
+  $('theta-value').textContent=toDegrees(braggAngle(ratio)).toFixed(1)+'°';
+  const d=targetMismatch(phi,ratio);
+  $('mismatch-value').textContent=(d>=0?'+':'')+d.toFixed(3);
+  const hit=Math.abs(d)<.022;
+  $('state').textContent=document.documentElement.lang==='ko'
+    ? (hit?'(001)점이 Ewald 구 표면에 닿았습니다. 탄성 회절 조건입니다.':'(001)점이 구에서 벗어났습니다. 결정 회전각을 바꾸거나 브래그 조건 찾기를 눌러 보세요.')
+    : (hit?'The (001) point reaches the Ewald sphere: the elastic diffraction condition is met.':'The (001) point misses the sphere. Rotate the crystal or select Find Bragg.');
+  updateGeometry();plotMismatch();
+}
+
+angleSlider.addEventListener('input',()=>{
+  scanning=false;$('scan').setAttribute('aria-pressed','false');
+  phi=toRadians(Number(angleSlider.value));updateState();
+});
+ratioSlider.addEventListener('input',()=>{ratio=Number(ratioSlider.value);updateState()});
+$('bragg').addEventListener('click',()=>{
+  scanning=false;$('scan').setAttribute('aria-pressed','false');
+  phi=-braggAngle(ratio);updateState();
+});
+$('scan').addEventListener('click',()=>{
+  scanning=!scanning;scanStart=performance.now();
+  $('scan').setAttribute('aria-pressed',String(scanning));
+});
+window.addEventListener('langchange',updateState);
+reduce.addEventListener('change',()=>{
+  for(const view of views)view.controls.enableDamping=!reduce.matches;
+  if(reduce.matches){scanning=false;$('scan').setAttribute('aria-pressed','false')}
+});
+if('IntersectionObserver' in window)
+  new IntersectionObserver(entries=>{visible=entries.some(e=>e.isIntersecting)}, {threshold:.03})
+    .observe($('real-canvas'));
+
+const left=makeView('real-canvas',[4.2,3.25,6.15],[0,0,0]);
+const right=makeView('recip-canvas',[4.0,3.15,9.5],[-.65,0,0]);
+if(left)addAtoms(left.scene);
+if(right)buildEwald(right);
+updateState();
+
+function animate(time) {
+  drawFrame=requestAnimationFrame(animate);
+  if(document.hidden||!visible)return;
+  if(scanning){
+    phi=-braggAngle(ratio)+.24*Math.sin((time-scanStart)*.00095);
+    updateState();
+  }
+  for(const view of views){view.controls.update();view.renderer.render(view.scene,view.camera)}
+}
+drawFrame=requestAnimationFrame(animate);
+window.addEventListener('pagehide',()=>cancelAnimationFrame(drawFrame));
