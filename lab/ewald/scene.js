@@ -7,7 +7,7 @@ const angleSlider = $('angle'), ratioSlider = $('ratio');
 const plot = $('mismatch-plot'), plotCtx = plot.getContext('2d');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 const SCALE = .75;
-const VIEW_BG = 0x101d27;
+const VIEW_BG = 0xf0e7d5; // Pale paper behind the pop-up physics diagrams.
 let ratio = Number(ratioSlider.value);
 let phi = 0; // Open away from Bragg: the visitor discovers the condition.
 let scanning = false, scanStart = 0, visible = true;
@@ -52,8 +52,8 @@ function makeView(canvasId, cameraPos, target) {
   controls.enablePan=false;
   controls.minDistance=3;controls.maxDistance=20;
   controls.update();
-  scene.add(new THREE.HemisphereLight(0xc6d6e5,0x243340,2.3));
-  const sun=new THREE.DirectionalLight(0xf7dc9e,2);
+  scene.add(new THREE.HemisphereLight(0xfff7e8,0xb7aa91,2.5));
+  const sun=new THREE.DirectionalLight(0xffe6bf,2.1);
   sun.position.set(-3,5,4);scene.add(sun);
   function resize(){
     const r=wrap.getBoundingClientRect();
@@ -86,7 +86,7 @@ function addAtoms(scene) {
   const n=7,total=n*n*n;
   const inst=new THREE.InstancedMesh(
     new THREE.SphereGeometry(.058,8,6),
-    new THREE.MeshStandardMaterial({color:0xe0c17f,metalness:.28,roughness:.42}),
+    new THREE.MeshStandardMaterial({color:0xa0784c,metalness:.08,roughness:.65}),
     total
   );
   const mat=new THREE.Matrix4();let i=0;
@@ -97,12 +97,12 @@ function addAtoms(scene) {
   inst.instanceMatrix.needsUpdate=true;realCrystal.add(inst);
   realCrystal.add(new THREE.LineSegments(
     new THREE.EdgesGeometry(new THREE.BoxGeometry(2.06,2.06,2.06)),
-    new THREE.LineBasicMaterial({color:0xa3adbd,transparent:true,opacity:.28})
+    new THREE.LineBasicMaterial({color:0x8f7958,transparent:true,opacity:.32})
   ));
-  makeLine(scene,new THREE.Vector3(-3.3,0,0),new THREE.Vector3(-1.15,0,0),0x86cbd6);
-  const tip=new THREE.Mesh(new THREE.ConeGeometry(.11,.25,10),new THREE.MeshBasicMaterial({color:0xa1e2e8}));
+  makeLine(scene,new THREE.Vector3(-3.3,0,0),new THREE.Vector3(-1.15,0,0),0x327a91);
+  const tip=new THREE.Mesh(new THREE.ConeGeometry(.11,.25,10),new THREE.MeshBasicMaterial({color:0x327a91}));
   tip.rotation.z=-Math.PI/2;tip.position.set(-1.15,0,0);scene.add(tip);
-  const grid=new THREE.GridHelper(7,14,0x42505a,0x2f404d);
+  const grid=new THREE.GridHelper(7,14,0xc1b39a,0xd2c6b3);
   grid.position.y=-1.3;grid.material.transparent=true;grid.material.opacity=.34;scene.add(grid);
 }
 
@@ -110,27 +110,27 @@ function buildEwald(view) {
   const scene=view.scene;
   reciprocalGroup=new THREE.Group();scene.add(reciprocalGroup);
   const points=reciprocalGrid(0,2);
-  const neutralMat=new THREE.MeshBasicMaterial({color:0x7e9eaa,transparent:true,opacity:.63});
+  const neutralMat=new THREE.MeshBasicMaterial({color:0x718995,transparent:true,opacity:.64});
   const geom=new THREE.SphereGeometry(.041,7,6);
   const inst=new THREE.InstancedMesh(geom,neutralMat,points.length);
   const matrix=new THREE.Matrix4();
   points.forEach((p,i)=>{matrix.makeTranslation(p.h*SCALE,p.k*SCALE,p.l*SCALE);inst.setMatrixAt(i,matrix)});
   inst.instanceMatrix.needsUpdate=true;reciprocalGroup.add(inst);
   targetBall=new THREE.Mesh(new THREE.SphereGeometry(.092,14,10),
-    new THREE.MeshBasicMaterial({color:0xf3c464}));
+    new THREE.MeshBasicMaterial({color:0xe8a43b}));
   reciprocalGroup.add(targetBall);targetBall.position.set(0,0,SCALE);
-  const axisMat=new THREE.LineBasicMaterial({color:0x547283,transparent:true,opacity:.35});
+  const axisMat=new THREE.LineBasicMaterial({color:0x90a1a7,transparent:true,opacity:.50});
   const axisPoints=[[[ -2.4,0,0],[2.4,0,0]],[[0,-2.4,0],[0,2.4,0]],[[0,0,-2.4],[0,0,2.4]]];
   for(const [a,b] of axisPoints)scene.add(new THREE.Line(
     new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...a),new THREE.Vector3(...b)]),axisMat));
   const origin=new THREE.Mesh(new THREE.SphereGeometry(.066,12,10),
-    new THREE.MeshBasicMaterial({color:0xffffff}));scene.add(origin);
+    new THREE.MeshBasicMaterial({color:0x283c47}));scene.add(origin);
 
   const sphereMaterial=new THREE.MeshBasicMaterial({
-    color:0x6cb8ca,transparent:true,opacity:.10,side:THREE.DoubleSide,depthWrite:false
+    color:0x69abc0,transparent:true,opacity:.16,side:THREE.DoubleSide,depthWrite:false
   });
   const wireMaterial=new THREE.MeshBasicMaterial({
-    color:0x8bc6d4,transparent:true,opacity:.17,wireframe:true,depthWrite:false
+    color:0x4f96a9,transparent:true,opacity:.34,wireframe:true,depthWrite:false
   });
   ewaldShell=new THREE.Mesh(new THREE.SphereGeometry(1,36,22),sphereMaterial);
   ewaldWire=new THREE.Mesh(new THREE.SphereGeometry(1,16,10),wireMaterial);
@@ -143,13 +143,13 @@ function buildEwald(view) {
   }
   ewaldCircle=new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(circlePoints),
-    new THREE.LineBasicMaterial({color:0xc6e6e8,transparent:true,opacity:.74})
+    new THREE.LineBasicMaterial({color:0x3b8194,transparent:true,opacity:.85})
   );
   scene.add(ewaldCircle);
-  incident=makeLine(scene,new THREE.Vector3(-2,0,0),new THREE.Vector3(),0x9cdeeb,.94);
-  outgoing=makeLine(scene,new THREE.Vector3(-2,0,0),new THREE.Vector3(0,0,.75),0xe8c76b,.9);
-  qLine=makeLine(scene,new THREE.Vector3(),new THREE.Vector3(0,0,.75),0xffe5a0,.9);
-  const grid=new THREE.GridHelper(8,16,0x314c5c,0x233845);
+  incident=makeLine(scene,new THREE.Vector3(-2,0,0),new THREE.Vector3(),0x31859b,.94);
+  outgoing=makeLine(scene,new THREE.Vector3(-2,0,0),new THREE.Vector3(0,0,.75),0xc38a32,.9);
+  qLine=makeLine(scene,new THREE.Vector3(),new THREE.Vector3(0,0,.75),0xc5a16d,.9);
+  const grid=new THREE.GridHelper(8,16,0xc9bfae,0xd7cdbc);
   grid.position.y=-2.55;grid.material.transparent=true;grid.material.opacity=.26;
   scene.add(grid);
 }
@@ -170,7 +170,7 @@ function updateGeometry() {
   setLine(qLine,new THREE.Vector3(),g);
   const gap=Math.abs(targetMismatch(phi,ratio));
   const hit=gap<.022;
-  targetBall.material.color.setHex(hit?0xffefad:0xf1b55b);
+  targetBall.material.color.setHex(hit?0xffd269:0xe0a041);
   targetBall.scale.setScalar(hit?1.5:1);
   outgoing.material.opacity=hit?.95:.30;
   qLine.material.opacity=hit?.95:.55;
