@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e8e8e3">
+  <meta name="description" content="Rotate a crystal and watch its 3D reciprocal-space diffraction pattern move across a detector. A kinematic scattering experiment by Isaac Yong.">
+  <link rel="canonical" href="https://nanisaac.github.io/lab/diffraction-3d/">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="./style.css?v=1">
+  <title>Rotate the crystal · 3D diffraction lab — Isaac Yong</title>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <script>try { if ((localStorage.getItem('isaac-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark') document.body.classList.add('dark'); } catch {}</script>
+  <header class="site-header">
+    <a class="brand" href="../../" data-ko="용이삭">Isaac Yong</a>
+    <nav aria-label="Main">
+      <a href="../../" data-ko="홈">Home</a>
+      <a href="../" data-ko="2D 실험실">2D lab</a>
+      <a href="../../#work" data-ko="프로젝트">Work</a>
+      <button id="lang" class="toggle" aria-label="한국어로 보기">한</button>
+      <button id="theme" class="toggle" aria-label="Toggle color theme">Dark</button>
+    </nav>
+  </header>
+  <main>
+    <div class="eyebrow" data-ko="인터랙티브 실험 · 01 / 3D">INTERACTIVE LAB · 01 / THREE-DIMENSIONAL</div>
+    <div class="heading">
+      <h1 data-ko="결정을 돌리면<br>피크가 나타난다.">Turn the crystal.<br>Find the peak.</h1>
+      <div class="opening">
+        <p data-ko="결정을 향해 X선을 비추면 원자에서 산란된 파동이 서로 더해지거나 상쇄됩니다. 결정의 각도를 바꾸면 특정 방향의 파동만 강하게 보입니다. 이 실험에서 결정의 각도와 파장을 바꿔 검출기 무늬가 어떻게 변하는지 확인해 보세요.">X-rays scatter from atoms. In a crystal, the scattered waves can reinforce one another in some directions and cancel in others. Rotate the crystal and watch when a bright diffraction spot appears on the detector.</p>
+        <p class="muted" data-ko="아래 3D 장면을 드래그하면 보는 방향이 바뀝니다. 결정 각도는 슬라이더로 조절합니다.">Drag the 3D scene to change your view. Use the slider to rotate the crystal itself.</p>
+      </div>
+    </div>
+    <div class="lab-layout">
+      <section class="stage card" aria-label="Three-dimensional diffraction demonstration">
+        <div class="card-head"><span data-ko="결정 · 입사 X선 · 검출기">CRYSTAL / INCIDENT BEAM / DETECTOR</span><span class="stage-tag">THREE.JS</span></div>
+        <div class="canvas-wrap" id="scene-wrap">
+          <canvas id="scene-3d" role="img" aria-label="A finite three-dimensional crystal with an incoming beam and a detector plane. Drag to orbit the camera."></canvas>
+          <div id="scene-fallback" role="status"><span data-ko="3D 장면을 불러오는 중입니다. WebGL이나 외부 모듈에 접근할 수 없다면 2D 실험실을 이용하세요.">Loading the 3D scene. If WebGL or the external module is unavailable, the <a href="../">2D lab</a> remains available.</span></div>
+          <div class="scene-label label-beam" data-ko="입사 파동">INCOMING WAVE</div>
+          <div class="scene-label label-detector" data-ko="검출기">DETECTOR</div>
+          <div class="scene-label label-crystal" data-ko="결정">CRYSTAL</div>
+          <div class="scene-hint" data-ko="드래그: 시점 회전 · 스크롤: 확대">DRAG TO ORBIT · SCROLL TO ZOOM</div>
+        </div>
+        <div class="stage-foot"><span class="dot"></span><span data-ko="화면의 격자와 빛은 구조를 설명하기 위한 표현입니다. 광선의 밝기는 계산된 회절 신호를 따릅니다.">Lattice atoms are shown schematically; beam brightness follows the calculated Bragg-spot signal.</span></div>
+      </section>
+      <section class="controls card" aria-label="Experiment settings">
+        <div class="card-head"><span data-ko="실험 조작">EXPERIMENT</span><span class="step">01 / 02</span></div>
+        <div class="control-body">
+          <div class="control-row"><label for="angle" data-ko="결정 회전각">Crystal rotation</label><output id="angle-value" for="angle">−16.9°</output></div>
+          <input type="range" id="angle" min="-42" max="10" value="-16.9" step="0.1" aria-label="Crystal rotation angle in degrees">
+          <div class="range-ends"><span>−42°</span><span>+10°</span></div>
+          <div class="control-row second"><label for="ratio" data-ko="파장 / 격자 간격">Wavelength / lattice spacing</label><output id="ratio-value" for="ratio">0.58</output></div>
+          <input type="range" id="ratio" min="0.36" max="0.9" value="0.58" step="0.01" aria-label="Wavelength divided by lattice spacing">
+          <div class="range-ends"><span>0.36</span><span>0.90</span></div>
+          <div class="buttons">
+            <button type="button" id="find-peak" class="primary" data-ko="브래그 각도로 이동">Find Bragg angle</button>
+            <button type="button" id="rock" class="secondary" aria-pressed="false" data-ko="결정 스캔">Rock crystal</button>
+          </div>
+        </div>
+        <div class="readout">
+          <div><small data-ko="1차 브래그 각도">FIRST-ORDER BRAGG ANGLE</small><strong id="bragg-value">16.9°</strong></div>
+          <div><small data-ko="해당 방향의 강도 · 정규화">INTENSITY AT BRAGG DIRECTION</small><strong id="signal-value">1.000</strong></div>
+        </div>
+        <p class="readout-note" data-ko="정규화 값은 모형의 이상적인 회절 조건에서 1입니다. 실제 실험의 검출 광자 수가 아닙니다.">The normalized value is 1 at the model's ideal Bragg condition. It is not a measured photon count.</p>
+      </section>
+    </div>
+    <section class="analysis" aria-label="Calculated detector and rocking curve">
+      <div class="analysis-head">
+        <h2 data-ko="결정 각도에 따른 회절">What changes when you turn it?</h2>
+        <p data-ko="오른쪽 그래프에서 봉우리가 있는 각도가 회절 조건입니다. 왼쪽 검출기에서는 그 조건에서 밝은 점이 나타납니다.">The detector image and rocking curve use the same finite-lattice model. The strongest spot appears when the rotated crystal meets the diffraction condition.</p>
+      </div>
+      <div class="analysis-grid">
+        <figure class="analysis-panel card">
+          <div class="card-head"><span data-ko="검출기 평면">DETECTOR PLANE</span><span>y / z</span></div>
+          <canvas id="detector-map" width="144" height="112" role="img" aria-label="Intensity on a simulated detector plane, recalculated as the crystal rotates."></canvas>
+          <figcaption data-ko="검출기 각 위치를 향해 산란되는 파동을 합산한 강도입니다. 보이도록 밝기를 비선형으로 표시했습니다.">Calculated intensity for each detector direction; contrast is enhanced to make weak spots visible.</figcaption>
+        </figure>
+        <figure class="analysis-panel card">
+          <div class="card-head"><span data-ko="회전 곡선">ROCKING CURVE</span><span>I / I<sub>max</sub></span></div>
+          <canvas id="rocking-plot" width="500" height="320" role="img" aria-label="Normalized diffraction intensity in a fixed Bragg direction as the crystal angle changes."></canvas>
+          <figcaption data-ko="이상적인 브래그 방향 하나를 고정하고 결정만 돌려 계산했습니다. 세로선은 현재 각도입니다.">Intensity along one fixed Bragg direction as the sample rotates. The vertical marker shows the current angle.</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section class="explain" aria-label="Underlying model and limitations">
+      <div class="explain-title"><span>02 / 02</span><h2 data-ko="무엇을 계산했을까?">What is actually calculated?</h2></div>
+      <div class="explain-body">
+        <p data-ko="동일한 점 산란체를 규칙적으로 배열한 유한한 단순입방 격자(9×7×7개)를 사용합니다. 검출기 각 방향으로 가는 산란파의 위상을 더한 뒤 절댓값을 제곱해 강도를 구합니다. 이 규칙적인 격자의 합은 세 축의 유한 격자 간섭항의 곱으로 계산할 수 있습니다.">The crystal contains 9 × 7 × 7 identical point scatterers on a simple-cubic lattice. For each detector direction, the program sums their scattered complex amplitudes and squares the magnitude. For this regular lattice, the sum becomes a product of three finite-lattice interference factors.</p>
+        <div class="equation" aria-label="Kinematic interference equation">I(<em>q</em>) ∝ |Σ<sub>j</sub> exp(i<em>q</em> · <em>r</em><sub>j</sub>)|² <span class="eq-break">· &nbsp; <em>q</em> = <em>k</em><sub>out</sub> − <em>k</em><sub>in</sub></span></div>
+        <p data-ko="첫 번째 회절 차수의 브래그 각도는 2d sin θ = λ로 정합니다. 동역학 회절, 다중 산란, 흡수, 시료 변형, 검출기 분해능, 광자 노이즈는 포함하지 않았습니다. 실제 XFEL·싱크로트론 측정 결과를 재현한 것은 아닙니다.">The first-order Bragg angle obeys 2<em>d</em> sin θ = λ. This is a <strong>kinematic, single-scattering demonstration</strong>. It does not model multiple scattering, dynamical diffraction, absorption, strain, detector resolution, or photon noise. No experimental dataset is reproduced here.</p>
+        <div class="links"><a href="https://github.com/NaNIsaac-Research/TraTT" data-ko="시간 의존 회절 연구 · TraTT">Time-dependent diffraction research · TraTT</a><a href="https://github.com/NaNIsaac/QoraPhase" data-ko="위상 복원 코드 · QoraPhase">Phase-retrieval code · QoraPhase</a><a href="../" data-ko="기존 2D 물리 실험실">Back to the 2D physics lab</a></div>
+      </div>
+    </section>
+  </main>
+  <footer><span data-ko="용이삭 · 물리와 소프트웨어">Isaac Yong · Physics &amp; software</span><span>© 2026</span></footer>
+  <script src="./ui.js" defer></script>
+  <script type="module" src="./scene.js"></script>
+</body>
+</html>
