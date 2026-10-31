@@ -7,13 +7,15 @@ const angleSlider = $('angle'), ratioSlider = $('ratio');
 const plot = $('mismatch-plot'), plotCtx = plot.getContext('2d');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 const SCALE = .75;
-const VIEW_BG = 0x101d27;
+const VIEW_BG = 0xf0e7d5; // Pale paper behind the pop-up physics diagrams.
 let ratio = Number(ratioSlider.value);
-let phi = -braggAngle(ratio);
+let phi = 0; // Open away from Bragg: the visitor discovers the condition.
 let scanning = false, scanStart = 0, visible = true;
 const views = [];
 let reciprocalGroup, targetBall, ewaldShell, ewaldWire, incident, outgoing, qLine;
 let recipRenderer, realCrystal, drawFrame = 0;
+let ewaldCircle = null;
+let storyStep = 0, storyTarget = null;
 
 function makeLine(scene, a, b, color, opacity = 1) {
   const geometry = new THREE.BufferGeometry().setFromPoints([a, b]);
@@ -50,8 +52,8 @@ function makeView(canvasId, cameraPos, target) {
   controls.enablePan=false;
   controls.minDistance=3;controls.maxDistance=20;
   controls.update();
-  scene.add(new THREE.HemisphereLight(0xc6d6e5,0x243340,2.3));
-  const sun=new THREE.DirectionalLight(0xf7dc9e,2);
+  scene.add(new THREE.HemisphereLight(0xfff7e8,0xb7aa91,2.5));
+  const sun=new THREE.DirectionalLight(0xffe6bf,2.1);
   sun.position.set(-3,5,4);scene.add(sun);
   function resize(){
     const r=wrap.getBoundingClientRect();
@@ -84,7 +86,7 @@ function addAtoms(scene) {
   const n=7,total=n*n*n;
   const inst=new THREE.InstancedMesh(
     new THREE.SphereGeometry(.058,8,6),
-    new THREE.MeshStandardMaterial({color:0xe0c17f,metalness:.28,roughness:.42}),
+    new THREE.MeshStandardMaterial({color:0xa0784c,metalness:.08,roughness:.65}),
     total
   );
   const mat=new THREE.Matrix4();let i=0;
@@ -95,12 +97,12 @@ function addAtoms(scene) {
   inst.instanceMatrix.needsUpdate=true;realCrystal.add(inst);
   realCrystal.add(new THREE.LineSegments(
     new THREE.EdgesGeometry(new THREE.BoxGeometry(2.06,2.06,2.06)),
-    new THREE.LineBasicMaterial({color:0xa3adbd,transparent:true,opacity:.28})
+    new THREE.LineBasicMaterial({color:0x8f7958,transparent:true,opacity:.32})
   ));
-  makeLine(scene,new THREE.Vector3(-3.3,0,0),new THREE.Vector3(-1.15,0,0),0x86cbd6);
-  const tip=new THREE.Mesh(new THREE.ConeGeometry(.11,.25,10),new THREE.MeshBasicMaterial({color:0xa1e2e8}));
+  makeLine(scene,new THREE.Vector3(-3.3,0,0),new THREE.Vector3(-1.15,0,0),0x327a91);
+  const tip=new THREE.Mesh(new THREE.ConeGeometry(.11,.25,10),new THREE.MeshBasicMaterial({color:0x327a91}));
   tip.rotation.z=-Math.PI/2;tip.position.set(-1.15,0,0);scene.add(tip);
-  const grid=new THREE.GridHelper(7,14,0x42505a,0x2f404d);
+  const grid=new THREE.GridHelper(7,14,0xc1b39a,0xd2c6b3);
   grid.position.y=-1.3;grid.material.transparent=true;grid.material.opacity=.34;scene.add(grid);
 }
 
@@ -108,35 +110,46 @@ function buildEwald(view) {
   const scene=view.scene;
   reciprocalGroup=new THREE.Group();scene.add(reciprocalGroup);
   const points=reciprocalGrid(0,2);
-  const neutralMat=new THREE.MeshBasicMaterial({color:0x7e9eaa,transparent:true,opacity:.63});
+  const neutralMat=new THREE.MeshBasicMaterial({color:0x718995,transparent:true,opacity:.64});
   const geom=new THREE.SphereGeometry(.041,7,6);
   const inst=new THREE.InstancedMesh(geom,neutralMat,points.length);
   const matrix=new THREE.Matrix4();
   points.forEach((p,i)=>{matrix.makeTranslation(p.h*SCALE,p.k*SCALE,p.l*SCALE);inst.setMatrixAt(i,matrix)});
   inst.instanceMatrix.needsUpdate=true;reciprocalGroup.add(inst);
   targetBall=new THREE.Mesh(new THREE.SphereGeometry(.092,14,10),
-    new THREE.MeshBasicMaterial({color:0xf3c464}));
+    new THREE.MeshBasicMaterial({color:0xe8a43b}));
   reciprocalGroup.add(targetBall);targetBall.position.set(0,0,SCALE);
-  const axisMat=new THREE.LineBasicMaterial({color:0x547283,transparent:true,opacity:.35});
+  const axisMat=new THREE.LineBasicMaterial({color:0x90a1a7,transparent:true,opacity:.50});
   const axisPoints=[[[ -2.4,0,0],[2.4,0,0]],[[0,-2.4,0],[0,2.4,0]],[[0,0,-2.4],[0,0,2.4]]];
   for(const [a,b] of axisPoints)scene.add(new THREE.Line(
     new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...a),new THREE.Vector3(...b)]),axisMat));
   const origin=new THREE.Mesh(new THREE.SphereGeometry(.066,12,10),
-    new THREE.MeshBasicMaterial({color:0xffffff}));scene.add(origin);
+    new THREE.MeshBasicMaterial({color:0x283c47}));scene.add(origin);
 
   const sphereMaterial=new THREE.MeshBasicMaterial({
-    color:0x6cb8ca,transparent:true,opacity:.10,side:THREE.DoubleSide,depthWrite:false
+    color:0x69abc0,transparent:true,opacity:.16,side:THREE.DoubleSide,depthWrite:false
   });
   const wireMaterial=new THREE.MeshBasicMaterial({
-    color:0x8bc6d4,transparent:true,opacity:.17,wireframe:true,depthWrite:false
+    color:0x4f96a9,transparent:true,opacity:.34,wireframe:true,depthWrite:false
   });
   ewaldShell=new THREE.Mesh(new THREE.SphereGeometry(1,36,22),sphereMaterial);
   ewaldWire=new THREE.Mesh(new THREE.SphereGeometry(1,16,10),wireMaterial);
   scene.add(ewaldShell,ewaldWire);
-  incident=makeLine(scene,new THREE.Vector3(-2,0,0),new THREE.Vector3(),0x9cdeeb,.94);
-  outgoing=makeLine(scene,new THREE.Vector3(-2,0,0),new THREE.Vector3(0,0,.75),0xe8c76b,.9);
-  qLine=makeLine(scene,new THREE.Vector3(),new THREE.Vector3(0,0,.75),0xffe5a0,.9);
-  const grid=new THREE.GridHelper(8,16,0x314c5c,0x233845);
+  // The scattering-plane cross-section makes the sphere's geometry readable.
+  const circlePoints=[];
+  for(let i=0;i<=144;i++){
+    const a=2*Math.PI*i/144;
+    circlePoints.push(new THREE.Vector3(Math.cos(a),0,Math.sin(a)));
+  }
+  ewaldCircle=new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(circlePoints),
+    new THREE.LineBasicMaterial({color:0x3b8194,transparent:true,opacity:.85})
+  );
+  scene.add(ewaldCircle);
+  incident=makeLine(scene,new THREE.Vector3(-2,0,0),new THREE.Vector3(),0x31859b,.94);
+  outgoing=makeLine(scene,new THREE.Vector3(-2,0,0),new THREE.Vector3(0,0,.75),0xc38a32,.9);
+  qLine=makeLine(scene,new THREE.Vector3(),new THREE.Vector3(0,0,.75),0xc5a16d,.9);
+  const grid=new THREE.GridHelper(8,16,0xc9bfae,0xd7cdbc);
   grid.position.y=-2.55;grid.material.transparent=true;grid.material.opacity=.26;
   scene.add(grid);
 }
@@ -147,7 +160,7 @@ function updateGeometry() {
   reciprocalGroup.rotation.y=phi;
   const k=1/ratio;
   const center=new THREE.Vector3(-k*SCALE,0,0);
-  for(const obj of [ewaldShell,ewaldWire]){
+  for(const obj of [ewaldShell,ewaldWire,ewaldCircle].filter(Boolean)){
     obj.position.copy(center);obj.scale.setScalar(k*SCALE);
   }
   const p=reciprocalPoint(0,0,1,phi);
@@ -157,7 +170,7 @@ function updateGeometry() {
   setLine(qLine,new THREE.Vector3(),g);
   const gap=Math.abs(targetMismatch(phi,ratio));
   const hit=gap<.022;
-  targetBall.material.color.setHex(hit?0xffefad:0xf1b55b);
+  targetBall.material.color.setHex(hit?0xffd269:0xe0a041);
   targetBall.scale.setScalar(hit?1.5:1);
   outgoing.material.opacity=hit?.95:.30;
   qLine.material.opacity=hit?.95:.55;
@@ -214,19 +227,22 @@ function updateState() {
 }
 
 angleSlider.addEventListener('input',()=>{
+  storyTarget=null;
   scanning=false;$('scan').setAttribute('aria-pressed','false');
   phi=toRadians(Number(angleSlider.value));updateState();
 });
-ratioSlider.addEventListener('input',()=>{ratio=Number(ratioSlider.value);updateState()});
+ratioSlider.addEventListener('input',()=>{storyTarget=null;ratio=Number(ratioSlider.value);updateState()});
 $('bragg').addEventListener('click',()=>{
+  storyTarget=null;
   scanning=false;$('scan').setAttribute('aria-pressed','false');
   phi=-braggAngle(ratio);updateState();
 });
 $('scan').addEventListener('click',()=>{
+  storyTarget=null;
   scanning=!scanning;scanStart=performance.now();
   $('scan').setAttribute('aria-pressed',String(scanning));
 });
-window.addEventListener('langchange',updateState);
+window.addEventListener('langchange',()=>{updateState();updateLesson()});
 reduce.addEventListener('change',()=>{
   for(const view of views)view.controls.enableDamping=!reduce.matches;
   if(reduce.matches){scanning=false;$('scan').setAttribute('aria-pressed','false')}
@@ -235,16 +251,71 @@ if('IntersectionObserver' in window)
   new IntersectionObserver(entries=>{visible=entries.some(e=>e.isIntersecting)}, {threshold:.03})
     .observe($('real-canvas'));
 
+
+/* A three-beat lesson: first the physical object, then reciprocal geometry,
+   finally the satisfying hit. No prior knowledge of reciprocal space needed. */
+const chapters=[
+  {
+    title:['Why isn’t every angle bright?','결정을 비추면 항상 밝을까?'],
+    body:['X-rays hit an ordered crystal. But the scattered waves do not always reinforce each other. The first view shows the crystal; the highlighted point in the second view represents one possible diffraction direction.','결정의 원자는 질서 있게 배열돼 있습니다. 하지만 산란된 파동이 언제나 같은 방향으로 보강되는 것은 아니죠. 먼저 왼쪽의 결정을 봅시다. 오른쪽 노란 점은 특정 회절 방향을 나타냅니다.'],
+    progress:['01 / 03 · LOOK AT THE CRYSTAL','01 / 03 · 결정을 관찰하기'],
+    action:['Turn the crystal →','결정을 돌려보기 →']
+  },
+  {
+    title:['The crystal has a second map.','결정에는 또 다른 지도가 있습니다.'],
+    body:['The right-hand dots are NOT atoms. Each is a possible momentum transfer, called a reciprocal-lattice point. The translucent sphere shows the transfers compatible with an X-ray keeping the same wavelength. Our golden dot has not reached it yet.','오른쪽의 점은 원자가 아닙니다. 각각은 결정의 주기성과 맞는 운동량 전달, 즉 역격자점입니다. 반투명한 구는 X선 파장이 바뀌지 않고 산란할 수 있는 조건을 나타냅니다. 아직 노란 점은 구에 닿지 않았습니다.'],
+    progress:['02 / 03 · READ THE SECOND MAP','02 / 03 · 역공간 알아보기'],
+    action:['Find the coincidence →','만나는 순간 찾기 →']
+  },
+  {
+    title:['There — the Bragg reflection.','바로 그 순간, 브래그 회절.'],
+    body:['The gold point now touches the sphere. The geometric condition for elastic diffraction is satisfied. Turn the angle slider away from this position, and the mismatch reappears. You have just found a Bragg angle without starting from the formula.','노란 점이 구 표면과 만났습니다. 이때 탄성 회절의 기하학적 조건이 성립합니다. 이제 아래 결정 회전각을 조금 바꾸면 다시 조건에서 벗어납니다. 수식을 외우기 전에 브래그 각도를 직접 찾은 셈입니다.'],
+    progress:['03 / 03 · DISCOVER BRAGG','03 / 03 · 브래그 조건 발견'],
+    action:['Try again ↺','다시 실험하기 ↺']
+  }
+];
+function updateLesson(){
+  const chapter=chapters[storyStep], lang=document.documentElement.lang==='ko'?1:0;
+  $('lesson-number').textContent=String(storyStep+1).padStart(2,'0');
+  $('lesson-progress').textContent=chapter.progress[lang];
+  $('lesson-title').textContent=chapter.title[lang];
+  $('lesson-text').textContent=chapter.body[lang];
+  $('lesson-next').textContent=chapter.action[lang];
+  $('lesson-restart').textContent=lang?'처음부터':'Start over';
+  document.body.dataset.lessonStep=String(storyStep);
+  const marks=[...document.querySelectorAll('.lesson-track span')];
+  marks.forEach((mark,i)=>{
+    mark.classList.toggle('current',i===storyStep);
+    mark.classList.toggle('complete',i<storyStep);
+  });
+}
+function setChapter(step){
+  storyStep=step;scanning=false;
+  $('scan').setAttribute('aria-pressed','false');
+  if(step===0)storyTarget=0;
+  if(step===1)storyTarget=-.10;
+  if(step===2)storyTarget=-braggAngle(ratio);
+  updateLesson();
+}
+$('lesson-next').addEventListener('click',()=>setChapter((storyStep+1)%3));
+$('lesson-restart').addEventListener('click',()=>setChapter(0));
+
 const left=makeView('real-canvas',[4.2,3.25,6.15],[0,0,0]);
 const right=makeView('recip-canvas',[4.0,3.15,9.5],[-.65,0,0]);
 if(left)addAtoms(left.scene);
 if(right)buildEwald(right);
 updateState();
+updateLesson();
 
 function animate(time) {
   drawFrame=requestAnimationFrame(animate);
   if(document.hidden||!visible)return;
-  if(scanning){
+  if(storyTarget!==null){
+    const distance=storyTarget-phi;
+    phi+=distance*.075;
+    if(Math.abs(distance)<.0003){phi=storyTarget;storyTarget=null}
+    updateState();
+  } else if(scanning){
     phi=-braggAngle(ratio)+.24*Math.sin((time-scanStart)*.00095);
     updateState();
   }
