@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="../diffraction-3d/style.css?v=1">
-<link rel="stylesheet" href="./ewald.css?v=1">
+<link rel="stylesheet" href="./ewald.css?v=storybook2">
 <title>Ewald construction · reciprocal space — Isaac Yong</title>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
@@ -17,22 +17,37 @@
 <script>try{if((localStorage.getItem('isaac-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark')document.body.classList.add('dark')}catch{}</script>
 <header class="site-header"><a class="brand" href="../../" data-ko="용이삭">Isaac Yong</a><nav aria-label="Main"><a href="../diffraction-3d/" data-ko="결정 회절 실험">Crystal lab</a><a href="../" data-ko="2D 실험실">2D lab</a><button id="lang" class="toggle" aria-label="한국어로 보기">한</button><button id="theme" class="toggle" aria-label="Change color theme">Dark</button></nav></header>
 <main>
-<div class="eyebrow" data-ko="인터랙티브 실험 · 02 / 역공간">INTERACTIVE LAB · 02 / RECIPROCAL SPACE</div>
+<div class="eyebrow" data-ko="빛과 결정 · 입체 물리책 / 두 번째 장">THE PHYSICS ATLAS · CHAPTER 02</div>
 <div class="heading">
-<h1 data-ko="회절 피크는<br>어디서 생길까?">Where does the<br>peak come from?</h1>
+<h1 data-ko="보이지 않는<br>각도를 찾아라.">Find the<br><em>invisible angle.</em></h1>
 <div class="opening">
-<p data-ko="결정을 돌리면 원자 배열은 실공간에서 회전하지만, 회절 조건은 역공간에서 더 쉽게 볼 수 있습니다. 역격자점이 Ewald 구 표면에 닿으면 입사파와 산란파의 운동량 차이가 그 역격자 벡터와 일치합니다.">As the crystal turns in real space, its reciprocal lattice turns with it. Diffraction occurs when a reciprocal-lattice point reaches the Ewald sphere: an outgoing wave can then satisfy both momentum transfer and elastic scattering.</p>
-<p class="muted" data-ko="아래 두 장면은 같은 회전각을 공유합니다. 슬라이더를 움직여 (001)점이 구 표면에 닿는 순간을 찾아보세요.">Both views share one rotation angle. Move the slider until the highlighted (001) point touches the sphere.</p>
+<p data-ko="결정에 X선을 비추면 언제나 밝은 회절점이 생길까요? 그렇지 않습니다. 대부분의 각도에서는 파동들이 서로 상쇄됩니다. 딱 맞는 각도를 찾아봅시다.">Point an X-ray beam at a crystal. Will a bright diffraction spot appear at every angle? No. Most orientations cancel the scattered waves. Let's find the one that makes them agree.</p>
+<p class="muted" data-ko="수식은 나중에. 먼저 원자와 빛이 움직이는 모습을 관찰해 보세요.">The equation can wait. First, watch the crystal and the light.</p>
 </div></div>
-<section class="ewald-views" aria-label="Linked real-space and reciprocal-space views">
-<figure class="card ewald-view"><div class="card-head"><span data-ko="실공간 · 원자 배열">REAL SPACE · ATOMS</span><span>01</span></div>
+<section class="lesson" aria-labelledby="lesson-title">
+  <div class="lesson-heading"><span class="lesson-kicker" id="lesson-progress" aria-live="polite">01 / 03 · OBSERVE</span><span class="lesson-chapter" data-ko="실험 노트 · 회절의 조건">FIELD NOTES / WHEN DIFFRACTION HAPPENS</span></div>
+  <div class="lesson-copy">
+    <div class="lesson-number" id="lesson-number" aria-hidden="true">01</div>
+    <div class="lesson-description">
+      <h2 id="lesson-title" aria-live="polite">Why isn't every angle bright?</h2>
+      <p id="lesson-text" aria-live="polite">Start with a crystal and an X-ray beam. The atoms are ordered, but their scattered waves don't always point the same way. Watch what happens when we turn the crystal.</p>
+    </div>
+    <div class="lesson-actions">
+      <button id="lesson-next" type="button">Show me →</button>
+      <button id="lesson-restart" type="button">Start over</button>
+    </div>
+  </div>
+  <div class="lesson-track" aria-label="Lesson progress"><span class="current"></span><span></span><span></span></div>
+</section>
+<section class="ewald-views" aria-label="Linked real-space and reciprocal-space views" id="lesson-scenes">
+<figure class="card ewald-view" id="real-view"><div class="card-head"><span data-ko="실공간 · 원자 배열">REAL SPACE · ATOMS</span><span>01</span></div>
 <div class="ewald-canvas-wrap"><canvas id="real-canvas" tabindex="0" aria-label="A cubic atomic lattice that rotates with the control. Drag to orbit the view."></canvas><span class="ewald-view-label" data-ko="실제 결정의 방향">CRYSTAL ORIENTATION</span></div>
 <figcaption data-ko="동일한 원자 간격을 가진 단순입방 격자입니다. 화면을 드래그하면 관찰 시점만 바뀝니다.">A simple-cubic array with equal atomic spacing. Dragging changes only the camera view.</figcaption></figure>
-<figure class="card ewald-view"><div class="card-head"><span data-ko="역공간 · Ewald 구">RECIPROCAL SPACE · EWALD SPHERE</span><span>02</span></div>
+<figure class="card ewald-view" id="recip-view"><div class="card-head"><span data-ko="역공간 · Ewald 구">RECIPROCAL SPACE · EWALD SPHERE</span><span>02</span></div>
 <div class="ewald-canvas-wrap"><canvas id="recip-canvas" tabindex="0" aria-label="Reciprocal lattice points, the Ewald sphere, incident wavevector, and highlighted 001 point. Drag to orbit."></canvas><span class="ewald-view-label" data-ko="노란 점: (001) · 파란 선: 입사파">GOLD: (001) · CYAN: INCIDENT k</span></div>
 <figcaption data-ko="구의 반지름은 |k|=1/(λ/d), 중심은 −k입니다. 노란 점 (001)이 구에 닿으면 브래그 조건입니다.">Sphere radius |k| = 1/(λ/d), centered at −k. The gold (001) reciprocal point reaches it at Bragg.</figcaption></figure>
 </section>
-<div class="ewald-panels">
+<div class="ewald-panels" id="lesson-controls">
 <section class="controls card" aria-label="Experiment controls">
 <div class="card-head"><span data-ko="두 장면을 함께 조절">LINKED CONTROLS</span><span>01 / 02</span></div>
 <div class="control-body">
@@ -58,5 +73,5 @@
 </div></section>
 </main><footer><span data-ko="용이삭 · 물리와 소프트웨어">Isaac Yong · Physics &amp; software</span><span>© 2026</span></footer>
 <script src="../diffraction-3d/ui.js" defer></script>
-<script type="module" src="./scene.js"></script>
+<script type="module" src="./scene.js?v=storybook2"></script>
 </body></html>
