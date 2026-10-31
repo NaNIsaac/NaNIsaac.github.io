@@ -2,3 +2,59 @@
 @media(max-width:950px){.ewald-panels{grid-template-columns:1fr 1fr}.ewald-view figcaption{min-height:115px}}
 @media(max-width:700px){.ewald-views,.ewald-panels{grid-template-columns:1fr}.ewald-canvas-wrap{height:min(87vw,420px)}.ewald-view figcaption{min-height:auto}.ewald-panels .control-body{padding:25px 20px}.ewald-plot canvas{width:calc(100% - 32px)}.ewald-plot-note{padding-bottom:22px}}
 @media(prefers-reduced-motion:reduce){.ewald-canvas-wrap *, .ewald-views *{animation:none!important}}
+
+/* Chapter-book composition: a paper field guide with a physics model inside.
+   Warm paper/ink and a single warm highlight — not a dashboard of dark cards. */
+body{background:#e9e4d7;color:#27323a}
+body.dark{background:#211f1b;color:#eee9df}
+main{max-width:1480px}
+main>.eyebrow{font-family:Georgia,serif;font-style:italic;font-size:14px;letter-spacing:.06em;color:#92774c}
+.heading{align-items:center;margin-bottom:45px}
+.heading h1{font-family:Georgia,"Times New Roman",serif;font-weight:400;line-height:1.02;letter-spacing:-.07em;font-size:clamp(54px,7vw,110px)}
+.heading h1 em{font-weight:400;color:#a77f42}
+.heading .opening{font-family:Georgia,serif;font-size:clamp(17px,1.45vw,22px);line-height:1.55}
+.heading .opening .muted{font-family:Archivo,sans-serif;font-size:13px;line-height:1.6}
+.ewald-views{gap:18px;transition:opacity .5s}
+.ewald-view{background:#f8f3e7;border:1px solid #b8af99;box-shadow:0 11px 32px rgba(60,47,22,.08)}
+.ewald-view .card-head{background:#f8f3e7;color:#5f625b;border-bottom:1px solid #d8d1c2}
+.ewald-view figcaption{font-family:Georgia,serif;line-height:1.55;color:#55574c;background:#f8f3e7}
+.ewald-canvas-wrap{background:radial-gradient(ellipse at 45% 55%,#365464,#152b36 72%)}
+.ewald-view-label{font-family:Archivo,sans-serif;color:#d9d0b7;background:rgba(16,35,43,.5);padding:8px 11px;letter-spacing:.10em;border-radius:2px}
+.ewald-plot,.ewald-panels .controls{background:#f8f3e7;border-color:#b8af99;box-shadow:0 9px 22px rgba(60,47,22,.05)}
+.ewald-panels .card-head{border-bottom-color:#d8d1c2}
+body.dark .ewald-view,body.dark .ewald-plot,body.dark .ewald-panels .controls,body.dark .ewald-view figcaption,body.dark .ewald-view .card-head{background:#2c2b27;border-color:#565044;color:#e1ddd2}
+.lesson{background:#f8f3e7;color:#29313a;border:1px solid #a99c82;margin:0 0 24px;position:relative;box-shadow:0 16px 32px rgba(56,43,19,.10);overflow:hidden}
+.lesson::before{content:"";width:8px;position:absolute;inset:0 auto 0 0;background:repeating-linear-gradient(180deg,#b99659 0 4px,#d3bf95 4px 8px)}
+.lesson-heading{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:0 30px;padding:18px 0 14px;border-bottom:1px solid #d5cbb7;font:600 11px/1.5 Archivo,sans-serif;letter-spacing:.12em}
+.lesson-kicker{color:#987038}
+.lesson-chapter{color:#7b7a71}
+.lesson-copy{display:grid;grid-template-columns:95px minmax(0,1fr) auto;align-items:center;gap:26px;min-height:214px;padding:23px 30px 30px}
+.lesson-number{font:italic 80px/.9 Georgia,serif;color:#d7c9b1}
+.lesson-description{max-width:670px}
+.lesson-description h2{font:400 clamp(28px,3.3vw,49px)/1.09 Georgia,serif;letter-spacing:-.035em;margin:0 0 13px}
+.lesson-description p{font:400 clamp(15px,1.4vw,19px)/1.52 Georgia,serif;color:#555952;margin:0}
+.lesson-actions{display:flex;flex-direction:column;gap:8px;min-width:166px}
+.lesson-actions button{border:1px solid #a78d61;min-height:48px;padding:8px 16px;font:600 13px Archivo,sans-serif;transition:background .18s,color .18s}
+#lesson-next{background:#314c55;color:#fef9ee;border-color:#314c55}
+#lesson-next:hover{background:#466772}
+#lesson-restart{background:transparent;color:#5d564a}
+#lesson-restart:hover{background:#e8dfcf}
+.lesson-track{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:0 30px 20px}
+.lesson-track span{height:4px;background:#e2d9c9;transition:background .3s}
+.lesson-track span.current,.lesson-track span.complete{background:#b79251}
+.lesson[data-step="0"] #recip-view{opacity:.5}
+.lesson[data-step="1"] #real-view{opacity:.7}
+body.dark .lesson{background:#302d27;color:#f1ece0;border-color:#655a47}
+body.dark .lesson-heading{border-bottom-color:#575043}
+body.dark .lesson-description p,body.dark #lesson-restart{color:#c9c0af}
+body.dark .lesson-track span{background:#514a3f}
+body.dark .lesson-track span.current,body.dark .lesson-track span.complete{background:#cbab6d}
+#real-view,#recip-view{transition:opacity .35s,border-color .35s,box-shadow .35s}
+body[data-lesson-step="0"] #recip-view{opacity:.46;filter:saturate(.65)}
+body[data-lesson-step="1"] #real-view{opacity:.76}
+body[data-lesson-step="2"] #recip-view{border-color:#bd8e39;box-shadow:0 0 0 2px rgba(189,142,57,.45),0 13px 35px rgba(60,47,22,.11)}
+body[data-lesson-step="2"] #real-view{opacity:.82}
+.lesson{scroll-margin-top:20px}
+@media(max-width:1030px){.lesson-copy{grid-template-columns:70px 1fr;gap:18px;min-height:0}.lesson-number{font-size:60px}.lesson-actions{grid-column:2;flex-direction:row;margin-top:6px}.lesson-actions button{min-width:140px}}
+@media(max-width:700px){main{padding-top:34px}.heading{margin-bottom:30px}.heading h1{font-size:clamp(48px,11vw,69px)}.heading .opening{font-size:17px}.lesson{margin-bottom:16px}.lesson-heading{margin:0 19px;font-size:10px}.lesson-chapter{display:none}.lesson-copy{display:block;padding:20px 20px 24px}.lesson-number{float:right;font-size:49px;margin:0 2px 0 12px}.lesson-description h2{font-size:31px;margin-bottom:13px}.lesson-description p{font-size:16px}.lesson-actions{display:flex;flex-direction:row;margin-top:23px;gap:9px}.lesson-actions button{flex:1;min-width:0;font-size:12px;padding:8px}.lesson-track{padding:0 20px 17px}.ewald-view figcaption{font-size:13px}}
+@media(prefers-reduced-motion:reduce){#real-view,#recip-view,.lesson-track span{transition:none!important}}
