@@ -90,6 +90,7 @@ node tests/fourier.test.cjs   # FFT round trip, Parseval, sign, symmetry, fringe
 node tests/seo.test.cjs       # JSON-LD parses, one Person @id everywhere, canonical URL per page
 node tests/xrr.test.cjs       # xrr.js vs ReflectoLearn's golden curves (1e-10 in log10 R), Fresnel limits
 node tests/xrr-input.test.cjs # CNN input vs ReflectoLearn's golden model input (exact)
+node tests/i18n.test.cjs      # each data-ko string links where its English does; every video cue has both languages
 ```
 
 ## Physics honesty
