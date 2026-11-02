@@ -35,4 +35,13 @@ for (const file of pages) {
     for (const cue of JSON.parse(m[1])) assert.ok(cue.en && cue.ko && Number.isFinite(cue.t), `${file}: cue at ${cue.t}`);
   }
 }
+// On the home page, a screen reader in Korean mode hears Korean: every picture and movie carries its Korean text.
+const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+for (const [tag, attr, ko] of [['img', 'alt', 'data-ko-alt'], ['video', 'aria-label', 'data-ko-label'], ['canvas', 'aria-label', 'data-ko-label']]) {
+  for (const m of home.matchAll(new RegExp(`<${tag}\\b[^>]*>`, 'g'))) {
+    if (!m[0].includes(` ${attr}="`)) continue;
+    assert.match(m[0], new RegExp(`\\s${ko}="[^"]+"`), `index.html: <${tag}> ${attr} without ${ko}`);
+    checked++;
+  }
+}
 console.log(`i18n: ${checked} strings ok`);

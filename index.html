@@ -30,7 +30,7 @@
       <div class="film">
         <header class="site-header">
           <a class="brand" href="#top" data-ko="용이삭">Isaac Yong</a>
-          <nav aria-label="Main">
+          <nav aria-label="Main" data-ko-label="주 메뉴">
             <a href="#research" data-ko="연구">Work</a>
             <a class="wide" href="notes/" data-ko="노트">Notes</a>
             <a class="wide" href="lab/" data-ko="체험">Lab</a>
@@ -40,7 +40,7 @@
             <button class="toggle" id="theme" aria-label="Toggle theme">Dark</button>
           </nav>
         </header>
-        <canvas id="wave" role="img" aria-label="Live 2D wave simulation: ripples pass a double slit and the film on the right records the fringes. Move or click to make ripples."></canvas>
+        <canvas id="wave" role="img" aria-label="Live 2D wave simulation: ripples pass a double slit and the film on the right records the fringes. Move or click to make ripples." data-ko-label="실시간 2차원 파동 시뮬레이션입니다. 파동이 이중 슬릿을 지나면 오른쪽 필름에 간섭 무늬가 기록됩니다. 마우스를 움직이거나 클릭하면 파동이 생깁니다."></canvas>
         <div class="film-bar">
           <a class="film-button" href="lab/" data-ko="체험 페이지 →">Open the lab →</a>
           <p class="hint" id="hint"><span class="on-hover" data-ko="마우스를 움직이거나 클릭하면 파동이 생깁니다.">Move or click to make ripples.</span><span class="on-touch" data-ko="화면을 누르면 파동이 생깁니다.">Tap to make ripples.</span></p>
@@ -59,7 +59,7 @@
       </div>
     </section>
 
-    <section class="section wrap" id="research" aria-label="Research">
+    <section class="section wrap" id="research" aria-label="Research" data-ko-label="연구 분야">
       <div class="intro reveal">
         <p class="intro-lead" data-ko="서강대학교 물리학과 석사과정생으로, CUPT 연구실에서 연구하고 있습니다. 산란·회절의 물리, 측정 데이터에서 구조를 되짚는 역문제, 그리고 이 둘을 실제 데이터에 적용하는 과학 소프트웨어를 함께 다룹니다.">MS student in Physics at Sogang University, CUPT Lab. I work on three things that depend on each other: the physics of scattering and diffraction, the inverse problems of getting structure back from a measurement, and the software that does both on real data.</p>
         <div class="intro-cols">
@@ -69,7 +69,7 @@
           <p data-ko="<b>연구하는 방식</b> 물리적인 질문을 정하고, 이를 수학적 모델로 세운 뒤 수치 계산으로 풉니다. 계산 결과를 측정값이나 시뮬레이션 데이터와 비교하고, 그 비교가 무엇을 보여 주며 무엇은 보여 주지 못하는지 따집니다. 모든 연구가 이 순서를 그대로 밟지는 않지만, 대체로 이 흐름 안에서 일합니다."><b>How the work usually goes.</b> Pose the physical question, write it as a model, compute it, compare with measured or simulated data, then decide what the comparison shows and what it does not. Not every project runs through every step, but most of mine follow this shape.</p>
         </div>
         <figure class="intro-figure shutter">
-          <img src="assets/img/workshop-xrr-talk.jpg" width="990" height="990" alt="Isaac presenting a talk titled AI based XRR Fitting with neural network at the Spring 2025 CUPT Workshop, standing beside the projected title slide in a lecture room. Audience faces are blurred.">
+          <img src="assets/img/workshop-xrr-talk.jpg" width="990" height="990" alt="Isaac presenting a talk titled AI based XRR Fitting with neural network at the Spring 2025 CUPT Workshop, standing beside the projected title slide in a lecture room. Audience faces are blurred." data-ko-alt="2025년 봄 CUPT 워크숍 강의실에서 AI based XRR Fitting with neural network라는 제목의 발표 화면 옆에 서서 발표하는 용이삭. 청중의 얼굴은 흐리게 처리했습니다.">
           <figcaption data-ko="2025년 봄 CUPT 워크숍에서 신경망을 이용한 XRR 피팅을 발표하는 모습">Talking about neural-network XRR fitting at the Spring 2025 CUPT Workshop.</figcaption>
         </figure>
       </div>
@@ -88,7 +88,7 @@
         <p class="fineprint" data-ko="아래 세 사례의 영상은 모두 시뮬레이션 데이터로 만들었으며, 각 캡션에 그렇게 밝혀 두었습니다.">The three cases below are shown on simulated data, and each caption says so.</p>
       </div>
       <figure class="work-figure">
-        <img src="assets/img/beamline-9c-control.jpg" width="1400" height="1050" loading="lazy" decoding="async" alt="Four people seen from behind at the control desk of the 9C Coherent X-ray beamline, facing monitors under an electronics rack; a sign on the green hutch wall reads BEAM ON.">
+        <img src="assets/img/beamline-9c-control.jpg" width="1400" height="1050" loading="lazy" decoding="async" alt="Four people seen from behind at the control desk of the 9C Coherent X-ray beamline, facing monitors under an electronics rack; a sign on the green hutch wall reads BEAM ON." data-ko-alt="9C Coherent X선 빔라인 제어 책상 앞에 앉은 네 사람의 뒷모습. 전자 장비 랙 아래 모니터를 보고 있고, 초록색 hutch 벽에 BEAM ON 표시가 있습니다.">
         <figcaption data-ko="포항가속기연구소 9C Coherent 빔라인 제어실에서 빔타임을 진행하는 모습">Beamtime at the 9C Coherent beamline, Pohang Light Source.</figcaption>
       </figure>
     </section>
@@ -102,7 +102,7 @@
         <p class="fineprint" data-ko="현재 상태: 오픈소스 솔버(PyPI tratt 0.1, 알파). 2026년 한국물리학회 가을 학술대회 포스터 P2.17로 발표했습니다. 계산 결과이며 아직 실험과 비교하지 않았고, 논문은 준비 중인 초안 단계입니다.">Status: open-source solver (PyPI tratt 0.1, alpha); poster P2.17 at the KPS 2026 Fall Meeting. Calculation results, not yet compared with an experiment; the paper is an unsubmitted draft.</p>
       </div>
       <figure class="bench-figure">
-        <video class="fit-video" src="assets/tratt-satellites.mp4" poster="assets/tratt-satellites.png" muted loop playsinline preload="none" width="960" height="540" aria-label="Before the sound, a crystal and one Bragg peak. A laser pulse sends a sound wave into the crystal; behind its front the lattice is bent periodically, and the X-ray rocking curve grows satellites 1 to 3, each reaching its first maximum at its own time. The movie ends on the centre intensity of each satellite against time, the full calculation beside the formation law."></video>
+        <video class="fit-video" src="assets/tratt-satellites.mp4" poster="assets/tratt-satellites.png" muted loop playsinline preload="none" width="960" height="540" aria-label="Before the sound, a crystal and one Bragg peak. A laser pulse sends a sound wave into the crystal; behind its front the lattice is bent periodically, and the X-ray rocking curve grows satellites 1 to 3, each reaching its first maximum at its own time. The movie ends on the centre intensity of each satellite against time, the full calculation beside the formation law." data-ko-label="음파가 들어오기 전의 결정과 Bragg 피크 하나. 레이저 펄스가 결정 안으로 음파를 보내면 파면 뒤의 격자가 주기적으로 휘고, X선 rocking curve에 1차부터 3차까지의 위성 피크가 각자 다른 시각에 처음 최대가 됩니다. 영상은 위성 피크마다 중심 세기를 시간에 따라 그린 그래프로 끝나며, 전체 계산과 형성 법칙을 나란히 보여 줍니다."></video>
         <p class="video-cue" data-cues='[{"t":0,"en":"Before the sound, X-rays pass through the crystal and the rocking curve has one peak.","ko":"음파가 들어오기 전에는 rocking curve에 Bragg 피크 하나만 보입니다."},{"t":2,"en":"A laser pulse sends sound into the crystal; behind the front the lattice bends periodically.","ko":"레이저 펄스가 결정 안으로 음파를 보냅니다. 파면이 지나간 곳에서는 격자가 주기적으로 휘어집니다."},{"t":5,"en":"Satellites grow beside the peak, each on its own clock: n = 2 first, then 1, then 3.","ko":"위성 피크마다 최대 강도에 이르는 시각이 다릅니다. 이 조건에서는 2차 위성 피크가 가장 먼저 최대가 되고, 1차와 3차가 뒤따릅니다."},{"t":13,"en":"When a satellite peaks is set by the sound amplitude, the Pendellösung length and the speed of sound, not by the crystal thickness.","ko":"위성 피크가 최대가 되는 시각은 음파의 진폭, Pendellösung 길이, 음속으로 정해지며 결정 두께와는 관계가 없습니다."}]'></p>
         <figcaption class="fit-caption" data-ko="측정값이 아니라 시뮬레이션입니다. 모든 프레임을 Laue 배치의 Takagi–Taupin 방정식으로 계산했습니다(S = 3, α = 3, 결정 두께는 음향 파장의 60배, TraTT 연구 노트 Entry 24). 2차, 1차, 3차 위성 피크는 음파가 결정을 통과하는 시간의 0.34, 0.49, 0.54 지점에서 처음 최대가 되며, sin²(πα|J<sub>n</sub>(S)|t)로 예측한 시각과 같습니다.">Simulated, not measured: full Takagi–Taupin in Laue geometry at every frame (S = 3, α = 3, 60 acoustic wavelengths across the crystal; TraTT notebook Entry 24). Satellites 2, 1 and 3 first peak at 0.34, 0.49 and 0.54 of the transit time, where sin²(πα|J<sub>n</sub>(S)|t) puts them.</figcaption>
       </figure>
@@ -110,7 +110,7 @@
 
     <section class="section wrap measure" id="phase" aria-labelledby="phase-title">
       <figure class="measure-figure">
-        <video class="fit-video" src="assets/qoraphase-bcdi-3d.mp4" poster="assets/qoraphase-bcdi-3d.png" muted loop playsinline preload="none" width="960" height="540" aria-label="A simulated BCDI measurement and its reconstruction. X-rays hit a faceted crystal and the detector records one frame per rocking angle; the 61 frames stack into a 3D intensity which, moved to the lab frame, shows a streak along each facet normal. QoraPhase then recovers the particle from a random start, drawn as a surface coloured by phase, and the movie ends with it beside the true particle."></video>
+        <video class="fit-video" src="assets/qoraphase-bcdi-3d.mp4" poster="assets/qoraphase-bcdi-3d.png" muted loop playsinline preload="none" width="960" height="540" aria-label="A simulated BCDI measurement and its reconstruction. X-rays hit a faceted crystal and the detector records one frame per rocking angle; the 61 frames stack into a 3D intensity which, moved to the lab frame, shows a streak along each facet normal. QoraPhase then recovers the particle from a random start, drawn as a surface coloured by phase, and the movie ends with it beside the true particle." data-ko-label="시뮬레이션한 BCDI 측정과 재구성. 결정면이 있는 결정에 X선을 비추고 rocking 각도마다 검출기 영상을 한 장씩 기록합니다. 61장을 쌓은 3차원 강도를 실험실 좌표로 옮기면 결정면마다 수직 방향으로 줄무늬가 보입니다. 이어서 QoraPhase가 무작위 초기값에서 입자를 복원하며, 표면은 위상에 따라 색을 입혔습니다. 마지막에 실제 입자와 나란히 보여 줍니다."></video>
         <p class="video-cue" data-cues='[{"t":0,"en":"X-rays hit one crystal. As it is rocked, the detector records one frame per angle.","ko":"결정 하나에 X선을 비추고, 결정을 조금씩 돌려 가며 각도마다 회절 무늬를 한 장씩 기록합니다."},{"t":2.75,"en":"Stacked, the 61 frames form a 3D intensity. Its phase is not recorded.","ko":"61장을 쌓으면 3차원 강도 분포가 되지만, 위상은 기록되지 않습니다."},{"t":6.5,"en":"In reciprocal space each flat facet throws a streak; the fringe spacing gives the size.","ko":"역공간에서는 평평한 결정면마다 줄무늬가 뻗어 나오고, 무늬 간격에서 입자의 크기를 알 수 있습니다."},{"t":9.75,"en":"QoraPhase recovers the lost phase from a random start: shape and strain together.","ko":"QoraPhase가 무작위 초기값에서 출발해 잃어버린 위상을 복원합니다. 입자의 모양과 변형이 함께 드러납니다."},{"t":18,"en":"Beside the true particle, the phase is off by 0.15 rad.","ko":"실제 입자와 비교하면 위상 오차는 0.15 rad입니다."}]'></p>
         <figcaption class="fit-caption" data-ko="측정이 아닌 시뮬레이션 BCDI입니다. 결정면 15개로 둘러싸인 350 nm 입자에 변형을 주고, rocking 각도 61개에서 광자 노이즈가 섞인 회절 무늬를 만들었습니다(피크 10<sup>6</sup> count). QoraPhase 0.2.0으로 support를 주지 않고 무작위 초기값 네 개에서 각각 재구성했으며, 영상은 그 결과들이 서로 일치하는 해입니다. 표면의 색은 위상, 곧 Bragg 벡터 방향의 격자 변위를 나타냅니다. 실제 입자와 비교한 최종 위상 오차는 0.15 rad입니다.">Simulated BCDI, not measured: a strained 350 nm particle bounded by 15 facets, 61 rocking frames with photon noise (10<sup>6</sup> counts at the peak). QoraPhase 0.2.0 reconstructs it from four random starts with no support given; the run shown is the one they agree on. Surface colour is the phase, the lattice displacement along the Bragg vector. Final phase error 0.15 rad against the truth.</figcaption>
       </figure>
@@ -133,7 +133,7 @@
         <p class="fineprint" data-ko="현재 상태: 연구 코드(0.1, PyPI 미배포). 시뮬레이션 데이터로만 검증했으며, 측정한 XRR 곡선에 대한 검증은 아직입니다.">Status: research code (0.1, not on PyPI), validated on simulated data only; measured XRR curves are not validated yet.</p>
       </div>
       <figure class="bench-figure">
-        <video class="fit-video" src="assets/xrefine-training.mp4" poster="assets/xrefine-training.png" muted loop playsinline preload="none" width="960" height="600" aria-label="XRefine on one simulated reflectivity curve: the network's curve over 266 training epochs, then the refinement fitting it onto the target."></video>
+        <video class="fit-video" src="assets/xrefine-training.mp4" poster="assets/xrefine-training.png" muted loop playsinline preload="none" width="960" height="600" aria-label="XRefine on one simulated reflectivity curve: the network's curve over 266 training epochs, then the refinement fitting it onto the target." data-ko-label="시뮬레이션한 반사율 곡선 하나에 대한 XRefine 실행. 266 epoch 동안 학습하며 바뀌는 신경망의 곡선과, 이어서 목표 곡선에 맞춰 가는 피팅 과정입니다."></video>
         <figcaption class="fit-caption" data-ko="XRefine을 실제로 실행해 녹화한 영상입니다. XRefine은 ReflectoLearn보다 먼저 만든 물리 기반(physics-informed) 신경망입니다. GTX 1060에서 266 epoch 동안 학습한 뒤(early stopping), 같은 Abeles 모델을 쓰는 differential evolution으로 단계적으로 피팅합니다. 회색은 노이즈를 넣은 시뮬레이션 곡선, 검은 선은 모델 곡선입니다. 임계각 아래에서 세기가 줄어드는 것은 시료가 짧아 빔 일부가 시료 밖으로 벗어나기 때문입니다. 측정 데이터가 아닙니다.">Recorded from a real run of XRefine, an earlier physics-informed network, on a GTX 1060: 266 training epochs (early stopping), then its own staged refinement, differential evolution through the same Abeles model. Grey is one simulated curve with noise; ink is the model curve. The drop below the critical edge is the beam footprint on a short sample. Simulated, not measured.</figcaption>
       </figure>
     </section>
@@ -181,15 +181,15 @@
         <p class="fineprint" data-ko="제출한 PR 목록입니다. 병합되었다는 뜻은 아닙니다.">Submitted pull requests; listing them does not mean they were merged.</p>
       </div>
       <figure class="lately-figure">
-        <img src="assets/img/startup-audition-2025.jpg" width="620" height="520" loading="lazy" decoding="async" alt="People on a stage, shown from the shoulders down, holding an award board reading 우수상, ₩1,000,000.">
+        <img src="assets/img/startup-audition-2025.jpg" width="620" height="520" loading="lazy" decoding="async" alt="People on a stage, shown from the shoulders down, holding an award board reading 우수상, ₩1,000,000." data-ko-alt="무대 위 사람들이 우수상, ₩1,000,000이라고 적힌 상장 보드를 들고 있는 모습. 어깨 아래만 보입니다.">
         <figcaption data-ko="제17회 서강대학교 스타트업 오디션 우수상 시상(2025. 12. 5.)">Excellence Award, 17th Sogang University Startup Audition, December 2025.</figcaption>
       </figure>
     </section>
 
-    <section class="contact wrap" id="contact" aria-label="Contact">
+    <section class="contact wrap" id="contact" aria-label="Contact" data-ko-label="연락처">
       <p class="contact-line" data-ko="산란과 회절, 역문제, 빔타임, 과학 계산 코드에 관한 이야기라면 언제든 연락 주세요.">Happy to talk scattering, inverse problems, beamtime or scientific code.</p>
       <figure class="contact-figure">
-        <img src="assets/img/graduation-toss.jpg" width="800" height="800" loading="lazy" decoding="async" alt="Isaac in a graduation gown, thrown into the air by friends on a sunny campus field. The others' faces are blurred.">
+        <img src="assets/img/graduation-toss.jpg" width="800" height="800" loading="lazy" decoding="async" alt="Isaac in a graduation gown, thrown into the air by friends on a sunny campus field. The others' faces are blurred." data-ko-alt="햇살 좋은 캠퍼스 잔디밭에서 졸업 가운을 입고 친구들에게 헹가래를 받는 용이삭. 다른 사람들의 얼굴은 흐리게 처리했습니다.">
         <figcaption data-ko="2025년 8월 졸업식 날 친구들이 헹가래를 쳐 주었습니다. 공중에 뜬 사람이 저입니다.">Graduation day, August 2025. The one in the air is me.</figcaption>
       </figure>
       <div class="contact-links">
@@ -205,7 +205,7 @@
   <footer>
     <div class="footer-line">
       <span data-ko="산란·회절 물리와 과학 소프트웨어">Scattering, diffraction and scientific software</span>
-      <nav aria-label="Footer"><a href="notes/" data-ko="노트">Notes</a><a href="lab/" data-ko="체험">Lab</a><a href="tools/" data-ko="계산기">Tools</a><a href="notes/feed.xml">RSS</a><a href="#top" data-ko="맨 위로">Top</a></nav>
+      <nav aria-label="Footer" data-ko-label="바닥글 메뉴"><a href="notes/" data-ko="노트">Notes</a><a href="lab/" data-ko="체험">Lab</a><a href="tools/" data-ko="계산기">Tools</a><a href="notes/feed.xml">RSS</a><a href="#top" data-ko="맨 위로">Top</a></nav>
       <span class="tnum">© <span id="year">2026</span> Isaac Yong (NaNIsaac)</span>
     </div>
   </footer>
