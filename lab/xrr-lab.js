@@ -126,16 +126,16 @@
       const pct = (a, b) => `${(100 * (a / b - 1)).toFixed(1)} %`;
       parts.push(tr(
         `CNN: d ${estimate.d.toFixed(1)} Å (${pct(estimate.d, state.d)}), σ ${estimate.sigma.toFixed(1)} Å, SLD ${estimate.sld.toFixed(1)} (${pct(estimate.sld, state.sld)}), no refinement`,
-        `CNN: d ${estimate.d.toFixed(1)} Å (${pct(estimate.d, state.d)}), σ ${estimate.sigma.toFixed(1)} Å, SLD ${estimate.sld.toFixed(1)} (${pct(estimate.sld, state.sld)}), refine 없음`,
+        `CNN: d ${estimate.d.toFixed(1)} Å (${pct(estimate.d, state.d)}), σ ${estimate.sigma.toFixed(1)} Å, SLD ${estimate.sld.toFixed(1)} (${pct(estimate.sld, state.sld)}), 피팅 전`,
       ));
     }
     $('#xrr-readout').textContent = parts.join(' · ');
     const note = $('#xrr-model-note');
-    if (modelAvailable === false) note.textContent = tr('No trained model is published on this page yet, so the CNN estimate is off.', '학습된 모델이 아직 없어 CNN 추정은 꺼 두었습니다.');
+    if (modelAvailable === false) note.textContent = tr('No trained model is published on this page yet, so the CNN estimate is off.', '이 페이지에는 아직 학습된 모델이 올라와 있지 않아 CNN 추정을 쓸 수 없습니다.');
     else if (model) {
       const { points } = model.contract.input.q_grid;
       const what = model.contract.model?.note; // written by export-onnx --note: which run, how far validated
-      note.textContent = tr(`ReflectoLearn CNN${what ? ` (${what})` : ''}, ${points}-point q grid, one film on a substrate. The estimate is the network alone, before any fit.`, `ReflectoLearn CNN${what ? ` (${what})` : ''}, q 격자 ${points}점, 기판 위 막 하나. 추정값은 피팅 전 네트워크만의 결과입니다.`);
+      note.textContent = tr(`ReflectoLearn CNN${what ? ` (${what})` : ''}, ${points}-point q grid, one film on a substrate. The estimate is the network alone, before any fit.`, `ReflectoLearn CNN${what ? ` (${what})` : ''}, q 격자 ${points}점, 기판 위의 단일 박막. 피팅을 거치지 않은, 신경망만의 추정값입니다.`);
     }
     else note.textContent = '';
   }

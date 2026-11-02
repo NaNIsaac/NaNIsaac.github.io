@@ -6,7 +6,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const root = path.join(__dirname, '..');
-const pages = ['index.html', 'lab/index.html', 'tools/index.html'];
+const pages = ['index.html', 'lab/index.html', 'tools/index.html', 'notes/index.html', 'reports/index.html', '404.html', '_layouts/base.html'];
 const decode = (s) => s.replaceAll('&quot;', '"').replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
 const hrefs = (html) => [...html.matchAll(/href="([^"]+)"/g)].map((m) => m[1]).sort();
 

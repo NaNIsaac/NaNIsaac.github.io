@@ -203,7 +203,7 @@
     $('#cap-a').textContent = draw ? tr('Aperture: draw with the pointer', '조리개: 포인터로 그리기') : resizable ? tr('Aperture: drag to resize', '조리개: 끌어서 크기 조절') : tr('Aperture', '조리개');
     $('#cap-s').textContent = paintStops ? tr('Far field (log): paint to block, hover to read', '원거리 세기(로그): 칠하면 막고, 마우스를 올리면 값 표시')
       : tr('Far field (log): drag to set a cutoff, hover to read', '원거리 세기(로그): 끌어서 차단, 마우스를 올리면 값 표시');
-    $('#cap-o').textContent = { image: tr('What gets through, transformed back', '통과한 성분의 역변환'), nophase: tr('Same magnitudes, phase thrown away', '크기 유지, 위상 제거'), phaseonly: tr('Phase kept, every magnitude set to one', '위상 유지, 크기는 모두 1') }[state.view];
+    $('#cap-o').textContent = { image: tr('What gets through, transformed back', '필터를 통과한 성분을 다시 역변환한 상'), nophase: tr('Same magnitudes, phase thrown away', '크기는 그대로 두고 위상을 버린 상'), phaseonly: tr('Phase kept, every magnitude set to one', '위상만 남기고 크기를 모두 1로 둔 상') }[state.view];
     canvases.a.classList.toggle('paintable', draw);
     canvases.a.classList.toggle('draggable', resizable);
     canvases.s.classList.toggle('paintable', paintStops);
