@@ -54,6 +54,11 @@ html[lang="ko"] .intro-lead { line-height: 1.45; letter-spacing: -.01em; }
 html[lang="ko"] .intro-cols p { line-height: 1.6; }
 html[lang="ko"] .intro-cols b { display: block; margin-bottom: 4px; } /* a label on its own line instead of "Title." run-in */
 html[lang="ko"] .contact-line { line-height: 1.4; letter-spacing: -.01em; }
+/* Korean breaks only between words (keep-all), so a ragged last line of one or two words is common; balance headings, avoid orphans in prose */
+html[lang="ko"] h1, html[lang="ko"] h2, html[lang="ko"] h3, html[lang="ko"] .contact-line { text-wrap: balance; }
+html[lang="ko"] p, html[lang="ko"] figcaption, html[lang="ko"] .rows span { text-wrap: pretty; }
+html[lang="ko"] .fineprint, html[lang="ko"] .fit-caption, html[lang="ko"] .ledger p.soft, html[lang="ko"] .rows span { line-height: 1.65; }
+html[lang="ko"] .video-cue { min-height: 3.3em; line-height: 1.65; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; padding: 0; }
 img { display: block; max-width: 100%; height: auto; }

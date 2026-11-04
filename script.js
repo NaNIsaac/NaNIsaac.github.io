@@ -5,7 +5,13 @@ const store = {
 
 // Theme (initial class is set by the inline script in <body> to avoid a flash)
 const themeButton = document.querySelector('#theme');
-function updateThemeIcon() { themeButton.textContent = document.body.classList.contains('dark') ? 'Light' : 'Dark'; }
+function updateThemeIcon() {
+  const dark = document.body.classList.contains('dark');
+  const ko = document.documentElement.lang === 'ko';
+  themeButton.textContent = ko ? (dark ? '밝게' : '어둡게') : (dark ? 'Light' : 'Dark');
+  themeButton.setAttribute('aria-label', ko ? '밝기 테마 바꾸기' : 'Toggle theme');
+}
+window.addEventListener('langchange', updateThemeIcon);
 updateThemeIcon();
 themeButton.addEventListener('click', () => {
   document.body.classList.toggle('dark');
@@ -18,6 +24,10 @@ themeButton.addEventListener('click', () => {
 const langButton = document.querySelector('#lang');
 const translatable = [...document.querySelectorAll('[data-ko]')];
 translatable.forEach((el) => { el.dataset.en = el.innerHTML; });
+// Screen-reader text follows the language too: data-ko-label replaces aria-label, data-ko-alt replaces alt.
+const ATTRS = [['koLabel', 'enLabel', 'aria-label'], ['koAlt', 'enAlt', 'alt']];
+const labelled = [...document.querySelectorAll('[data-ko-label], [data-ko-alt]')];
+labelled.forEach((el) => ATTRS.forEach(([ko, en, attr]) => { if (el.dataset[ko]) el.dataset[en] = el.getAttribute(attr) ?? ''; }));
 const isKo = () => document.documentElement.lang === 'ko';
 // Linked on the first switch so English pages never fetch it; unicode-range subsets download only the glyphs in use
 const KO_FONT = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
@@ -29,6 +39,9 @@ function setLang(lang) {
   if (lang === 'ko') linkKoFont();
   document.documentElement.lang = lang;
   translatable.forEach((el) => { el.innerHTML = lang === 'ko' ? el.dataset.ko : el.dataset.en; });
+  labelled.forEach((el) => ATTRS.forEach(([ko, en, attr]) => {
+    if (el.dataset[ko]) el.setAttribute(attr, lang === 'ko' ? el.dataset[ko] : el.dataset[en]);
+  }));
   langButton.textContent = lang === 'ko' ? 'EN' : '한';
   langButton.setAttribute('aria-label', lang === 'ko' ? 'Switch to English' : '한국어로 보기');
   window.dispatchEvent(new Event('langchange'));
@@ -122,7 +135,19 @@ for (const cue of document.querySelectorAll('.video-cue')) {
     const text = isKo() ? line.ko : line.en;
     if (cue.textContent !== text) cue.textContent = text;
   };
+  // Reserve the height of the longest line in this language and width, so a longer line never pushes the page down.
+  const fit = () => {
+    const probe = Object.assign(cue.cloneNode(), { style: '' });
+    Object.assign(probe.style, { position: 'absolute', visibility: 'hidden', minHeight: '0', width: `${cue.clientWidth}px` });
+    cue.after(probe);
+    const tallest = Math.max(...lines.map((l) => { probe.textContent = isKo() ? l.ko : l.en; return probe.getBoundingClientRect().height; }));
+    probe.remove();
+    cue.style.minHeight = `${Math.ceil(tallest)}px`;
+  };
   video.addEventListener('timeupdate', show);
-  window.addEventListener('langchange', show);
+  window.addEventListener('langchange', () => { show(); fit(); });
+  addEventListener('resize', fit);
   show();
+  fit();
+  document.fonts.ready.then(fit);
 }
