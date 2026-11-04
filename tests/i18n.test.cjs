@@ -44,4 +44,14 @@ for (const [tag, attr, ko] of [['img', 'alt', 'data-ko-alt'], ['video', 'aria-la
     checked++;
   }
 }
+// A nav link names the section it lands on, in both languages.
+for (const file of new Set([...pages, '_layouts/base.html'])) {
+  const html = fs.readFileSync(path.join(root, file), 'utf8');
+  const navs = [...html.matchAll(/<nav\b[\s\S]*?<\/nav>/g)].map((n) => n[0]).join('\n');
+  for (const m of navs.matchAll(/<a\b[^>]*href="[^"]*#research"[^>]*>([^<]*)<\/a>/g)) {
+    assert.strictEqual(m[1], 'Research', `${file}: link to #research reads "${m[1]}"`);
+    assert.match(m[0], /data-ko="연구"/, `${file}: link to #research without data-ko="연구"`);
+    checked++;
+  }
+}
 console.log(`i18n: ${checked} strings ok`);
