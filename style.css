@@ -125,6 +125,9 @@ figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 10px
 .bench-copy p { margin: 0 0 28px; max-width: 34em; }
 .bench-copy p a { text-decoration: underline; text-underline-offset: 3px; }
 .bench-figure { grid-column: 7 / -1; }
+.case-kicker { font-size: var(--step-small); color: var(--muted); margin: 0 0 12px; }
+.bench-copy .fineprint, .measure-copy .fineprint { max-width: 34em; }
+.col-lead { max-width: 38em; margin: 0 0 32px; }
 .plot { display: block; width: 100%; height: auto; }
 body.dark .plot { filter: invert(1) hue-rotate(180deg); } /* drawn on paper; flip it to ink, as the video */
 
@@ -162,6 +165,7 @@ body.dark .fit-video { filter: invert(1) hue-rotate(180deg); } /* the video is r
 .rows strong { font-weight: 400; }
 .rows em { font-style: normal; font-size: var(--step-small); color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .rows span { display: block; color: var(--muted); }
+.rows .row strong { max-width: 38em; }
 .rows-group { font-size: var(--step-small); color: var(--muted); margin: 40px 0 8px; font-weight: 400; }
 .rows-group:first-of-type { margin-top: 0; }
 .fineprint { font-size: var(--step-small); color: var(--muted); margin: 12px 0 0; }

@@ -1,12 +1,12 @@
 # Isaac Yong
 
-> Personal site of Isaac Yong (용이삭, GitHub NaNIsaac), M.S. in physics, Sogang University. Works on X-ray scattering and diffraction and the scientific software around it: XRR inverse problems, coherent and time-resolved diffraction, and experimental data systems.
+> Personal site of Isaac Yong (용이삭, GitHub NaNIsaac), M.S. student in physics, Sogang University (CUPT Lab). Works on scattering and diffraction physics, the inverse problems of recovering structure from measured data (phase retrieval, parameter estimation, identifiability), and scientific software. The experimental work is X-ray: reflectivity, diffraction, coherent diffraction imaging and time-resolved XFEL diffraction.
 
-The site is static (GitHub Pages, Jekyll for the notes). The home page has an interactive 2D wave simulation, a project list, three short sections that each show a real output of the code (dynamical diffraction with TraTT, phase retrieval with QoraPhase, thin-film reflectivity with XRefine; all on simulated data, and labelled so), and links to upstream pull requests.
+The site is static (GitHub Pages, Jekyll for the notes). The home page goes from the research fields and the way of working to the X-ray experiments, then three case studies that each show a real output of the code (dynamical diffraction with TraTT, phase retrieval with QoraPhase, thin-film reflectivity with ReflectoLearn and XRefine; all on simulated data, and labelled so), the research software with its status, talks and posters, and links to upstream pull requests.
 
 ## Pages
 
-- [Home](https://nanisaac.github.io/): profile, projects, recent notes and upstream pull requests
+- [Home](https://nanisaac.github.io/): research fields, X-ray experiments, case studies, software, talks, recent notes and upstream pull requests
 - [Lab](https://nanisaac.github.io/lab/): ripple tank and Fourier bench; draw an aperture, see its far field, filter the spectrum
 - [Tools](https://nanisaac.github.io/tools/): beamline arithmetic: energy and wavelength, Bragg angle, q and d-spacing, beam footprint, transmission
 - [Notes](https://nanisaac.github.io/notes/): short notes on X-ray physics and scientific software
@@ -16,11 +16,11 @@ The site is static (GitHub Pages, Jekyll for the notes). The home page has an in
 ## Software
 
 - [xray.ooguy](https://xray.ooguy.com/): offline X-ray and beamline calculators with a beamtime logbook, ES5 for old control-room browsers ([Korean](https://xray.ooguy.com/ko/))
-- [QoraFlow](https://github.com/NaNIsaac/QoraFlow): toolkit for time-resolved XFEL pump-probe data, tailored to PAL-XFEL
+- [QoraFlow](https://github.com/NaNIsaac/QoraFlow): turns PAL-XFEL pump-probe detector frames into time series
 - [QoraPhase](https://github.com/NaNIsaac/QoraPhase): JAX-native, composable phase-retrieval framework for coherent diffraction imaging (PyPI: qoraphase)
 - [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM): dark-field X-ray microscopy image analysis; Python engine, CLI and PySide6 app
 - [CXD](https://github.com/NaNIsaac/CXD): coherent X-ray diffraction analysis: SPEC parsing, Timepix frames, q-space regridding
-- [ReflectoLearn](https://github.com/NaNIsaac/ReflectoLearn): XRR inverse modeling with a differentiable Abeles simulator and a 1D CNN
+- [ReflectoLearn](https://github.com/NaNIsaac-Research/ReflectoLearn): XRR inverse modeling with a differentiable Abeles simulator and a 1D CNN
 - [TraTT](https://github.com/NaNIsaac-Research/TraTT): time-dependent Takagi-Taupin solver for transient acoustic Bragg satellites (PyPI: tratt; KPS 2026 Fall poster)
 - [codigest](https://github.com/NaNIsaac/codigest): turns a codebase, diffs and terminal output into LLM-ready context; MCP server for coding agents (PyPI: codigest, MCP: io.github.NaNIsaac/codigest)
 - [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle): Lightweight rectangular ROI handling for images (PyPI: roi-rectangle)
