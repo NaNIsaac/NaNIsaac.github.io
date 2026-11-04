@@ -18,6 +18,7 @@ let phi = -braggAngle(Number(ratioInput.value));
 let ratio = Number(ratioInput.value);
 let rocking = false;
 let visible = true;
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let lastMap = -Infinity, lastAngle = NaN, lastRatio = NaN, playingSince = 0;
 let renderer, detectorTexture, sample, scatterRay, scatterGlow, spot, controls, scene, camera, raf = 0;
 
@@ -80,7 +81,12 @@ function updateReadout() {
   $('angle-value').textContent = (phi * DEG).toFixed(1) + '°';
   $('ratio-value').textContent = ratio.toFixed(2);
   $('bragg-value').textContent = (braggAngle(ratio) * DEG).toFixed(1) + '°';
-  $('signal-value').textContent = braggPeakIntensity(phi, ratio).toFixed(3);
+  const signal = braggPeakIntensity(phi, ratio);
+  $('signal-value').textContent = signal.toFixed(3);
+  const nearPeak = Math.abs(phi + braggAngle(ratio)) < 0.025;
+  $('signal-explanation').textContent = document.documentElement.lang === 'ko'
+    ? (nearPeak ? '브래그 조건 부근: 산란파가 같은 위상으로 더해져 강한 신호를 만듭니다.' : '브래그 조건에서 벗어남: 산란파가 서로 상쇄되어 이 방향의 신호가 약해집니다.')
+    : (nearPeak ? 'Near the Bragg condition: scattered waves add in phase, producing a strong peak.' : 'Away from Bragg: scattered waves cancel and the signal in this direction weakens.');
   if (sample) sample.rotation.y = phi;
   if (!scatterRay) return;
   const dir = braggDirection(ratio);
@@ -133,6 +139,27 @@ function createScene() {
   controls.enableDamping = true; controls.dampingFactor = .07;
   controls.minDistance = 4.2; controls.maxDistance = 19;
   controls.enablePan = false; controls.maxPolarAngle = Math.PI * .84;
+  controls.enableDamping = !reducedMotion.matches;
+  const initialCamera = camera.position.clone();
+  const initialTarget = controls.target.clone();
+  $('reset-view').addEventListener('click', () => {
+    camera.position.copy(initialCamera);
+    controls.target.copy(initialTarget);
+    controls.update();
+  });
+  canvas.addEventListener('keydown', (event) => {
+    const delta = .10;
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+    event.preventDefault();
+    const offset = camera.position.clone().sub(controls.target);
+    const spherical = new THREE.Spherical().setFromVector3(offset);
+    if (event.key === 'ArrowLeft') spherical.theta -= delta;
+    if (event.key === 'ArrowRight') spherical.theta += delta;
+    if (event.key === 'ArrowUp') spherical.phi = Math.max(.1, spherical.phi - delta);
+    if (event.key === 'ArrowDown') spherical.phi = Math.min(Math.PI - .1, spherical.phi + delta);
+    camera.position.copy(controls.target).add(new THREE.Vector3().setFromSpherical(spherical));
+    controls.update();
+  });
   scene.add(new THREE.HemisphereLight(0xd4e8ff, 0x273a46, 2.0));
   const sun = new THREE.DirectionalLight(0xffe4a9, 2.3);
   sun.position.set(-4, 6, 6); scene.add(sun);
@@ -232,6 +259,18 @@ $('find-peak').addEventListener('click', () => {
 $('rock').addEventListener('click', () => {
   rocking = !rocking; playingSince = performance.now();
   $('rock').setAttribute('aria-pressed', String(rocking));
+});
+$('save-map').addEventListener('click', () => {
+  // Save the raw simulated detector canvas; the nonlinear contrast is visual only.
+  const link = document.createElement('a');
+  link.download = `diffraction-detector-${(phi * DEG).toFixed(1)}deg.png`;
+  link.href = mapCanvas.toDataURL('image/png');
+  link.click();
+});
+window.addEventListener('langchange', updateReadout);
+reducedMotion.addEventListener('change', () => {
+  if (controls) controls.enableDamping = !reducedMotion.matches;
+  if (reducedMotion.matches) { rocking = false; $('rock').setAttribute('aria-pressed', 'false'); }
 });
 window.addEventListener('langchange', paintPlot);
 window.addEventListener('themechange', paintPlot);
