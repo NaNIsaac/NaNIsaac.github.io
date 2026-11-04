@@ -6,7 +6,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const root = path.join(__dirname, '..');
-const pages = ['index.html', 'lab/index.html', 'tools/index.html'];
+const pages = ['index.html', 'lab/index.html', 'tools/index.html', 'notes/index.html', 'reports/index.html', '404.html', '_layouts/base.html'];
 const decode = (s) => s.replaceAll('&quot;', '"').replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
 const hrefs = (html) => [...html.matchAll(/href="([^"]+)"/g)].map((m) => m[1]).sort();
 
@@ -45,7 +45,7 @@ for (const [tag, attr, ko] of [['img', 'alt', 'data-ko-alt'], ['video', 'aria-la
   }
 }
 // A nav link names the section it lands on, in both languages.
-for (const file of [...pages, '_layouts/base.html']) {
+for (const file of new Set([...pages, '_layouts/base.html'])) {
   const html = fs.readFileSync(path.join(root, file), 'utf8');
   const navs = [...html.matchAll(/<nav\b[\s\S]*?<\/nav>/g)].map((n) => n[0]).join('\n');
   for (const m of navs.matchAll(/<a\b[^>]*href="[^"]*#research"[^>]*>([^<]*)<\/a>/g)) {
