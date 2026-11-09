@@ -53,7 +53,7 @@
   // Beam: energy ↔ wavelength, then everything that depends on λ
   function beam() {
     press('e-presets', LINES.findIndex(([, e]) => Math.abs(e - num('e-kev')) < 5e-4));
-    angle(); scherrer(); lattice();
+    angle(); scherrer(); lattice(); peakShift(); shannon();
   }
   $('e-kev').addEventListener('input', () => { $('e-ang').value = fmt(calc.wavelength(num('e-kev')), 6); beam(); });
   $('e-ang').addEventListener('input', () => { $('e-kev').value = fmt(calc.energy(num('e-ang')), 6); beam(); });
@@ -85,6 +85,34 @@
     angleSource = 'b-d';
     angle();
   });
+
+  // Independent reference peak (original energy / position); the shared beam is the target.
+  function peakShift() {
+    const result = calc.peakShift(num('ps-old-tth'), num('ps-old-e'), num('e-kev'));
+    if (!result) return show('ps-out', [[tr('Invalid input', '입력 오류'), null, tr('Enter positive energies and 0 < 2θ ≤ 180°.', '양의 에너지와 0 < 2θ ≤ 180°를 입력하세요.')]]);
+    if (!result.accessible) return show('ps-out', [[tr('Unreachable peak', '회절 불가능'), null, tr('The target wavelength exceeds 2d.', '변경 후 파장이 2d보다 깁니다.')]]);
+    show('ps-out', [
+      [tr('Before 2θ', '변경 전 2θ'), fmt(result.oldTwoTheta, 6), '°'],
+      [tr('After 2θ', '변경 후 2θ'), fmt(result.newTwoTheta, 6), '°'],
+      [tr('Change in 2θ', '2θ 이동량'), fmt(result.deltaTwoTheta, 6), '°'],
+      [tr('After θ', '변경 후 θ'), fmt(result.newTheta, 6), '°'],
+      ['q (fixed)', fmt(result.q, 6), 'Å⁻¹'],
+    ]);
+  }
+
+  function shannon() {
+    const result = calc.shannonSampling(num('sh-sdd'), num('sh-size'), num('e-kev'), num('sh-pixel'));
+    if (!result) return show('sh-out', [[tr('Invalid input', '입력 오류'), null, tr('All four values must be positive.', '네 값 모두 양수여야 합니다.')]]);
+    show('sh-out', [
+      [tr('Sampling s', '샘플링 비율 s'), fmt(result.sampling, 5), 'px / period'],
+      [tr('Speckle period', 'Speckle 주기'), fmt(result.speckleUm, 5), 'µm'],
+      [tr('Reciprocal pixel Δq', '픽셀당 Δq'), fmt(result.deltaQ, 5), 'Å⁻¹'],
+      [tr('Min. SDD for s = 2', 's = 2의 최소 SDD'), fmt(result.minSddMm, 5), 'mm'],
+      [tr('Nyquist (1D)', 'Nyquist 조건 (1D)'), result.meetsNyquist ? tr('Meets', '충족') : tr('Below', '미달'), ''],
+    ]);
+  }
+  ['ps-old-e', 'ps-old-tth'].forEach((id) => $(id).addEventListener('input', peakShift));
+  ['sh-sdd', 'sh-size', 'sh-pixel'].forEach((id) => $(id).addEventListener('input', shannon));
 
   function footprint() {
     const h = num('f-h'), a = num('f-a'), s = num('f-s');
@@ -208,5 +236,5 @@
   $('e-ang').value = fmt(calc.wavelength(num('e-kev')), 6);
   latticeChips();
   beam(); footprint(); transmission();
-  window.addEventListener('langchange', () => { angle(); footprint(); transmission(); scherrer(); latticeChips(); lattice(); });
+  window.addEventListener('langchange', () => { angle(); peakShift(); shannon(); footprint(); transmission(); scherrer(); latticeChips(); lattice(); });
 })();

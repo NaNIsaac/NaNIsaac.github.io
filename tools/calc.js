@@ -12,6 +12,39 @@ const calc = {
   q: (twoTheta, lambda) => (4 * Math.PI * Math.sin(rad(twoTheta / 2))) / lambda,
   dFromQ: (q) => (2 * Math.PI) / q,
   twoThetaFromQ: (q, lambda) => 2 * deg(Math.asin((q * lambda) / (4 * Math.PI))),
+  // Shift the same reciprocal-lattice peak from one X-ray wavelength to another.
+  // Null indicates invalid inputs or a physically inaccessible Bragg reflection.
+  peakShift: (oldTwoTheta, oldKeV, newKeV) => {
+    if (!(oldTwoTheta > 0 && oldTwoTheta <= 180 && oldKeV > 0 && newKeV > 0)) return null;
+    const sine = (oldKeV / newKeV) * Math.sin(rad(oldTwoTheta / 2));
+    if (sine > 1) return { accessible: false, q: calc.q(oldTwoTheta, calc.wavelength(oldKeV)) };
+    const next = 2 * deg(Math.asin(Math.min(1, sine)));
+    return {
+      accessible: true,
+      oldTwoTheta,
+      newTwoTheta: next,
+      oldTheta: oldTwoTheta / 2,
+      newTheta: next / 2,
+      deltaTwoTheta: next - oldTwoTheta,
+      q: calc.q(oldTwoTheta, calc.wavelength(oldKeV)),
+    };
+  },
+  // Far-field, small-angle, one-axis coherent diffraction oversampling:
+  // D is particle extent [nm], L is SDD [mm], pixel pitch [µm].
+  // speckle period ~ lambda * L / D. Nyquist criterion: >= 2 pixels/period.
+  shannonSampling: (sddMm, particleNm, energyKeV, pixelUm) => {
+    if (!(sddMm > 0 && particleNm > 0 && energyKeV > 0 && pixelUm > 0)) return null;
+    const lambdaNm = calc.wavelength(energyKeV) * 0.1;
+    const speckleUm = (lambdaNm * sddMm * 1e3) / particleNm;
+    const sampling = speckleUm / pixelUm;
+    return {
+      sampling,
+      speckleUm,
+      deltaQ: (2 * Math.PI * pixelUm * 1e-6) / (calc.wavelength(energyKeV) * 1e-10 * sddMm * 1e-3) * 1e-10,
+      minSddMm: (2 * particleNm * pixelUm) / (lambdaNm * 1e3),
+      meetsNyquist: sampling >= 2,
+    };
+  },
   // Cubic lattice: d = a / √(h² + k² + l²)
   dCubic: (a, h, k, l) => a / Math.hypot(h, k, l),
   // Beam footprint on a flat sample at grazing incidence α: L = h / sin α (same unit as h)
