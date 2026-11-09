@@ -51,6 +51,7 @@
         <p class="tool-lead" data-ko="같은 반사의 피크가 빔 에너지를 바꾸면 어디로 이동하는지 계산합니다. 위의 빔 에너지를 변경 후 에너지로 사용합니다.">Move an existing Bragg peak to the beam energy set above, keeping the same d-spacing.</p>
         <div class="fields">
           <label class="field"><span data-ko="기존 에너지">Original energy</span><span class="in"><input id="ps-old-e" type="number" min="0" step="any" value="8.048" inputmode="decimal"><i>keV</i></span></label>
+          <div class="field"><span data-ko="변경 후 에너지 (상단 빔)">Target energy (beam above)</span><span class="in"><output id="ps-target-e" for="e-kev">8.048</output><i>keV</i></span></div>
           <label class="field"><span data-ko="기존 피크 2θ">Original peak 2θ</span><span class="in"><input id="ps-old-tth" type="number" min="0" max="180" step="any" value="28.44" inputmode="decimal"><i>°</i></span></label>
         </div>
         <dl class="result" id="ps-out" aria-live="polite"></dl>
@@ -149,8 +150,8 @@
   </main>
 
   <footer><div class="footer-line"><span data-ko="용이삭의 X선 계산기">Isaac Yong, beamline tools</span><nav aria-label="Footer" data-ko-label="바닥글 메뉴"><a href="../" data-ko="홈">Home</a><a href="../notes/" data-ko="노트">Notes</a><a href="../lab/" data-ko="체험">Lab</a><a href="../notes/feed.xml">RSS</a><a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">X-ray Toolkit</a></nav><span class="tnum">© <span id="year">2026</span> Isaac Yong</span></div></footer>
-  <script src="calc.js?v=shannon1" defer></script>
-  <script src="tools.js?v=shannon1" defer></script>
+  <script src="calc.js?v=peakshift2" defer></script>
+  <script src="tools.js?v=peakshift2" defer></script>
   <script src="../script.js?v=ko2" defer></script>
   <script src="../terminal.js" defer></script>
 </body>
