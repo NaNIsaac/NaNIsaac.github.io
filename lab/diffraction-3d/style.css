@@ -14,3 +14,9 @@ html[lang=ko]{word-break:keep-all;overflow-wrap:break-word}html[lang=ko] body{fo
 @media(max-width:1050px){.heading{grid-template-columns:1fr;gap:25px}.lab-layout{grid-template-columns:minmax(0,1fr)}.canvas-wrap{height:min(68vw,610px);min-height:350px}.analysis-grid{grid-template-columns:1fr 1fr}.explain{gap:30px}}
 @media(max-width:660px){main{padding:38px 16px 75px}.site-header{height:56px;padding:0 12px;gap:8px}.brand{font-size:14px}.site-header nav{gap:8px;font-size:12px}.site-header nav a[href="../../#work"]{display:none}.site-header nav button{min-width:32px}h1{font-size:clamp(44px,11vw,66px)}.heading{margin-bottom:30px}.opening{font-size:16px}.canvas-wrap{height:390px;min-height:0}.scene-label{font-size:9px}.label-detector{right:4%;top:19%}.label-beam{left:4%;top:55%}.stage-foot{font-size:11px}.control-body{padding:25px 19px 17px}.control-row.second{margin-top:29px}.buttons{margin-top:30px}.analysis{margin-top:65px}.analysis-head,.analysis-grid,.explain{display:block}.analysis-head h2{margin-bottom:17px}.analysis-panel+.analysis-panel{margin-top:14px}.analysis-panel canvas{height:245px}.explain{margin-top:65px}.explain-title{margin-bottom:30px}.readout{padding:18px}.readout-note{padding:0 18px 20px}.eq-break{display:block;margin-top:4px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* Guided experiment and export controls. */
+.experiment-tip{font-size:12px;line-height:1.6;color:var(--muted);margin:17px 0 0}
+.signal-explanation{margin:0 25px 24px;padding:13px 15px;border-left:2px solid var(--accent);background:var(--surface);font-size:12px;line-height:1.65;color:var(--ink);min-height:68px}
+#scene-3d:focus-visible{outline:2px solid #e6c56e;outline-offset:-5px}
+@media(max-width:660px){.signal-explanation{margin:0 18px 18px}.buttons button{min-height:48px}}
