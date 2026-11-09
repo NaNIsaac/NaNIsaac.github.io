@@ -27,6 +27,14 @@ test('inaccessible Bragg condition and invalid inputs', () => {
   assert.equal(calc.peakShift(0, 8, 8), null);
 });
 
+test('changing beam energy gives the new peak angle at fixed d', () => {
+  const r = calc.peakShift(28.44, 8.048, 10);
+  assert.equal(r.accessible, true);
+  const expected = 2 * Math.asin((8.048 / 10) * Math.sin(28.44 * Math.PI / 360)) * 180 / Math.PI;
+  close(r.newTwoTheta, expected);
+  assert.ok(r.newTwoTheta < 28.44);
+});
+
 test('Shannon sampling dimensions, reciprocal pixel and critical SDD', () => {
   // 12.398419843 keV gives 1 Å; L=1000 mm, D=100 nm, p=100 µm:
   // speckle period=1000 µm, so s=10, and the s=2 SDD is 200 mm.
