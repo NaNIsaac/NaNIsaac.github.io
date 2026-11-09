@@ -88,15 +88,13 @@
 
   // Independent reference peak (original energy / position); the shared beam is the target.
   function peakShift() {
+    // The target energy is controlled by the shared Beam input above.
+    $('ps-target-e').textContent = $('e-kev').value;
     const result = calc.peakShift(num('ps-old-tth'), num('ps-old-e'), num('e-kev'));
     if (!result) return show('ps-out', [[tr('Invalid input', '입력 오류'), null, tr('Enter positive energies and 0 < 2θ ≤ 180°.', '양의 에너지와 0 < 2θ ≤ 180°를 입력하세요.')]]);
     if (!result.accessible) return show('ps-out', [[tr('Unreachable peak', '회절 불가능'), null, tr('The target wavelength exceeds 2d.', '변경 후 파장이 2d보다 깁니다.')]]);
     show('ps-out', [
-      [tr('Before 2θ', '변경 전 2θ'), fmt(result.oldTwoTheta, 6), '°'],
-      [tr('After 2θ', '변경 후 2θ'), fmt(result.newTwoTheta, 6), '°'],
-      [tr('Change in 2θ', '2θ 이동량'), fmt(result.deltaTwoTheta, 6), '°'],
-      [tr('After θ', '변경 후 θ'), fmt(result.newTheta, 6), '°'],
-      ['q (fixed)', fmt(result.q, 6), 'Å⁻¹'],
+      [tr('New peak 2θ', '변경 후 피크 2θ'), fmt(result.newTwoTheta, 6), '°'],
     ]);
   }
 
