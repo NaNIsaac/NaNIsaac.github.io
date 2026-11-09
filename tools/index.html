@@ -59,6 +59,29 @@
         <p class="tool-note" data-ko="λ = 2d sin θ, q = 4π sin θ / λ = 2π / d. 반사율 측정에서는 θ가 스침각이고 q = q&lt;sub&gt;z&lt;/sub&gt;입니다.">λ = 2d sin θ and q = 4π sin θ / λ = 2π / d. For reflectivity, θ is the grazing angle and q = q<sub>z</sub>.</p>
       </section>
 
+      <section class="tool" id="peak-shift" aria-labelledby="peak-shift-title">
+        <h2 id="peak-shift-title" data-ko="파장 변경 시 피크 이동">Peak shift with wavelength</h2>
+        <p class="tool-lead" data-ko="같은 반사의 피크가 빔 에너지를 바꾸면 어디로 이동하는지 계산합니다. 위의 빔 에너지를 변경 후 에너지로 사용합니다.">Move an existing Bragg peak to the beam energy set above, keeping the same d-spacing.</p>
+        <div class="fields">
+          <label class="field"><span data-ko="기존 에너지">Original energy</span><span class="in"><input id="ps-old-e" type="number" min="0" step="any" value="8.048" inputmode="decimal"><i>keV</i></span></label>
+          <label class="field"><span data-ko="기존 피크 2θ">Original peak 2θ</span><span class="in"><input id="ps-old-tth" type="number" min="0" max="180" step="any" value="28.44" inputmode="decimal"><i>°</i></span></label>
+        </div>
+        <dl class="result" id="ps-out" aria-live="polite"></dl>
+        <p class="tool-note" data-ko="같은 hkl 반사의 d와 q가 변하지 않는다고 가정합니다. sin θ₂ = (λ₂/λ₁) sin θ₁. 각도는 대칭 θ–2θ 기하의 각도입니다.">Assumes unchanged d and q for the same hkl reflection. sin θ₂ = (λ₂/λ₁) sin θ₁; θ and 2θ refer to symmetric Bragg geometry.</p>
+      </section>
+
+      <section class="tool" id="shannon-sampling" aria-labelledby="shannon-title">
+        <h2 id="shannon-title" data-ko="CDI Shannon 샘플링 비율">CDI Shannon sampling ratio</h2>
+        <p class="tool-lead" data-ko="SDD, 입자 크기, 픽셀 크기와 위에서 설정한 빔 에너지로 한 방향의 speckle 샘플링을 계산합니다.">Calculate one-axis far-field speckle sampling from SDD, particle extent, detector pixel pitch and the shared beam energy.</p>
+        <div class="fields">
+          <label class="field"><span>SDD</span><span class="in"><input id="sh-sdd" type="number" min="0" step="any" value="1000" inputmode="decimal"><i>mm</i></span></label>
+          <label class="field"><span data-ko="입자 크기 D">Particle extent D</span><span class="in"><input id="sh-size" type="number" min="0" step="any" value="500" inputmode="decimal"><i>nm</i></span></label>
+          <label class="field"><span data-ko="픽셀 크기 p">Pixel pitch p</span><span class="in"><input id="sh-pixel" type="number" min="0" step="any" value="75" inputmode="decimal"><i>µm</i></span></label>
+        </div>
+        <dl class="result" id="sh-out" aria-live="polite"></dl>
+        <p class="tool-note" data-ko="s ≈ λ·SDD/(D·p): speckle 주기당 픽셀 수. s ≥ 2는 한 방향의 Nyquist 조건입니다. Fraunhofer·소각 근사, 검출기 수직 입사, 물체의 해당 방향 투영 크기 D를 가정하며 실제 복원 가능성을 보장하지 않습니다.">s ≈ λ·SDD/(D·p) is pixels per speckle period. s ≥ 2 is the one-axis Nyquist criterion. Assumes far-field, small-angle geometry, normal detector incidence and object extent projected along that axis; it does not guarantee successful reconstruction.</p>
+      </section>
+
       <section class="tool" aria-labelledby="beam-footprint">
         <h2 id="beam-footprint" data-ko="빔 footprint(시료에 닿는 길이)">Beam footprint</h2>
         <p class="tool-lead" data-ko="입사각이 낮을 때 빔이 시료 밖으로 넘치는지 확인합니다.">Check whether the beam spills past the sample at low angle.</p>
@@ -125,8 +148,8 @@
   </main>
 
   <footer><div class="footer-line"><span data-ko="용이삭의 X선 계산기">Isaac Yong, beamline tools</span><nav aria-label="Footer" data-ko-label="바닥글 메뉴"><a href="../" data-ko="홈">Home</a><a href="../notes/" data-ko="노트">Notes</a><a href="../lab/" data-ko="체험">Lab</a><a href="../notes/feed.xml">RSS</a><a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">X-ray Toolkit</a></nav><span class="tnum">© <span id="year">2026</span> Isaac Yong</span></div></footer>
-  <script src="calc.js?v=lattice2" defer></script>
-  <script src="tools.js?v=ko2" defer></script>
+  <script src="calc.js?v=shannon1" defer></script>
+  <script src="tools.js?v=shannon1" defer></script>
   <script src="../script.js?v=ko2" defer></script>
   <script src="../terminal.js" defer></script>
 </body>
