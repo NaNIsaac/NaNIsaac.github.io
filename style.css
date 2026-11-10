@@ -474,10 +474,8 @@ dialog::backdrop { background: #0f0f0dcc; }
 .gateway-feature strong { font-size: clamp(1.55rem,2.7vw,3rem); letter-spacing: -.04em; line-height: 1.1; font-weight: 600; max-width: 16ch; }
 .gateway-desc { font-size: var(--step-small); max-width: 32ch; }
 .gateway-go { font-size: var(--step-small); font-weight: 600; margin-top: auto; text-decoration: underline; text-underline-offset: 4px; }
-.gateway-feature-art { align-self: stretch; flex: 1; min-height: 84px; display: flex; align-items: end; justify-content: center; gap: 10%; padding: 10px 10px 22px; border-bottom: 1px solid color-mix(in srgb,var(--bg) 34%,transparent); }
-.gateway-feature-art span { display: block; width: 6%; height: 18%; background: color-mix(in srgb,var(--bg) 45%,transparent); }
-.gateway-feature-art span:nth-child(2),.gateway-feature-art span:nth-child(4) { height: 42%; }
-.gateway-feature-art span:nth-child(3) { height: 90%; background: var(--accent); }
+.gateway-satellites { width: 100%; height: auto; max-height: 114px; flex: 0 0 auto; margin: 4px 0 0; color: var(--bg); }
+.gateway-satellites text { fill: currentColor; }
 .gateway-side { display: grid; gap: 14px; grid-template-rows: repeat(2,minmax(0,1fr)); }
 .gateway-link { border: 1px solid color-mix(in srgb,var(--ink) 28%,transparent); padding: 26px; display: flex; flex-direction: column; align-items: start; gap: 18px; }
 .gateway-link strong { font-size: clamp(1.2rem,1.9vw,1.9rem); line-height: 1.18; letter-spacing: -.025em; font-weight: 600; max-width: 18ch; }
@@ -506,4 +504,78 @@ dialog::backdrop { background: #0f0f0dcc; }
   .gateway-side { grid-template-columns: 1fr; }
   .home-entry-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .home-entry-grid a:last-child { grid-column: 1/-1; min-height: 112px; }
+}
+
+/* Compact phone layouts: panels should convey information, not occupy screens. */
+@media (max-width: 760px) {
+  :root { --step-display: clamp(2rem, 6.8vw, 2.85rem); --step-lead: 1.12rem; --step-head: 1.32rem; --step-body: 1rem; }
+  .film { height: 29svh; min-height: 190px; }
+  .hero h1 { margin: 18px 0 12px; line-height: 1.06; }
+  .hero-text { font-size: .94rem; line-height: 1.5; margin-bottom: 12px; }
+  .hero-actions { margin-bottom: 0; }
+  .home-gateway { padding-top: 34px; padding-bottom: 26px; }
+  .home-gateway-heading { border-top-width: 2px; padding-top: 12px; margin-bottom: 14px; gap: 6px; }
+  .home-gateway-heading h2 { font-size: 1.22rem; line-height: 1.24; max-width: none; }
+  .gateway-index { font-size: .61rem; letter-spacing: .065em; }
+  .home-gateway-grid { gap: 8px; }
+  .gateway-feature { min-height: 0; padding: 14px 16px; gap: 9px; }
+  .gateway-feature strong { font-size: 1.25rem; line-height: 1.18; max-width: none; }
+  .gateway-satellites { max-height: 88px; width: min(100%, 360px); margin: 0; }
+  .gateway-desc { font-size: .8rem; line-height: 1.4; }
+  .gateway-go { font-size: .78rem; }
+  .gateway-side { gap: 8px; }
+  .gateway-link { min-height: 0; padding: 12px; gap: 7px; }
+  .gateway-link strong { font-size: 1rem; line-height: 1.24; }
+  .home-entry-grid { margin-top: 8px; gap: 8px; }
+  .home-entry-grid a { min-height: 0; padding: 12px; gap: 6px; }
+  .home-entry-grid strong { font-size: 1.12rem; }
+  .home-entry-grid .gateway-index { font-size: .56rem; }
+  .home-entry-grid a > span:nth-last-child(2) { font-size: .73rem; line-height: 1.4; }
+  .section { padding-top: 44px; }
+  .bench + .measure, .measure + .bench { padding-top: 38px; }
+  .section h2 { margin-bottom: 13px; }
+  .intro-lead { margin-bottom: 24px; }
+  .intro-cols { gap: 16px; }
+  .work-figure, .lately-figure { margin-top: 28px; }
+  .bench-figure, .measure-copy { margin-top: 24px; }
+  .tools .workbench-intro { margin-top: 0; padding-top: 10px; }
+  .tools .page-title { font-size: 1.55rem; line-height: 1.16; margin-bottom: 8px; }
+  .tools .page-lead { font-size: .86rem; margin-bottom: 12px; line-height: 1.5; }
+  .tools .workbench-map { margin: 8px 0 12px; gap: 4px 12px; font-size: .8rem; }
+  .tools .workbench-map a { padding-block: 5px; }
+  .tools .beam { position: relative; top: auto; z-index: 1; padding: 10px 12px; gap: 8px 12px; margin-bottom: 24px; }
+  .tools .beam-title { display: block; width: 100%; min-width: 0; font-size: .82rem; }
+  .tools .beam .field { font-size: .78rem; }
+  .tools .beam .field input { width: min(22vw, 6em); padding: 7px 3px 7px 8px; font-size: .9rem; }
+  .tools .beam .chips { margin-top: 0; }
+  .workbench-group { margin-bottom: 30px; scroll-margin-top: 20px; }
+  .workbench-group-heading { padding: 11px 0 12px; border-top-width: 1px; }
+  .workbench-group-heading h2 { font-size: 1.2rem; }
+  .workbench-group-summary { font-size: .77rem; margin-top: 5px; }
+  .tools .tool-grid, .tools #quick-tools .tool-grid { grid-template-columns: 1fr; gap: 10px; }
+  .tools .tool, .tools .workbench-featured .tool, .tools #quick-tools .tool { padding: 12px; border-top-width: 2px; }
+  .tools .tool h2, .tools .workbench-featured .tool h2 { font-size: 1.06rem; margin-bottom: 5px; line-height: 1.26; }
+  .tools .tool-lead { font-size: .8rem; margin-bottom: 10px; line-height: 1.45; }
+  .tools #quick-tools .tool .fields { display: flex; flex-wrap: wrap; gap: 8px 12px; }
+  .tools .field { font-size: .78rem; gap: 3px; }
+  .tools #quick-tools .field input, .tools .field input { width: 5.5em; padding: 7px 4px 7px 8px; font-size: .93rem; }
+  .tools .field .in output { padding: 7px 4px 7px 8px; min-width: 4em; font-size: .93rem; }
+  .tools .field i { padding-right: 7px; }
+  .tools .result, .tools .workbench-featured .result, .tools #quick-tools .result {
+    background: none; margin-top: 12px; padding: 10px 0 0; border-top: 1px solid color-mix(in srgb,var(--ink) 24%, transparent);
+    display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px 18px;
+  }
+  .tools .result dt { font-size: .75rem; }
+  .tools .result dd button, .tools .workbench-featured .result dd button, .tools #quick-tools .result dd button { font-size: 1.22rem; }
+  .tools .tool-note, .tools #quick-tools .tool-note { font-size: .75rem; line-height: 1.5; margin-top: 12px; padding-top: 9px; }
+  .tools .chips button { min-height: 32px; font-size: .76rem; padding-inline: 9px; }
+  .tools .lattice-fields, .tools .hkl-fields { margin-top: 12px; }
+  .tools .tool-share { margin-top: 20px; }
+}
+@media (max-width: 380px) {
+  .gateway-side { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .home-entry-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .home-entry-grid a:last-child { grid-column: auto; min-height: 0; }
+  .home-entry-grid a { padding: 9px; }
+  .home-entry-grid strong { font-size: 1rem; }
 }
