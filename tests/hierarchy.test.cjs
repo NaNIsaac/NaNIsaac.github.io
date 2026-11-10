@@ -36,4 +36,9 @@ const original = [
 for (const id of original) assert.ok(toolIds.has(id), 'calculator hook missing: ' + id);
 assert.equal((tools.match(/<section class="tool(?: tool-wide)?"/g) || []).length, 7);
 assert.ok(style.includes('.home-gateway-grid') && style.includes('.workbench-featured'));
+assert.ok(home.includes('class="gateway-satellites"'), 'featured research uses a scientific schematic');
+assert.ok(!home.includes('gateway-feature-art'), 'decorative bars removed');
+assert.ok(home.includes('schematic, not measured data.'), 'scientific schematic is labeled');
+assert.ok(style.includes('.tools #quick-tools .tool-grid { grid-template-columns: 1fr;'), 'phone calculators use readable single column');
+assert.ok(style.includes('.tools .beam { position: relative;'), 'mobile beam panel does not cover results');
 console.log('hierarchy: ok');

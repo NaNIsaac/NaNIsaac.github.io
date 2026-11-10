@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap">
-  <link rel="stylesheet" href="style.css?v=hierarchy1">
+  <link rel="stylesheet" href="style.css?v=mobile-density2">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfilePage","@id":"https://nanisaac.github.io/#profile","url":"https://nanisaac.github.io/","mainEntity":{"@type":"Person","@id":"https://nanisaac.github.io/#person","name":"Isaac Yong","alternateName":["용이삭","NaNIsaac"],"url":"https://nanisaac.github.io/","sameAs":["https://github.com/NaNIsaac","https://blog.naver.com/sjbpepper"],"affiliation":{"@type":"CollegeOrUniversity","name":"Sogang University"},"knowsAbout":["Scattering","X-ray diffraction","Dynamical diffraction","X-ray reflectivity","Coherent diffraction imaging","Phase retrieval","Inverse problems","Scientific computing"]}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","@id":"https://nanisaac.github.io/#website","name":"Isaac Yong","alternateName":["NaNIsaac","용이삭"],"url":"https://nanisaac.github.io/","publisher":{"@id":"https://nanisaac.github.io/#person"}}</script>
   <title>Isaac Yong (NaNIsaac) — scattering, diffraction and scientific software</title>
@@ -67,9 +67,17 @@
       <div class="home-gateway-grid">
         <a class="gateway-feature" href="#tratt">
           <span class="gateway-index">FEATURED RESEARCH / TraTT</span>
-          <span class="gateway-feature-art" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
+          <svg class="gateway-satellites" viewBox="0 0 440 112" role="img" aria-label="Schematic Bragg peak and first-order acoustic satellites, not experimental data" data-ko-label="실험 데이터가 아닌 개념도: 중앙 브래그 피크와 양쪽 1차 음향 위성 피크">
+            <path d="M 18 90 H 422" fill="none" stroke="currentColor" stroke-width="1" opacity=".55"/>
+            <path d="M 88 90 V 65 Q 92 34 106 65 V 90 M 210 90 V 58 Q 220 -6 230 58 V 90 M 334 90 V 65 Q 348 34 352 65 V 90" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M 106 91 V 98 M 220 91 V 98 M 348 91 V 98" stroke="currentColor" stroke-width="1" opacity=".7"/>
+            <g fill="currentColor" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">
+              <text x="106" y="108">−1</text><text x="220" y="108">0</text><text x="348" y="108">+1</text>
+              <text x="220" y="11" font-size="9" opacity=".75">BRAGG</text>
+            </g>
+          </svg>
           <strong data-ko="소리가 지나는 결정의 회절">Diffraction through a crystal in motion</strong>
-          <span class="gateway-desc" data-ko="음향파가 만드는 Bragg 위성 피크의 시간 변화를 계산합니다.">Time-resolved Bragg satellites from an acoustic wave.</span>
+          <span class="gateway-desc" data-ko="음향파에 따른 Bragg 위성 피크의 시간 변화 · 위 그래프는 개념도">Time evolution of acoustic Bragg satellites · schematic, not measured data.</span>
           <span class="gateway-go" data-ko="연구 살펴보기 ↗">Explore research ↗</span>
         </a>
         <div class="gateway-side">
