@@ -403,3 +403,60 @@ dialog::backdrop { background: #0f0f0dcc; }
   .reveal > *, .shutter img { opacity: 1; transform: none; clip-path: none; }
 }
 [hidden] { display: none !important; }
+
+
+/* Workbench information hierarchy: shared controls, quick decisions, supporting calculations. */
+.tools { max-width: 1440px; margin-inline: auto; }
+.tools .workbench-intro { border-top: 3px solid var(--ink); margin-top: 12px; padding-top: 18px; }
+.tools .workbench-eyebrow { font-size: .72rem; font-weight: 600; letter-spacing: .12em; color: var(--muted); margin: 0 0 12px; }
+.tools .page-title { margin-bottom: 16px; }
+.tools .page-lead { max-width: 68ch; margin-bottom: 20px; }
+.tools .workbench-map { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; margin: 20px 0 26px; font-size: var(--step-small); font-weight: 600; }
+.tools .workbench-map a { border-bottom: 1px solid var(--muted); padding-block: 8px; }
+.tools .workbench-map a:hover { border-color: var(--ink); }
+.tools .beam { background: var(--surface); border-top: 3px solid var(--accent); border-bottom: 1px solid var(--ink); margin: 0 0 56px; padding: 18px 22px; top: 0; gap: 14px 20px; }
+.tools .beam-title { min-width: 7em; }
+.workbench-group { padding-top: 8px; margin: 0 0 72px; scroll-margin-top: 130px; }
+.workbench-group-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; border-top: 2px solid var(--ink); padding: 20px 0 26px; }
+.workbench-group-heading h2 { font-size: clamp(1.6rem, 1.35rem + 1vw, 2.4rem); letter-spacing: -.035em; font-weight: 600; margin: 0; }
+.workbench-group-summary { max-width: 28ch; color: var(--muted); font-size: var(--step-small); margin: 0; }
+.tools .tool-grid { max-width: none; gap: 18px; grid-template-columns: repeat(2,minmax(0,1fr)); }
+.tools .tool { background: color-mix(in srgb, var(--surface) 52%, var(--bg)); border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent); border-top: 1px solid var(--ink); padding: 24px; scroll-margin-top: 130px; }
+.tools .workbench-featured .tool { background: var(--surface); border-top: 4px solid var(--ink); padding: 26px; }
+.tools .workbench-featured .tool h2 { font-size: clamp(1.3rem, 1.15rem + .75vw, 1.85rem); }
+.tools .workbench-featured .result { background: var(--bg); padding: 16px; margin-top: 22px; }
+.tools .workbench-featured .result dd button { font-size: clamp(1.45rem, 1.15rem + 1.2vw, 2.25rem); }
+.tools .tool-wide { grid-column: auto; }
+.tools .tool-note { border-top: 1px dashed color-mix(in srgb,var(--ink) 22%,transparent); padding-top: 12px; margin-top: 22px; }
+.tools .tool-share { margin-top: 32px; }
+@media (min-width: 1050px) {
+  .tools #sample-beam .tool-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .tools #sample-beam .field input { width: 5.5em; }
+}
+@media (max-width: 900px) {
+  .tools .workbench-group-heading { align-items: start; }
+  .tools .workbench-group-summary { max-width: 20ch; }
+  .tools .tool-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+  .tools .tool { padding: 16px; }
+  .tools .workbench-featured .tool { padding: 18px; }
+  .tools .tool .fields { gap: 10px; }
+  .tools .field input { width: 5.25em; }
+}
+@media (max-width: 620px) {
+  .tools .beam { padding: 12px; margin-bottom: 42px; }
+  .tools .beam .field input { width: 5.4em; }
+  .tools .beam .chips { width: 100%; }
+  .tools .workbench-map { gap: 8px 14px; }
+  .workbench-group { margin-bottom: 48px; }
+  .workbench-group-heading { display: block; padding: 16px 0 18px; }
+  .workbench-group-summary { max-width: none; margin-top: 8px; }
+  .tools .tool-grid { grid-template-columns: 1fr; }
+  .tools #quick-tools .tool-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .tools #quick-tools .tool { padding: 12px; }
+  .tools #quick-tools .tool .fields { display: grid; grid-template-columns: 1fr; }
+  .tools #quick-tools .field input { width: 100%; min-width: 0; }
+  .tools #quick-tools .field .in output { min-width: 0; }
+  .tools #quick-tools .tool-note { font-size: .76rem; }
+  .tools #quick-tools .result { padding: 8px; flex-direction: column; }
+  .tools #quick-tools .result dd button { font-size: 1.35rem; }
+}
