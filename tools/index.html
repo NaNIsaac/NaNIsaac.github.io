@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap">
-  <link rel="stylesheet" href="../style.css?v=peakshift2">
+  <link rel="stylesheet" href="../style.css?v=workbench1">
   <title>X-ray Calculator: Energy ↔ Wavelength, Bragg Angle, q, Footprint, Scherrer · Isaac Yong</title>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"X-ray beamline calculator","url":"https://nanisaac.github.io/tools/","description":"Photon energy and wavelength, Bragg angle, momentum transfer q and d-spacing, beam footprint at grazing incidence, X-ray transmission, Scherrer crystallite size and d-spacing for the 14 Bravais lattices.","applicationCategory":"EducationalApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"inLanguage":["en","ko"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Photon energy to wavelength (keV to Å), with Cu, Mo, Ag, Co and Cr Kα1 presets","Bragg angle 2θ, momentum transfer q and d-spacing, linked both ways","Si and Ge reflection d-spacings","Grazing-incidence beam footprint and overfill angle","Transmission from thickness and attenuation length","Scherrer crystallite size from peak width","d-spacing, 2θ and cell volume for all 14 Bravais lattices, with lattice-centring extinctions"],"author":{"@type":"Person","@id":"https://nanisaac.github.io/#person","name":"Isaac Yong","url":"https://nanisaac.github.io/"}}</script>
 </head>
@@ -35,18 +35,27 @@
   </header>
 
   <main class="wrap page tools">
-    <h1 class="page-title" data-ko="X선 계산기">X-ray calculator.</h1>
+    <div class="workbench-intro"><p class="workbench-eyebrow">INSTRUMENT DESK / 07 CALCULATORS</p><h1 class="page-title" data-ko="X선 계산 도구실">X-ray workbench.</h1></div>
     <p class="page-lead" data-ko="빔 에너지를 위에서 한 번 정하면 아래 계산기가 모두 그 값을 씁니다. 값을 입력하는 대로 바로 다시 계산하고, 결과 숫자를 누르면 복사됩니다. 인터넷 없이 쓸 수 있는 전체 계산기와 빔타임 기록 양식은 &lt;a href=&quot;https://xray.ooguy.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;xray.ooguy.com&lt;/a&gt;에 있습니다.">Set the beam energy once and every calculator below follows it. Results update as you type; tap a result to copy it. The full offline set, with beamtime logbook templates, is at <a href="https://xray.ooguy.com/" target="_blank" rel="noopener noreferrer">xray.ooguy.com</a>.</p>
 
+    <p class="workbench-map"><a href="#quick-tools" data-ko="빠른 계산">Quick calculations</a><a href="#geometry" data-ko="회절·기하">Diffraction</a><a href="#sample-beam" data-ko="시료·빔">Sample & beam</a></p>
+
     <section class="beam" id="energy-wavelength" aria-labelledby="beam-title">
-      <h2 id="beam-title" class="beam-title" data-ko="빔">Beam</h2>
+      <h2 id="beam-title" class="beam-title" data-ko="공통 빔 설정">Shared beam</h2>
       <label class="field"><span data-ko="에너지">Energy</span><span class="in"><input id="e-kev" type="number" step="any" min="0" value="8.048" inputmode="decimal"><i>keV</i></span></label>
       <label class="field"><span data-ko="파장">Wavelength</span><span class="in"><input id="e-ang" type="number" step="any" min="0" inputmode="decimal"><i>Å</i></span></label>
       <div class="chips" role="group" aria-label="Kα1 lines" data-ko-label="Kα1 특성선" id="e-presets"></div>
     </section>
 
-    <div class="tool-grid">
-      <section class="tool" id="peak-shift" aria-labelledby="peak-shift-title">
+    <section class="workbench-group workbench-featured" id="quick-tools" aria-labelledby="quick-tools-title">
+      <div class="workbench-group-heading">
+        <div>
+          <p class="workbench-eyebrow">01 / QUICK CALCULATIONS</p>
+          <h2 id="quick-tools-title" data-ko="바로 쓰는 계산기">At the instrument</h2>
+        </div>
+        <p class="workbench-group-summary" data-ko="빔타임에서 자주 쓰는 두 계산입니다.">Two calculations for common beamline decisions.</p>
+      </div>
+      <div class="tool-grid">      <section class="tool" id="peak-shift" aria-labelledby="peak-shift-title">
         <h2 id="peak-shift-title" data-ko="파장 변경 시 피크 이동">Peak shift with wavelength</h2>
         <p class="tool-lead" data-ko="같은 반사의 피크가 빔 에너지를 바꾸면 어디로 이동하는지 계산합니다. 위의 빔 에너지를 변경 후 에너지로 사용합니다.">Move an existing Bragg peak to the beam energy set above, keeping the same d-spacing.</p>
         <div class="fields">
@@ -68,10 +77,17 @@
         </div>
         <dl class="result" id="sh-out" aria-live="polite"></dl>
         <p class="tool-note" data-ko="s ≈ λ·SDD/(D·p): speckle 주기당 픽셀 수. s ≥ 2는 한 방향의 Nyquist 조건입니다. Fraunhofer·소각 근사, 검출기 수직 입사, 물체의 해당 방향 투영 크기 D를 가정하며 실제 복원 가능성을 보장하지 않습니다.">s ≈ λ·SDD/(D·p) is pixels per speckle period. s ≥ 2 is the one-axis Nyquist criterion. Assumes far-field, small-angle geometry, normal detector incidence and object extent projected along that axis; it does not guarantee successful reconstruction.</p>
-      </section>
-
-
-      <section class="tool" id="momentum-transfer" aria-labelledby="bragg-angle">
+      </section></div>
+    </section>
+    <section class="workbench-group" id="geometry" aria-labelledby="geometry-title">
+      <div class="workbench-group-heading">
+        <div>
+          <p class="workbench-eyebrow">02 / DIFFRACTION</p>
+          <h2 id="geometry-title" data-ko="회절과 기하">Geometry & diffraction</h2>
+        </div>
+        <p class="workbench-group-summary" data-ko="각도, 역공간, 격자 반사를 계산합니다.">Angles, reciprocal space and lattice reflections.</p>
+      </div>
+      <div class="tool-grid">      <section class="tool" id="momentum-transfer" aria-labelledby="bragg-angle">
         <h2 id="bragg-angle" data-ko="Bragg 각, q, d 간격">Bragg angle, q and d-spacing</h2>
         <p class="tool-lead" data-ko="세 값 가운데 하나를 입력하면 나머지 둘이 계산됩니다. 에너지를 바꾸면 d는 그대로 두고 2θ가 달라집니다.">Type any one of the three; the others follow. Change the energy and d stays put while 2θ moves.</p>
         <div class="fields">
@@ -82,43 +98,6 @@
         <div class="chips" role="group" aria-label="Reflections" data-ko-label="반사" id="b-presets"></div>
         <dl class="result" id="b-out" aria-live="polite"></dl>
         <p class="tool-note" data-ko="λ = 2d sin θ, q = 4π sin θ / λ = 2π / d. 반사율 측정에서는 θ가 스침각이고 q = q&lt;sub&gt;z&lt;/sub&gt;입니다.">λ = 2d sin θ and q = 4π sin θ / λ = 2π / d. For reflectivity, θ is the grazing angle and q = q<sub>z</sub>.</p>
-      </section>
-
-      <section class="tool" aria-labelledby="beam-footprint">
-        <h2 id="beam-footprint" data-ko="빔 footprint(시료에 닿는 길이)">Beam footprint</h2>
-        <p class="tool-lead" data-ko="입사각이 낮을 때 빔이 시료 밖으로 넘치는지 확인합니다.">Check whether the beam spills past the sample at low angle.</p>
-        <div class="fields">
-          <label class="field"><span data-ko="빔 높이">Beam height</span><span class="in"><input id="f-h" type="number" step="any" min="0" value="0.1" inputmode="decimal"><i>mm</i></span></label>
-          <label class="field"><span data-ko="입사각 α">Incidence α</span><span class="in"><input id="f-a" type="number" step="any" min="0" value="0.5" inputmode="decimal"><i>°</i></span></label>
-          <label class="field"><span data-ko="시료 길이">Sample length</span><span class="in"><input id="f-s" type="number" step="any" min="0" value="10" inputmode="decimal"><i>mm</i></span></label>
-        </div>
-        <dl class="result" id="f-out" aria-live="polite"></dl>
-        <svg class="foot-fig" id="f-fig" viewBox="0 0 320 64" aria-hidden="true"></svg>
-        <p class="tool-note" data-ko="L = h / sin α. sin α가 h / 시료 길이보다 작아지면 빔의 일부가 시료를 벗어나고, 그만큼 측정되는 세기가 줄어듭니다. 그림은 길이의 비율만 맞추었고, 각도는 알아보기 쉽게 과장했습니다.">L = h / sin α. Below the angle where sin α = h / sample length, part of the beam misses the sample and the measured intensity drops. The sketch keeps the lengths to scale, not the angle.</p>
-      </section>
-
-      <section class="tool" aria-labelledby="transmission">
-        <h2 id="transmission" data-ko="투과율">Transmission</h2>
-        <p class="tool-lead" data-ko="필터나 창, 시료를 지난 뒤 빔이 얼마나 남는지 계산합니다.">How much beam gets through a filter, a window or the sample.</p>
-        <div class="fields">
-          <label class="field"><span data-ko="두께">Thickness</span><span class="in"><input id="a-t" type="number" step="any" min="0" value="100" inputmode="decimal"><i>µm</i></span></label>
-          <label class="field"><span data-ko="감쇠 길이">Attenuation length</span><span class="in"><input id="a-l" type="number" step="any" min="0" value="70" inputmode="decimal"><i>µm</i></span></label>
-        </div>
-        <dl class="result" id="a-out" aria-live="polite"></dl>
-        <p class="tool-note" data-ko="T = exp(−t / ℓ). 감쇠 길이는 &lt;a href=&quot;https://henke.lbl.gov/optical_constants/atten2.html&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CXRO 표&lt;/a&gt;에서 물질과 에너지별로 찾습니다.">T = exp(−t / ℓ). Look the attenuation length up for your material and energy in the <a href="https://henke.lbl.gov/optical_constants/atten2.html" target="_blank" rel="noopener noreferrer">CXRO tables</a>.</p>
-      </section>
-
-
-      <section class="tool" aria-labelledby="crystallite-size">
-        <h2 id="crystallite-size" data-ko="Scherrer 식으로 구하는 결정립 크기">Crystallite size (Scherrer)</h2>
-        <p class="tool-lead" data-ko="회절 피크의 폭에서 결정립 크기를 어림합니다.">Estimate crystallite size from the width of a diffraction peak.</p>
-        <div class="fields">
-          <label class="field"><span data-ko="피크 2θ">Peak 2θ</span><span class="in"><input id="s-tth" type="number" step="any" value="28.44" inputmode="decimal"><i>°</i></span></label>
-          <label class="field"><span data-ko="반치폭 β">FWHM β</span><span class="in"><input id="s-w" type="number" step="any" min="0" value="0.2" inputmode="decimal"><i>°</i></span></label>
-          <label class="field"><span data-ko="형상 인자 K">Shape factor K</span><span class="in"><input id="s-k" type="number" step="any" min="0" value="0.9" inputmode="decimal"></span></label>
-        </div>
-        <dl class="result" id="s-out" aria-live="polite"></dl>
-        <p class="tool-note" data-ko="τ = K λ / (β cos θ)이며 β는 라디안 단위입니다. 장비에 의한 폭은 먼저 빼 주어야 하고, 변형에 의한 퍼짐이 섞여 있으면 결정립 크기가 실제보다 작게 나옵니다.">τ = K λ / (β cos θ), with β in radians. Subtract the instrument width first; strain broadening makes the size come out too small.</p>
       </section>
 
       <section class="tool tool-wide" id="bravais-lattice" aria-labelledby="lattice-title">
@@ -143,8 +122,52 @@
         <p class="tool-sub" data-ko="허용되는 반사 (누르면 hkl에 입력)">First allowed reflections (tap to use)</p>
         <div class="chips" role="group" aria-label="First allowed reflections" data-ko-label="허용되는 첫 반사" id="l-peaks"></div>
         <p class="tool-note" data-ko="모든 격자에 삼사정계의 일반식 1/d² = h·G*·h를 씁니다. 소멸 규칙은 격자 중심화에서 오는 것만 따집니다(I: h+k+l이 홀수, F: 홀짝이 섞임, C: h+k가 홀수, R: 육방 축에서 −h+k+l ≠ 3n). 나사축이나 미끄럼면에 의한 소멸, 구조 인자가 0이 되는 경우는 확인하지 않습니다. 예를 들어 다이아몬드 구조 Si의 (200)은 F 중심화로는 허용되지만 실제 세기는 0입니다.">1/d² = h·G*·h, the general triclinic form, used for every lattice. Extinctions here come from the lattice centring only (I: h+k+l odd; F: mixed parity; C: h+k odd; R: −h+k+l ≠ 3n, hexagonal axes). Screw axes, glide planes and zero structure factors are not checked: diamond Si (200) is allowed by F but is zero in practice.</p>
+      </section></div>
+    </section>
+    <section class="workbench-group" id="sample-beam" aria-labelledby="sample-beam-title">
+      <div class="workbench-group-heading">
+        <div>
+          <p class="workbench-eyebrow">03 / SAMPLE & BEAM</p>
+          <h2 id="sample-beam-title" data-ko="시료와 빔">Sample & beam</h2>
+        </div>
+        <p class="workbench-group-summary" data-ko="빔 크기, 감쇠, 피크 폭을 계산합니다.">Footprint, attenuation and peak broadening.</p>
+      </div>
+      <div class="tool-grid">      <section class="tool" aria-labelledby="beam-footprint">
+        <h2 id="beam-footprint" data-ko="빔 footprint(시료에 닿는 길이)">Beam footprint</h2>
+        <p class="tool-lead" data-ko="입사각이 낮을 때 빔이 시료 밖으로 넘치는지 확인합니다.">Check whether the beam spills past the sample at low angle.</p>
+        <div class="fields">
+          <label class="field"><span data-ko="빔 높이">Beam height</span><span class="in"><input id="f-h" type="number" step="any" min="0" value="0.1" inputmode="decimal"><i>mm</i></span></label>
+          <label class="field"><span data-ko="입사각 α">Incidence α</span><span class="in"><input id="f-a" type="number" step="any" min="0" value="0.5" inputmode="decimal"><i>°</i></span></label>
+          <label class="field"><span data-ko="시료 길이">Sample length</span><span class="in"><input id="f-s" type="number" step="any" min="0" value="10" inputmode="decimal"><i>mm</i></span></label>
+        </div>
+        <dl class="result" id="f-out" aria-live="polite"></dl>
+        <svg class="foot-fig" id="f-fig" viewBox="0 0 320 64" aria-hidden="true"></svg>
+        <p class="tool-note" data-ko="L = h / sin α. sin α가 h / 시료 길이보다 작아지면 빔의 일부가 시료를 벗어나고, 그만큼 측정되는 세기가 줄어듭니다. 그림은 길이의 비율만 맞추었고, 각도는 알아보기 쉽게 과장했습니다.">L = h / sin α. Below the angle where sin α = h / sample length, part of the beam misses the sample and the measured intensity drops. The sketch keeps the lengths to scale, not the angle.</p>
       </section>
-    </div>
+
+      <section class="tool" aria-labelledby="transmission">
+        <h2 id="transmission" data-ko="투과율">Transmission</h2>
+        <p class="tool-lead" data-ko="필터나 창, 시료를 지난 뒤 빔이 얼마나 남는지 계산합니다.">How much beam gets through a filter, a window or the sample.</p>
+        <div class="fields">
+          <label class="field"><span data-ko="두께">Thickness</span><span class="in"><input id="a-t" type="number" step="any" min="0" value="100" inputmode="decimal"><i>µm</i></span></label>
+          <label class="field"><span data-ko="감쇠 길이">Attenuation length</span><span class="in"><input id="a-l" type="number" step="any" min="0" value="70" inputmode="decimal"><i>µm</i></span></label>
+        </div>
+        <dl class="result" id="a-out" aria-live="polite"></dl>
+        <p class="tool-note" data-ko="T = exp(−t / ℓ). 감쇠 길이는 &lt;a href=&quot;https://henke.lbl.gov/optical_constants/atten2.html&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;CXRO 표&lt;/a&gt;에서 물질과 에너지별로 찾습니다.">T = exp(−t / ℓ). Look the attenuation length up for your material and energy in the <a href="https://henke.lbl.gov/optical_constants/atten2.html" target="_blank" rel="noopener noreferrer">CXRO tables</a>.</p>
+      </section>
+
+      <section class="tool" aria-labelledby="crystallite-size">
+        <h2 id="crystallite-size" data-ko="Scherrer 식으로 구하는 결정립 크기">Crystallite size (Scherrer)</h2>
+        <p class="tool-lead" data-ko="회절 피크의 폭에서 결정립 크기를 어림합니다.">Estimate crystallite size from the width of a diffraction peak.</p>
+        <div class="fields">
+          <label class="field"><span data-ko="피크 2θ">Peak 2θ</span><span class="in"><input id="s-tth" type="number" step="any" value="28.44" inputmode="decimal"><i>°</i></span></label>
+          <label class="field"><span data-ko="반치폭 β">FWHM β</span><span class="in"><input id="s-w" type="number" step="any" min="0" value="0.2" inputmode="decimal"><i>°</i></span></label>
+          <label class="field"><span data-ko="형상 인자 K">Shape factor K</span><span class="in"><input id="s-k" type="number" step="any" min="0" value="0.9" inputmode="decimal"></span></label>
+        </div>
+        <dl class="result" id="s-out" aria-live="polite"></dl>
+        <p class="tool-note" data-ko="τ = K λ / (β cos θ)이며 β는 라디안 단위입니다. 장비에 의한 폭은 먼저 빼 주어야 하고, 변형에 의한 퍼짐이 섞여 있으면 결정립 크기가 실제보다 작게 나옵니다.">τ = K λ / (β cos θ), with β in radians. Subtract the instrument width first; strain broadening makes the size come out too small.</p>
+      </section></div>
+    </section>
 
     <p class="tool-share"><button type="button" id="share" data-ko="이 값으로 링크 복사">Copy a link with these values</button></p>
   </main>
