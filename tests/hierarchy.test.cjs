@@ -55,4 +55,16 @@ assert.equal((researchIntro.match(/<p data-ko="<b>0[123] · /g) || []).length, 3
 assert.ok(researchIntro.includes('assets/img/workshop-xrr-talk.jpg'), 'research photograph retained');
 assert.ok(style.includes('#research .intro-cols { grid-template-columns: repeat(2, minmax(0, 1fr));'), 'compact two-column mobile approach');
 
+
+// Editorial hero: copy is the first grid child; the original working wave simulation is second.
+const heroStart = home.indexOf('<section class="hero"');
+const heroEnd = home.indexOf('</section>', heroStart);
+const hero = home.slice(heroStart, heroEnd);
+assert.ok(hero.includes('class="hero-stage"'), 'split hero wrapper exists');
+assert.ok(hero.indexOf('class="hero-copy"') < hero.indexOf('class="film"'), 'research copy precedes wave canvas');
+assert.ok(hero.includes('id="wave"') && hero.includes('id="pause"') && hero.includes('class="film-bar"'), 'live wave and controls preserved');
+assert.ok(style.includes('grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);'), 'desktop uses 7:5 proportions');
+assert.ok(style.includes('flex-direction: column;') && style.includes('.hero-stage .film'), 'phone stacks the intro before the canvas');
+assert.ok(!home.includes('hero-wave-canvas'), 'do not replace the real wave simulation with the mockup');
+
 console.log('hierarchy: ok');
