@@ -572,3 +572,74 @@ dialog::backdrop { background: #0f0f0dcc; }
   #research .intro-cols b { margin-bottom: 6px; }
   #research .intro-figure { margin: 26px 0 0; max-width: 420px; }
 }
+
+
+/* Hero reflow: editorial copy leads; the original numerical wave field remains intact. */
+.hero .site-header { background: var(--bg); }
+.hero-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: center;
+  gap: clamp(24px, 3.6vw, 56px);
+  padding: clamp(26px, 4vw, 58px) max(20px, calc(var(--margin) - 12px)) 0;
+  max-width: 1600px;
+  margin-inline: auto;
+}
+.hero-stage .hero-copy {
+  display: block;
+  padding: 0;
+  min-width: 0;
+}
+.hero-stage .hero h1,
+.hero-stage h1 {
+  font-size: clamp(2.3rem, 3.3vw, 3.8rem);
+  line-height: 1.11;
+  margin: 0 0 24px;
+  max-width: 14ch;
+}
+.hero-stage .hero-lead { max-width: 35em; }
+.hero-stage .hero-text { max-width: 34em; line-height: 1.55; margin-bottom: 22px; }
+.hero-stage .hero-actions { gap: 18px; }
+.hero-stage .film {
+  min-width: 0;
+  min-height: 250px;
+  height: clamp(260px, 30vw, 380px);
+  overflow: hidden;
+}
+.hero-stage .film-bar {
+  top: auto;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  gap: 10px;
+  align-items: center;
+}
+.hero-stage .film-button { padding: 7px 11px; font-size: .8rem; }
+.hero-stage .hint { font-size: .78rem; }
+@media (max-width: 900px) {
+  .hero-stage { gap: 20px; }
+  .hero-stage h1 { font-size: clamp(1.85rem, 3.5vw, 2.65rem); }
+  .hero-stage .film { height: 270px; min-height: 240px; }
+}
+@media (max-width: 760px) {
+  .hero-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    padding: 20px 12px 0;
+  }
+  .hero-stage h1 { font-size: clamp(1.75rem, 6.5vw, 2.25rem); max-width: 100%; margin: 0 0 12px; }
+  .hero-stage .hero-text { font-size: .92rem; line-height: 1.55; margin-bottom: 12px; }
+  .hero-stage .hero-actions { gap: 14px; margin: 0; }
+  .hero-stage .hero-actions .button { padding: 9px 13px; }
+  .hero-stage .hero-actions .quiet { min-height: 36px; }
+  .hero-stage .film {
+    min-height: 0;
+    height: clamp(184px, 52vw, 260px);
+  }
+  .hero-stage .film-bar { bottom: 8px; left: 8px; right: 8px; }
+  .hero-stage .film-button { padding: 6px 9px; font-size: .76rem; }
+  .hero-stage .hint { display: none; }
+  .home-directory { margin-top: 18px; }
+}
