@@ -67,4 +67,16 @@ assert.ok(style.includes('grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);'
 assert.ok(style.includes('flex-direction: column;') && style.includes('.hero-stage .film'), 'phone stacks the intro before the canvas');
 assert.ok(!home.includes('hero-wave-canvas'), 'do not replace the real wave simulation with the mockup');
 
+
+// Each research case presents its principal finding before detailed exposition.
+for (const [id, titleId] of [['tratt', 'tratt-title'], ['phase', 'phase-title'], ['measure', 'measure-title']]) {
+  const start = home.indexOf('id="' + id + '"');
+  const end = home.indexOf('</section>', start);
+  const section = home.slice(start, end);
+  assert.ok(section.includes('class="case-takeaway"'), 'takeaway missing in ' + id);
+  assert.ok(section.includes('class="fineprint"'), 'validation caveat missing in ' + id);
+  assert.ok(section.indexOf('id="' + titleId + '"') < section.indexOf('class="case-takeaway"'), 'takeaway follows case heading: ' + id);
+}
+assert.ok(style.includes('#phase.measure { display: flex; flex-direction: column;'), 'phone shows BCDI explanation before video');
+
 console.log('hierarchy: ok');
