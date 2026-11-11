@@ -16,8 +16,13 @@ function uniqueIds(html, label) {
 
 const homeIds = uniqueIds(home, 'home');
 const toolIds = uniqueIds(tools, 'tools');
-const gateway = home.indexOf('class="home-gateway wrap"');
-assert.ok(gateway > 0 && gateway < home.indexOf('id="research"'), 'gateway before detailed research');
+const directory = home.indexOf('class="home-directory wrap"');
+assert.ok(directory > 0 && directory < home.indexOf('id="research"'), 'editorial directory before detailed research');
+assert.ok(!home.includes('home-gateway-grid'), 'duplicative dashboard gateway removed');
+for (const target of ['#tratt', '#phase', '#measure', 'lab/', 'tools/']) {
+  const nav = home.slice(directory, home.indexOf('</nav>', directory));
+  assert.ok(nav.includes('href="' + target + '"'), 'directory link missing: ' + target);
+}
 for (const id of ['tratt', 'phase', 'measure', 'work']) {
   assert.ok(homeIds.has(id), 'destination exists: ' + id);
 }
@@ -35,10 +40,9 @@ const original = [
 ];
 for (const id of original) assert.ok(toolIds.has(id), 'calculator hook missing: ' + id);
 assert.equal((tools.match(/<section class="tool(?: tool-wide)?"/g) || []).length, 7);
-assert.ok(style.includes('.home-gateway-grid') && style.includes('.workbench-featured'));
-assert.ok(home.includes('class="gateway-satellites"'), 'featured research uses a scientific schematic');
-assert.ok(!home.includes('gateway-feature-art'), 'decorative bars removed');
-assert.ok(home.includes('schematic, not measured data.'), 'scientific schematic is labeled');
+assert.ok(style.includes('.home-directory') && style.includes('.workbench-featured'));
+assert.ok(!home.includes('gateway-satellites'), 'duplicative first graphic removed');
+assert.ok(!style.includes('.gateway-feature'), 'old dashboard styles removed');
 assert.ok(style.includes('.tools #quick-tools .tool-grid { grid-template-columns: 1fr;'), 'phone calculators use readable single column');
 assert.ok(style.includes('.tools .beam { position: relative;'), 'mobile beam panel does not cover results');
 console.log('hierarchy: ok');
