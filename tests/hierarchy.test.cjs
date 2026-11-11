@@ -45,4 +45,14 @@ assert.ok(!home.includes('gateway-satellites'), 'duplicative first graphic remov
 assert.ok(!style.includes('.gateway-feature'), 'old dashboard styles removed');
 assert.ok(style.includes('.tools #quick-tools .tool-grid { grid-template-columns: 1fr;'), 'phone calculators use readable single column');
 assert.ok(style.includes('.tools .beam { position: relative;'), 'mobile beam panel does not cover results');
+
+// The first research introduction has a single narrative and exactly three approaches.
+const researchStart = home.indexOf('id="research"');
+const researchEnd = home.indexOf('id="experience"', researchStart);
+const researchIntro = home.slice(researchStart, researchEnd);
+assert.ok(researchIntro.includes('data-ko="측정에서 구조까지"'), 'research overview heading');
+assert.equal((researchIntro.match(/<p data-ko="<b>0[123] · /g) || []).length, 3, 'three research approaches');
+assert.ok(researchIntro.includes('assets/img/workshop-xrr-talk.jpg'), 'research photograph retained');
+assert.ok(style.includes('#research .intro-cols { grid-template-columns: repeat(2, minmax(0, 1fr));'), 'compact two-column mobile approach');
+
 console.log('hierarchy: ok');

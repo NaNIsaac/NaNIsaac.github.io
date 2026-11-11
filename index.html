@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap">
-  <link rel="stylesheet" href="style.css?v=editorial-unified1">
+  <link rel="stylesheet" href="style.css?v=research-focus1">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfilePage","@id":"https://nanisaac.github.io/#profile","url":"https://nanisaac.github.io/","mainEntity":{"@type":"Person","@id":"https://nanisaac.github.io/#person","name":"Isaac Yong","alternateName":["용이삭","NaNIsaac"],"url":"https://nanisaac.github.io/","sameAs":["https://github.com/NaNIsaac","https://blog.naver.com/sjbpepper"],"affiliation":{"@type":"CollegeOrUniversity","name":"Sogang University"},"knowsAbout":["Scattering","X-ray diffraction","Dynamical diffraction","X-ray reflectivity","Coherent diffraction imaging","Phase retrieval","Inverse problems","Scientific computing"]}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","@id":"https://nanisaac.github.io/#website","name":"Isaac Yong","alternateName":["NaNIsaac","용이삭"],"url":"https://nanisaac.github.io/","publisher":{"@id":"https://nanisaac.github.io/#person"}}</script>
   <title>Isaac Yong (NaNIsaac) — scattering, diffraction and scientific software</title>
@@ -50,7 +50,7 @@
       <div class="hero-copy">
         <h1 id="hero-title"><span data-ko="산란과 회절로">Scattering and diffraction,</span> <span class="soft" data-ko="물질을 이해합니다">from waves to structure.</span></h1>
         <div class="hero-lead">
-        <p class="hero-text" data-ko="물질에 파동을 비추면 흩어진 파동에 물질의 구조가 담겨 나옵니다. 저는 산란과 회절 현상을 연구하고, 측정한 데이터에서 그 구조를 알아내는 계산 방법과 도구를 만들고 있습니다.">I'm Isaac Yong, a physicist working on scattering and diffraction: how a wave picks up the structure of what it passes through, and how to read that structure back out of measured data.</p>
+        <p class="hero-text" data-ko="X선이 만들어 내는 회절 무늬를 연구하고, 측정 데이터에서 물질의 구조와 물성을 추론하는 방법을 개발합니다.">I study X-ray scattering and diffraction, developing ways to infer material structure and properties from measured data.</p>
         <div class="hero-actions">
           <a class="button" href="#research" data-ko="연구 보기">See the research</a>
           <button class="quiet" id="pause">Pause</button>
@@ -70,12 +70,15 @@
 
     <section class="section wrap" id="research" aria-label="Research" data-ko-label="연구 분야">
       <div class="intro reveal">
-        <p class="intro-lead" data-ko="서강대학교 물리학과 석사과정생으로, CUPT 연구실에서 연구하고 있습니다. 산란·회절의 물리, 측정 데이터에서 구조를 되짚는 역문제, 그리고 이 둘을 실제 데이터에 적용하는 과학 소프트웨어를 함께 다룹니다.">MS student in Physics at Sogang University, CUPT Lab. I work on three things that depend on each other: the physics of scattering and diffraction, the inverse problems of getting structure back from a measurement, and the software that does both on real data.</p>
-        <div class="intro-cols">
-          <p data-ko="<b>산란과 회절</b> 파동이 물질과 상호작용하면 산란 진폭과 회절 무늬에 물질의 구조와 물성이 담깁니다. 지금은 이 원리를 주로 X선에 적용하고 있으며, Bragg·Laue 회절, 동역학 회절, 박막 반사율을 계산합니다. <a href=&quot;https://github.com/NaNIsaac-Research/TraTT&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>TraTT</a>"><b>Scattering and diffraction.</b> How a wave interacts with matter, and what the scattering amplitude and the diffraction pattern say about structure. X-rays are where I apply it today: Bragg and Laue diffraction, dynamical diffraction, thin-film reflectivity. <a href="https://github.com/NaNIsaac-Research/TraTT" target="_blank" rel="noopener noreferrer">TraTT</a></p>
-          <p data-ko="<b>역문제와 물리 모델링</b> 검출기에 남는 것은 세기이지 구조 자체가 아닙니다. 순방향 모델과 수치 시뮬레이션을 세우고, 위상 복원과 매개변수 추정으로 구조를 거꾸로 구합니다. 측정 데이터가 답을 어디까지 결정할 수 있는지, 곧 식별가능성도 함께 따집니다. <a href=&quot;https://github.com/NaNIsaac/QoraPhase&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>QoraPhase</a>, <a href=&quot;https://github.com/NaNIsaac-Research/ReflectoLearn&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>ReflectoLearn</a>"><b>Inverse problems and modelling.</b> A detector records intensity, not structure. Forward models and numerical simulation, then phase retrieval and parameter estimation to work back from the data, and identifiability: how much of the answer the data can actually fix. <a href="https://github.com/NaNIsaac/QoraPhase" target="_blank" rel="noopener noreferrer">QoraPhase</a>, <a href="https://github.com/NaNIsaac-Research/ReflectoLearn" target="_blank" rel="noopener noreferrer">ReflectoLearn</a></p>
-          <p data-ko="<b>과학 소프트웨어</b> 실험 데이터 처리 파이프라인, 분석 알고리즘, 빔라인에서 쓰는 계산 도구를 만듭니다. 해석해가 있는 경우에는 그 값과 비교해 코드를 검증하고, 다른 사람이 같은 결과를 재현할 수 있도록 공개합니다. <a href=&quot;https://github.com/NaNIsaac/QoraFlow&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>QoraFlow</a>, <a href=&quot;tools/&quot;>계산기</a>"><b>Scientific software.</b> Data pipelines, analysis algorithms and beamline calculators, tested against analytic results where they exist and published so the results can be reproduced. <a href="https://github.com/NaNIsaac/QoraFlow" target="_blank" rel="noopener noreferrer">QoraFlow</a>, <a href="tools/">calculators</a></p>
-          <p data-ko="<b>연구하는 방식</b> 물리적인 질문을 정하고, 이를 수학적 모델로 세운 뒤 수치 계산으로 풉니다. 계산 결과를 측정값이나 시뮬레이션 데이터와 비교하고, 그 비교가 무엇을 보여 주며 무엇은 보여 주지 못하는지 따집니다. 모든 연구가 이 순서를 그대로 밟지는 않지만, 대체로 이 흐름 안에서 일합니다."><b>How the work usually goes.</b> Pose the physical question, write it as a model, compute it, compare with measured or simulated data, then decide what the comparison shows and what it does not. Not every project runs through every step, but most of mine follow this shape.</p>
+        <div class="research-overview">
+          <p class="research-kicker" data-ko="RESEARCH / 연구 접근법">RESEARCH / APPROACH</p>
+          <h2 class="research-overview-title" data-ko="측정에서 구조까지">From measurement to structure</h2>
+          <p class="intro-lead" data-ko="산란과 회절의 물리 모델을 세우고, 수치 계산으로 예측한 결과를 실험 데이터와 비교합니다. 측정값이 물질의 구조를 얼마나 정확하고 유일하게 결정하는지도 연구합니다.">I model scattering and diffraction, compute their predictions and compare them with experimental data. I also examine how accurately and uniquely the measurements determine structure.</p>
+          <div class="intro-cols" aria-label="Research approach" data-ko-label="연구 접근법">
+            <p data-ko="<b>01 · 물리 모델링</b> 산란과 회절 현상을 수식과 시뮬레이션으로 기술합니다."><b>01 · Physical modelling</b> Describe scattering and diffraction through equations and simulation.</p>
+            <p data-ko="<b>02 · 역문제</b> 회절·반사율 데이터에서 구조를 추정하고 식별가능성을 분석합니다."><b>02 · Inverse problems</b> Infer structure from diffraction and reflectivity, and study identifiability.</p>
+            <p data-ko="<b>03 · 실험 데이터 분석</b> 가속기에서 얻은 측정 데이터를 처리하고 물리 모델과 비교합니다."><b>03 · Experimental data</b> Process accelerator measurements and test them against physical models.</p>
+          </div>
         </div>
         <figure class="intro-figure shutter">
           <img src="assets/img/workshop-xrr-talk.jpg" width="990" height="990" alt="Isaac presenting a talk titled AI based XRR Fitting with neural network at the Spring 2025 CUPT Workshop, standing beside the projected title slide in a lecture room. Audience faces are blurred." data-ko-alt="2025년 봄 CUPT 워크숍 강의실에서 AI based XRR Fitting with neural network라는 제목의 발표 화면 옆에 서서 발표하는 용이삭. 청중의 얼굴은 흐리게 처리했습니다.">

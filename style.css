@@ -542,3 +542,33 @@ dialog::backdrop { background: #0f0f0dcc; }
   .tools .lattice-fields, .tools .hkl-fields { margin-top: 12px; }
   .tools .tool-share { margin-top: 20px; }
 }
+
+
+/* Research intro: one narrative, three approaches; no extra cards or illustrations. */
+#research .intro { align-items: start; }
+#research .research-overview { grid-column: 1 / span 7; min-width: 0; }
+#research .research-kicker { font-size: var(--step-small); color: var(--muted); font-weight: 600; margin: 0 0 12px; }
+#research .research-overview-title { font-size: clamp(1.55rem, 1.25rem + 1vw, 2.15rem); font-weight: 600; line-height: 1.2; margin: 0 0 16px; letter-spacing: -.02em; }
+#research .intro-lead { font-size: var(--step-body); line-height: 1.55; max-width: 48em; margin: 0 0 30px; letter-spacing: 0; }
+#research .intro-cols { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; }
+#research .intro-cols p { border-top: 1px solid color-mix(in srgb, var(--ink) 35%, transparent); padding-top: 12px; font-size: var(--step-small); line-height: 1.5; }
+#research .intro-cols b { display: block; margin: 0 0 8px; line-height: 1.35; font-weight: 600; }
+#research .intro-figure { grid-column: 9 / -1; max-width: 100%; }
+@media (max-width: 1100px) and (min-width: 761px) {
+  #research .research-overview { grid-column: 1 / span 8; }
+  #research .intro-figure { grid-column: 9 / -1; }
+  #research .intro-cols { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  #research .intro-cols p:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  #research { padding-top: 32px; }
+  #research .research-overview { width: 100%; }
+  #research .research-kicker { font-size: .72rem; margin-bottom: 7px; }
+  #research .research-overview-title { font-size: 1.4rem; margin-bottom: 12px; }
+  #research .intro-lead { font-size: .94rem; line-height: 1.55; margin-bottom: 20px; }
+  #research .intro-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+  #research .intro-cols p { padding-top: 9px; font-size: .81rem; line-height: 1.5; }
+  #research .intro-cols p:last-child { grid-column: 1 / -1; }
+  #research .intro-cols b { margin-bottom: 6px; }
+  #research .intro-figure { margin: 26px 0 0; max-width: 420px; }
+}
