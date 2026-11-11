@@ -643,3 +643,26 @@ dialog::backdrop { background: #0f0f0dcc; }
   .hero-stage .hint { display: none; }
   .home-directory { margin-top: 18px; }
 }
+
+
+/* One-sentence findings before methods; no new cards or decorative surfaces. */
+#tratt .case-takeaway, #phase .case-takeaway, #measure .case-takeaway {
+  border-left: 2px solid var(--accent);
+  padding: 2px 0 2px 14px;
+  margin: 2px 0 22px;
+  font-size: var(--step-body);
+  line-height: 1.5;
+  max-width: 34em;
+}
+.case-takeaway b { display: block; font-size: var(--step-small); font-weight: 600; margin-bottom: 4px; }
+@media (max-width: 760px) {
+  #tratt .case-takeaway, #phase .case-takeaway, #measure .case-takeaway {
+    font-size: .91rem;
+    padding-left: 10px;
+    margin: 4px 0 16px;
+  }
+  /* The BCDI image previously appeared before its title on phones. */
+  #phase.measure { display: flex; flex-direction: column; align-items: stretch; }
+  #phase .measure-copy { order: -1; margin: 0 0 18px; }
+  #phase .measure-figure { margin: 0; }
+}
