@@ -29,7 +29,7 @@ the same start and compares them iteration by iteration:
   mirrored support gives the twin.
 
 The comparisons are short on purpose. While choosing the tolerance policy for QoraPhase's own
-reference ([QoraPhase#17](https://github.com/NaNIsaac/QoraPhase/pull/17), still open), a probe showed
+reference ([QoraPhase#17](https://github.com/NaNIsaac/QoraPhase/pull/17), merged 2026-10-24), a probe showed
 that HIO and RAAR amplify a $$10^{-7}$$ rounding difference to $$10^{-2}$$–$$10^{-1}$$ within 50
 iterations, for complex64 against complex128 of the same NumPy reference as much as for JAX. A long
 comparison of those two would mostly measure that amplification. ER
@@ -91,4 +91,4 @@ comparable with anything here.
 The JAX side of the comparison ran on CPU only. JAX has no CUDA build for native Windows, so
 JAX-on-GPU equivalence needs WSL2. The proposal is to run the same suite there together with the
 GPU speed measurements, rather than hold this check open for it. The floor bound depends on
-`qoraphase.testing`, which arrives with QoraPhase#17.
+`qoraphase.testing`, which came with QoraPhase#17.
