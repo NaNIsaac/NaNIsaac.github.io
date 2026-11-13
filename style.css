@@ -81,7 +81,7 @@ img { display: block; max-width: 100%; height: auto; }
 /* Hero: the film panel (wave canvas) on top, the headline on the seam */
 .hero { padding: 0 12px; }
 .film { position: relative; background: var(--surface); height: min(52svh, 560px); min-height: 360px; }
-#wave { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; cursor: crosshair; }
+#wave { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: crosshair; }
 #wave.grab, .lab-wave.grab { cursor: grab; }
 #wave.grabbing, .lab-wave.grabbing { cursor: grabbing; }
 .film-bar { position: absolute; left: 32px; right: calc(7% + 28px); top: 80px; display: flex; justify-content: flex-start; align-items: center; gap: 24px; font-size: var(--step-small); color: var(--muted); pointer-events: none; }
@@ -325,7 +325,7 @@ dialog::backdrop { background: #0f0f0dcc; }
 .lab-readout { font-size: var(--step-small); margin: 16px 0 28px; font-variant-numeric: tabular-nums; }
 .lab-notes { padding-top: 16px; max-width: 760px; }
 .lab-notes summary { cursor: pointer; font-weight: 600; }
-.lab-wave { width: 100%; height: min(62vh, 520px); display: block; background: var(--surface); touch-action: pan-y; cursor: crosshair; }
+.lab-wave { width: 100%; height: min(62vh, 520px); display: block; background: var(--surface); touch-action: none; cursor: crosshair; }
 .lab-wave-pause { font-weight: 600; color: var(--ink); }
 .lab-xrr { width: 100%; height: min(52vh, 420px); display: block; background: var(--surface); }
 
