@@ -4,9 +4,9 @@ description: Whether a wrong X-ray reflectivity fit comes from the optimizer or 
 tags: [xrr, statistics]
 ---
 
-This is research in progress. The work sits in an open draft pull request,
-[ReflectoLearn#24](https://github.com/NaNIsaac/ReflectoLearn/pull/24); every number below is
-copied from that branch and its linked issues.
+This is research in progress. The first experiment is in
+[ReflectoLearn#24](https://github.com/NaNIsaac/ReflectoLearn/pull/24), merged on 2026-10-25; every
+number below is copied from it and its linked issues.
 
 ## Context
 
@@ -49,12 +49,13 @@ optimizer failures: they are worse even on refine's own objective. The other fiv
 refine's log-MSE objective over the maximum-likelihood fit, so a better optimizer would not fix
 them ([#25](https://github.com/NaNIsaac/ReflectoLearn/issues/25)). A likelihood preset reached the
 best fit from 46 of 48 starts, but only 42 of 48 on new seeds and a new film, under the
-pre-registered 43, so it is offered as an opt-in in an open PR
+pre-registered 43, so it ships as an opt-in
 ([#31](https://github.com/NaNIsaac/ReflectoLearn/pull/31)) and the default stays as it is.
 
 **The MCMC intervals had not converged.** refine's sampler runs 2000 steps and keeps half. The
 autocorrelation time τ was 76 to 97 steps, so the kept half is a quarter to a fifth of the 50 τ a
-converged estimate needs, and nothing warned ([#29](https://github.com/NaNIsaac/ReflectoLearn/issues/29)). Whitening the coordinates by the
+converged estimate needs, and nothing warned ([#29](https://github.com/NaNIsaac/ReflectoLearn/issues/29)); refine now reports τ
+and warns below 50 τ (#31). Whitening the coordinates by the
 Fisher matrix at the fit and switching to differential-evolution moves cut τ by a factor of 2 to 4,
 enough for two of three cases to converge. In one of them the Gaussian likelihood in $$\log_{10} R$$
 that refine uses gave a thickness interval 2.45 times wider than the profile, while the Poisson
